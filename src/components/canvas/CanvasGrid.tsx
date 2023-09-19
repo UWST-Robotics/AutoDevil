@@ -7,6 +7,7 @@ interface CanvasGridProps {
 }
 
 export default function CanvasGrid(props: CanvasGridProps) {
+
     return (
         <Shape
             sceneFunc={(ctx, shape) => {
@@ -23,6 +24,7 @@ export default function CanvasGrid(props: CanvasGridProps) {
             }}
             fill={props.color}
             stroke={props.color}
+            opacity={0.7}
             strokeWidth={1}
         />
     );
