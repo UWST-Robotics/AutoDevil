@@ -1,4 +1,4 @@
-import useSettingsValue from "../../hooks/useSettings.tsx";
+import useSettingsValue from "../../hooks/useSettings.ts";
 import { Line, Rect } from "react-konva";
 
 interface RobotRendererProps {

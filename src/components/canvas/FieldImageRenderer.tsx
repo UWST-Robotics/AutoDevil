@@ -1,8 +1,8 @@
-import useSettingsValue from "../../hooks/useSettings.tsx";
+import useSettingsValue from "../../hooks/useSettings.ts";
 import React from "react";
 import { Image } from "react-konva";
-import { useSetWindowScale } from "../../hooks/useWindowScale.tsx";
-import useWindowSize from "../../hooks/useWindowSize.tsx";
+import { useSetWindowScale } from "../../hooks/useWindowScale.ts";
+import useWindowSize from "../../hooks/useWindowSize.ts";
 
 // Minimum padding around image
 const IMAGE_PADDING = 110;

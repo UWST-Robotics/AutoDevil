@@ -1,4 +1,4 @@
-import usePathPlanValue from "./usePathPlan.tsx";
+import usePathPlanValue from "./usePathPlan.ts";
 import React from "react";
 import cubicLerpPoints from "../utils/cubicLerp.ts";
 

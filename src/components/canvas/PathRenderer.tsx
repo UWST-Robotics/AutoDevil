@@ -1,9 +1,11 @@
 import { Line } from "react-konva";
-import usePathPlanValue from "../../hooks/usePathPlan.tsx";
+import usePathPlanValue from "../../hooks/usePathPlan.ts";
 import React from "react";
-import useSettingsValue from "../../hooks/useSettings.tsx";
+import useSettingsValue from "../../hooks/useSettings.ts";
 import PointRenderer from "./PointRenderer.tsx";
-import usePathSpline from "../../hooks/usePathSpline.tsx";
+import usePathSpline from "../../hooks/usePathSpline.ts";
+import useAddPoint from "../../hooks/useAddPoint.ts";
+import { KonvaEventObject } from "konva/lib/Node";
 
 const PATH_COLOR = "#ddd";
 const PATH_WIDTH = 1; // in
@@ -14,6 +16,7 @@ export default function PathRenderer() {
     const pathPlan = usePathPlanValue();
     const { pixelsPerInch } = useSettingsValue();
     const pathSpline = usePathSpline();
+    const addPoint = useAddPoint();
 
     const linePoints = React.useMemo(() => {
         const points = [];
@@ -29,6 +32,17 @@ export default function PathRenderer() {
         return points;
     }, [pathSpline, pixelsPerInch]);
 
+    const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
+        const x = e.evt.offsetX / pixelsPerInch;
+        const y = e.evt.offsetY / pixelsPerInch;
+        addPoint({
+            index: pathPlan.points.length,
+            x,
+            y,
+            r: 0,
+        });
+    }, [addPoint, pathPlan.points.length, pixelsPerInch]);
+
     return (
         <>
             <Line
@@ -38,6 +52,7 @@ export default function PathRenderer() {
                 lineCap={"round"}
                 lineJoin={"round"}
                 dash={PATH_DASH.map((dash) => dash * pixelsPerInch)}
+                onClick={onClick}
             />
             {pathPlan.points.map((point, index) => (
                 <PointRenderer

@@ -1,6 +1,6 @@
 import { Label, NumericInput } from "@blueprintjs/core";
 import PathSettings from "../../types/Settings.tsx";
-import { useSettings } from "../../hooks/useSettings.tsx";
+import { useSettings } from "../../hooks/useSettings.ts";
 import React from "react";
 
 export interface SettingsNumericInputProps {

@@ -1,6 +1,9 @@
 import { Button, ButtonGroup } from "@blueprintjs/core";
+import useIsAnimating from "../../hooks/useIsAnimating.ts";
 
 export default function BottomBar() {
+    const [isAnimating, setIsAnimating] = useIsAnimating();
+
     return (
         <div
             style={{
@@ -18,11 +21,14 @@ export default function BottomBar() {
                 <Button
                     icon={"play"}
                     intent={"success"}
+                    onClick={() => setIsAnimating(true)}
+                    disabled={isAnimating}
                 />
                 <Button
                     icon={"stop"}
                     intent={"danger"}
-                    disabled
+                    onClick={() => setIsAnimating(false)}
+                    disabled={!isAnimating}
                 />
                 <Button
                     icon={"chart"}

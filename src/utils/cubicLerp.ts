@@ -6,14 +6,17 @@ export function cubicLerp(a: number, b: number, t: number) {
 }
 
 export function rotationLerp(a: number, b: number, t: number) {
-    if (Math.abs(a - b) > Math.PI) {
-        if (a > b) {
-            a -= Math.PI * 2;
+    const aMod = a % (2 * Math.PI) + (Math.PI / 2);
+    const bMod = b % (2 * Math.PI) + (Math.PI / 2);
+    const diff = Math.abs(aMod - bMod);
+    if (diff > Math.PI) {
+        if (aMod > bMod) {
+            return cubicLerp(aMod, bMod + 2 * Math.PI, t);
         } else {
-            b -= Math.PI * 2;
+            return cubicLerp(aMod + 2 * Math.PI, bMod, t);
         }
     }
-    return cubicLerp(a, b, t);
+    return cubicLerp(aMod, bMod, t);
 }
 
 // Points

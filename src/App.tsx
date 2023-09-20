@@ -1,10 +1,12 @@
 import MainCanvas from "./components/canvas/MainCanvas.tsx";
 import TopBar from "./components/navigation/TopBar.tsx";
 import BottomBar from "./components/navigation/BottomBar.tsx";
+import GlobalHooks from "./components/GlobalHooks.tsx";
 
 function App() {
     return (
         <>
+            <GlobalHooks />
             <MainCanvas />
             <div
                 style={{
