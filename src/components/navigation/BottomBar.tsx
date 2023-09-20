@@ -11,6 +11,7 @@ export default function BottomBar() {
                 display: "flex",
                 justifyContent: "center",
                 padding: 10,
+                pointerEvents: "auto",
             }}
         >
             <ButtonGroup large>

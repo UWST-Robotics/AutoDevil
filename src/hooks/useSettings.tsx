@@ -2,8 +2,10 @@ import Settings from "../types/Settings.ts";
 import { atom, useAtom, useAtomValue } from 'jotai';
 
 const defaultPathSettings: Settings = {
-    imageData: "/default-field.jpg",
-    pixelsPerInch: 6
+    imageData: "/default-field.png",
+    pixelsPerInch: 11,
+    robotWidth: 15,
+    robotHeight: 15,
 };
 
 export const pathSettingsAtom = atom(defaultPathSettings);

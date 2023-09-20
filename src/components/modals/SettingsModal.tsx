@@ -15,6 +15,8 @@ export default function SettingsModal(props: SettingsModalProps) {
         >
             <DialogBody>
                 <SettingsNumericInput label={"Pixels Per Inch"} setting={"pixelsPerInch"} />
+                <SettingsNumericInput label={"Robot Width (in)"} setting={"robotWidth"} />
+                <SettingsNumericInput label={"Robot Height (in)"} setting={"robotHeight"} />
             </DialogBody>
         </Dialog>
     )

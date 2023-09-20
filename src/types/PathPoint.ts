@@ -1,8 +1,12 @@
+import GUID from "./GUID.ts";
+
 interface PathPoint {
+    id: GUID;
     x: number;
     y: number;
-    isReverse: boolean;
-    events: string[];
+    r: number;
+    isReverse?: boolean;
+    events?: string[];
 }
 
 export default PathPoint;

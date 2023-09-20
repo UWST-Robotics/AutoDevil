@@ -1,17 +1,23 @@
 import { Layer, Stage } from "react-konva";
-import CanvasGrid from "./CanvasGrid.tsx";
+import GridRenderer from "./GridRenderer.tsx";
 import useWindowSize from "../../hooks/useWindowSize.tsx";
 import useSettingsValue from "../../hooks/useSettings.tsx";
-import FieldImage from "./FieldImage.tsx";
+import FieldImageRenderer from "./FieldImageRenderer.tsx";
 import useWindowScaleValue from "../../hooks/useWindowScale.tsx";
+import PathRenderer from "./PathRenderer.tsx";
+import useCanvasMouseCursorValue from "../../hooks/useCanvasMouseCursor.tsx";
 
 export default function MainCanvas() {
-    const settings = useSettingsValue();
+    const { pixelsPerInch } = useSettingsValue();
     const windowScale = useWindowScaleValue();
     const [windowWidth, windowHeight] = useWindowSize();
+    const mouseCursor = useCanvasMouseCursorValue();
 
     return (
         <Stage
+            style={{
+                cursor: mouseCursor,
+            }}
             width={windowWidth}
             height={windowHeight}
             perfectDrawEnabled={false}
@@ -25,11 +31,12 @@ export default function MainCanvas() {
                 scaleX={windowScale}
                 scaleY={windowScale}
             >
-                <FieldImage />
-                <CanvasGrid
-                    cellSize={settings.pixelsPerInch * 12}
+                <FieldImageRenderer />
+                <PathRenderer />
+                <GridRenderer
+                    cellSize={pixelsPerInch * 12}
                     gridSize={100}
-                    color={"#2f2f2f"}
+                    color={"#444"}
                 />
             </Layer>
         </Stage>

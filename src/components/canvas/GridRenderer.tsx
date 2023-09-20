@@ -6,7 +6,7 @@ interface CanvasGridProps {
     color: string;
 }
 
-export default function CanvasGrid(props: CanvasGridProps) {
+export default function GridRenderer(props: CanvasGridProps) {
 
     return (
         <Shape
@@ -26,6 +26,7 @@ export default function CanvasGrid(props: CanvasGridProps) {
             stroke={props.color}
             opacity={0.7}
             strokeWidth={1}
+            isListening={false}
         />
     );
 }

@@ -7,7 +7,7 @@ import useWindowSize from "../../hooks/useWindowSize.tsx";
 // Minimum padding around image
 const IMAGE_PADDING = 110;
 
-export default function FieldImage() {
+export default function FieldImageRenderer() {
     const settings = useSettingsValue();
     const [windowWidth, windowHeight] = useWindowSize();
     const setWindowScale = useSetWindowScale();
@@ -33,7 +33,7 @@ export default function FieldImage() {
             setWindowScale(scale);
         }
     }, [image, windowWidth, windowHeight, setWindowScale]);
-    
+
     return (
         <>
             {image && (
@@ -43,6 +43,7 @@ export default function FieldImage() {
                     y={-image.height / 2}
                     width={image.width}
                     height={image.height}
+                    isListening={false}
                 />
             )}
         </>

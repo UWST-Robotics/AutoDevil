@@ -22,6 +22,7 @@ export default function SettingsNumericInput(props: SettingsNumericInputProps) {
                 placeholder={props.label}
                 value={settings[props.setting]}
                 onValueChange={onChange}
+                min={0}
             />
         </Label>
     );
