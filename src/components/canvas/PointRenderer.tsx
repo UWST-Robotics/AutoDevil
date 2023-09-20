@@ -6,7 +6,9 @@ import { useSetCanvasMouseCursor } from "../../hooks/useCanvasMouseCursor.tsx";
 import GUID from "../../types/GUID.ts";
 import { usePathPoint } from "../../hooks/usePathPoint.tsx";
 import { KonvaEventObject } from "konva/lib/Node";
-import RotateHandleRenderer from "./RotateHandleRenderer.tsx";
+import PointAnchorRenderer from "./PointAnchorRenderer.tsx";
+import toDegrees from "../../utils/toDegrees.ts";
+import usePathEnds from "../../hooks/usePathEnds.tsx";
 
 interface PointRendererProps {
     id: GUID;
@@ -17,6 +19,7 @@ export default function PointRenderer(props: PointRendererProps) {
     const setMouseCursor = useSetCanvasMouseCursor();
     const [isHovered, setIsHovered] = React.useState(false);
     const [point, setPoint] = usePathPoint(props.id);
+    const { isStart, isEnd } = usePathEnds(props.id);
 
     // Mouse events
     const onMouseEnter = React.useCallback(() => {
@@ -59,7 +62,7 @@ export default function PointRenderer(props: PointRendererProps) {
             <Group
                 x={point.x * pixelsPerInch}
                 y={point.y * pixelsPerInch}
-                rotation={point.r}
+                rotation={toDegrees(point.r) - 90}
                 opacity={isHovered ? 1 : 0.5}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
@@ -69,8 +72,15 @@ export default function PointRenderer(props: PointRendererProps) {
                 draggable
                 isListening={true}
             >
-                <RobotRenderer />
-                <RotateHandleRenderer id={point.id} />
+                <RobotRenderer
+                    color={isStart ? "#2f2" : isEnd ? "#f22" : undefined}
+                />
+                {!isEnd && (
+                    <PointAnchorRenderer id={point.id} isExit={true} />
+                )}
+                {!isStart && (
+                    <PointAnchorRenderer id={point.id} isExit={false} />
+                )}
             </Group>
         </>
     )

@@ -3,7 +3,7 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 
 const defaultPathSettings: Settings = {
     imageData: "/default-field.png",
-    pixelsPerInch: 11,
+    pixelsPerInch: 13.888,
     robotWidth: 15,
     robotHeight: 15,
 };

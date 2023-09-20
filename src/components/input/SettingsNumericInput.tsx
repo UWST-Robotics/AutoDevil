@@ -23,6 +23,9 @@ export default function SettingsNumericInput(props: SettingsNumericInputProps) {
                 value={settings[props.setting]}
                 onValueChange={onChange}
                 min={0}
+                minorStepSize={0.001}
+                stepSize={0.1}
+                majorStepSize={1}
             />
         </Label>
     );

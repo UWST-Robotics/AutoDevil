@@ -1,10 +1,15 @@
 import useSettingsValue from "../../hooks/useSettings.tsx";
 import { Line, Rect } from "react-konva";
 
+interface RobotRendererProps {
+    color?: string;
+}
+
 const ROBOT_LINE_WIDTH = 0.5; // in
 
-export default function RobotRenderer() {
+export default function RobotRenderer(props: RobotRendererProps) {
     const { pixelsPerInch, robotWidth, robotHeight } = useSettingsValue();
+    const { color } = props;
 
     return (
         <>
@@ -16,7 +21,7 @@ export default function RobotRenderer() {
                 offsetX={robotWidth / 2 * pixelsPerInch}
                 offsetY={robotHeight / 2 * pixelsPerInch}
                 fill={"#00000000"}
-                stroke={"#fff"}
+                stroke={color ?? "#fff"}
                 strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch}
             />
             <Line
@@ -26,8 +31,8 @@ export default function RobotRenderer() {
                     0,
                     robotHeight * pixelsPerInch * 0.4,
                 ]}
-                stroke={"#fff"}
-                strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch}
+                stroke={color ?? "#fff"}
+                strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch * 2}
             />
         </>
     )

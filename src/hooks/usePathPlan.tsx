@@ -4,9 +4,9 @@ import generateGUID from "../utils/generateGUID.ts";
 
 const defaultPathPlan: PathPlan = {
     points: [
-        { id: generateGUID(), x: -24, y: 0, r: 180 },
-        { id: generateGUID(), x: 0, y: 24, r: 90 },
-        { id: generateGUID(), x: 24, y: 0, r: 0 },
+        { id: generateGUID(), x: -24, y: 0, r: Math.PI * 0.5, enterDelta: 12, exitDelta: 12 },
+        { id: generateGUID(), x: 0, y: 24, r: 0, enterDelta: 12, exitDelta: 12 },
+        { id: generateGUID(), x: 24, y: 0, r: Math.PI * 1.5, enterDelta: 12, exitDelta: 12 },
     ],
 }
 

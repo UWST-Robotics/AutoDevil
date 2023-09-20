@@ -5,6 +5,8 @@ interface PathPoint {
     x: number;
     y: number;
     r: number;
+    enterDelta: number;
+    exitDelta: number;
     isReverse?: boolean;
     events?: string[];
 }
