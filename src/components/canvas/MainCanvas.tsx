@@ -5,7 +5,6 @@ import useSettingsValue from "../../hooks/useSettings.ts";
 import FieldImageRenderer from "./FieldImageRenderer.tsx";
 import useWindowScaleValue from "../../hooks/useWindowScale.ts";
 import PathRenderer from "./PathRenderer.tsx";
-import useCanvasMouseCursorValue from "../../hooks/useCanvasMouseCursor.ts";
 import AnimationRenderer from "./AnimationRenderer.tsx";
 import React from "react";
 import { useSetSelectedPoint } from "../../hooks/useSelectPoint.ts";
@@ -14,7 +13,6 @@ export default function MainCanvas() {
     const { pixelsPerInch } = useSettingsValue();
     const windowScale = useWindowScaleValue();
     const [windowWidth, windowHeight] = useWindowSize();
-    const mouseCursor = useCanvasMouseCursorValue();
     const setSelectedPoint = useSetSelectedPoint();
 
     const onClick = React.useCallback(() => {
@@ -23,9 +21,6 @@ export default function MainCanvas() {
 
     return (
         <Stage
-            style={{
-                cursor: mouseCursor,
-            }}
             width={windowWidth}
             height={windowHeight}
             perfectDrawEnabled={false}

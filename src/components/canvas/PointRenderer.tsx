@@ -2,7 +2,6 @@ import RobotRenderer from "./RobotRenderer.tsx";
 import useSettingsValue from "../../hooks/useSettings.ts";
 import React from "react";
 import { Group } from "react-konva";
-import { useSetCanvasMouseCursor } from "../../hooks/useCanvasMouseCursor.ts";
 import GUID from "../../types/GUID.ts";
 import { usePathPoint } from "../../hooks/usePathPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
@@ -10,6 +9,7 @@ import PointAnchorRenderer from "./PointAnchorRenderer.tsx";
 import toDegrees from "../../utils/toDegrees.ts";
 import usePathEnds from "../../hooks/usePathEnds.ts";
 import useSelectedPoint from "../../hooks/useSelectPoint.ts";
+import useCursorListener from "../../hooks/useCursorListener.ts";
 
 interface PointRendererProps {
     id: GUID;
@@ -17,7 +17,7 @@ interface PointRendererProps {
 
 export default function PointRenderer(props: PointRendererProps) {
     const { pixelsPerInch } = useSettingsValue();
-    const setMouseCursor = useSetCanvasMouseCursor();
+    const cursorListener = useCursorListener("pointer");
     const [isHovered, setIsHovered] = React.useState(false);
     const [selectedPointID, setSelectedPointID] = useSelectedPoint();
     const [point, setPoint] = usePathPoint(props.id);
@@ -26,14 +26,14 @@ export default function PointRenderer(props: PointRendererProps) {
     const isSelected = React.useMemo(() => selectedPointID === props.id, [selectedPointID, props.id]);
 
     // Mouse events
-    const onMouseEnter = React.useCallback(() => {
+    const onMouseOver = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
         setIsHovered(true);
-        setMouseCursor("pointer");
-    }, [setMouseCursor]);
-    const onMouseLeave = React.useCallback(() => {
+        cursorListener.onMouseOver(e);
+    }, [cursorListener]);
+    const onMouseOut = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
         setIsHovered(false);
-        setMouseCursor("default");
-    }, [setMouseCursor]);
+        cursorListener.onMouseOut(e);
+    }, [cursorListener]);
 
     // Click events
     const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
@@ -74,8 +74,8 @@ export default function PointRenderer(props: PointRendererProps) {
                 rotation={toDegrees(point.r) - 90}
                 opacity={isHovered || isSelected ? 1 : 0.5}
                 onClick={onClick}
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave}
+                onMouseEnter={onMouseOver}
+                onMouseLeave={onMouseOut}
                 onDragMove={onDrag}
                 onDragEnd={onDrag}
                 draggable

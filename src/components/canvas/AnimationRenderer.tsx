@@ -1,52 +1,55 @@
 import usePathSpline from "../../hooks/usePathSpline.ts";
 import React from "react";
-import { Group } from "react-konva";
-import { Group as KonvaGroup } from "konva/lib/Group";
-import toDegrees from "../../utils/toDegrees.ts";
 import RobotRenderer from "./RobotRenderer.tsx";
 import useSettingsValue from "../../hooks/useSettings.ts";
 import useIsAnimating from "../../hooks/useIsAnimating.ts";
+import { animated, useSpring } from "@react-spring/konva";
+import styled from "styled-components";
+import toDegrees from "../../utils/toDegrees.ts";
 
-const ANIMATION_INTERVAL = 0.02; // %
-const ANIMATION_SPEED = 60; // fps
+// @ts-ignore
+const StyledGroup = styled(animated.Group)``;
 
+// Animate Spline with React Sprint
 export default function AnimationRenderer() {
     const [isAnimating] = useIsAnimating();
     const spline = usePathSpline();
     const { pixelsPerInch } = useSettingsValue();
-    const renderRef = React.useRef<KonvaGroup>(null);
 
-    React.useEffect(() => {
-        if (!isAnimating)
-            return;
-        let t = 0;
-        const interval = setInterval(() => {
-            t = (t + ANIMATION_INTERVAL) % spline.length;
+    // Calculate points
+    const points = React.useMemo(() => {
+        return Array.from({ length: spline.length / 0.05 }).map((_, i) => {
+            const point = spline.at(i * 0.05);
+            return {
+                x: (point?.x ?? 0) * pixelsPerInch,
+                y: (point?.y ?? 0) * pixelsPerInch,
+                rotation: toDegrees(point?.r ?? 0),
+            }
+        });
+    }, [spline, pixelsPerInch]);
 
-            // Update render
-            renderRef.current?.rotation(toDegrees(spline.at(t)?.r ?? 0));
-            renderRef.current?.x((spline.at(t)?.x ?? 0) * pixelsPerInch);
-            renderRef.current?.y((spline.at(t)?.y ?? 0) * pixelsPerInch);
-            renderRef.current?.getLayer()?.batchDraw();
-
-        }, 1000 / ANIMATION_SPEED);
-
-        console.log("Animation started");
-        return () => clearInterval(interval);
-    }, [isAnimating, spline, pixelsPerInch]);
+    // Calculate spring
+    const spring = useSpring({
+        config: {
+            duration: 50,
+        },
+        from: points[0],
+        to: points,
+        reset: true,
+        loop: true,
+        reverse: true,
+    });
 
     if (!isAnimating)
         return null;
     return (
-        <Group
-            x={0}
-            y={0}
-            rotation={0}
+        <StyledGroup
+            x={spring.x}
+            y={spring.y}
+            rotation={spring.rotation}
             listening={false}
-            ref={renderRef}
-            key={"animation-renderer"}
         >
             <RobotRenderer />
-        </Group>
+        </StyledGroup>
     );
 }

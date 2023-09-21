@@ -7,7 +7,7 @@ import usePathSpline from "../../hooks/usePathSpline.ts";
 import useAddPoint from "../../hooks/useAddPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
 import useWindowScaleValue from "../../hooks/useWindowScale.ts";
-import { useSetCanvasMouseCursor } from "../../hooks/useCanvasMouseCursor.ts";
+import useCursorListener from "../../hooks/useCursorListener.ts";
 
 const PATH_COLOR = "#ddd";
 const PATH_WIDTH = 1; // in
@@ -20,15 +20,7 @@ export default function PathRenderer() {
     const windowScale = useWindowScaleValue();
     const pathSpline = usePathSpline();
     const addPoint = useAddPoint();
-    const setCursor = useSetCanvasMouseCursor();
-
-    // Mouse events
-    const onMouseEnter = React.useCallback(() => {
-        setCursor("pointer");
-    }, [setCursor]);
-    const onMouseLeave = React.useCallback(() => {
-        setCursor("default");
-    }, [setCursor]);
+    const cursorListener = useCursorListener("pointer");
 
     // Click events
     const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>, index: number) => {
@@ -75,8 +67,8 @@ export default function PathRenderer() {
                             stroke={"transparent"}
                             strokeWidth={PATH_WIDTH * pixelsPerInch * 4}
                             onClick={(e) => onClick(e, index)}
-                            onMouseEnter={onMouseEnter}
-                            onMouseLeave={onMouseLeave}
+                            onMouseEnter={cursorListener.onMouseOver}
+                            onMouseLeave={cursorListener.onMouseOut}
                             listening={true}
                         />
                     </Group>
