@@ -4,43 +4,54 @@ import useSettingsValue from "../../hooks/useSettings.ts";
 import { usePathPoint } from "../../hooks/usePathPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
 import React from "react";
+import { useSetSelectedPoint } from "../../hooks/useSelectPoint.ts";
 
 interface RotateHandleRendererProps {
     id: GUID;
     isExit: boolean;
+    color?: string;
 }
 
-const HANDLE_COLOR = "#fff";
 const HANDLE_RADIUS = 1; // in
 const HANDLE_LINE_WIDTH = 0.5; // in
 
 export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
     const { pixelsPerInch } = useSettingsValue();
     const [point, setPoint] = usePathPoint(props.id);
+    const setSelectedPointID = useSetSelectedPoint();
 
     const pointOrgin = React.useMemo(() => {
         return {
             x: 0,
             y: props.isExit ? (point?.exitDelta ?? 0) * pixelsPerInch : -(point?.enterDelta ?? 0) * pixelsPerInch,
         };
-    }, [point, pixelsPerInch]);
+    }, [point, pixelsPerInch, props.isExit]);
 
     // Drag events
     const onDragMove = React.useCallback((e: KonvaEventObject<DragEvent>) => {
         if (!point)
             return;
+
+        // Calculate delta angle and distance
         const deltaAngle = Math.atan2(e.target.y(), e.target.x()) + Math.PI / 2 * (props.isExit ? -1 : 1);
         const deltaDistance = Math.sqrt(e.target.x() ** 2 + e.target.y() ** 2);
+
+        // Update point
         setPoint({
             ...point,
             r: point.r + deltaAngle,
             exitDelta: props.isExit ? deltaDistance / pixelsPerInch : point.exitDelta,
             enterDelta: !props.isExit ? deltaDistance / pixelsPerInch : point.enterDelta,
         });
+
+        // Reset handle position
         e.target.x(pointOrgin.x);
         e.target.y(pointOrgin.y);
         e.cancelBubble = true;
-    }, [point, pixelsPerInch, pointOrgin, setPoint]);
+
+        // Select this point
+        setSelectedPointID(props.id);
+    }, [point, pixelsPerInch, pointOrgin, props.isExit, setPoint, setSelectedPointID, props.id]);
 
     return (
         <>
@@ -48,7 +59,7 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
                 x={pointOrgin.x}
                 y={pointOrgin.y}
                 radius={HANDLE_RADIUS * pixelsPerInch}
-                stroke={HANDLE_COLOR}
+                stroke={props.color ?? "#fff"}
                 strokeWidth={HANDLE_LINE_WIDTH * pixelsPerInch}
                 draggable
                 onDragMove={onDragMove}
@@ -61,7 +72,7 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
                     pointOrgin.x,
                     pointOrgin.y,
                 ]}
-                stroke={HANDLE_COLOR}
+                stroke={props.color ?? "#fff"}
                 strokeWidth={HANDLE_LINE_WIDTH * pixelsPerInch}
                 listening={false}
             />

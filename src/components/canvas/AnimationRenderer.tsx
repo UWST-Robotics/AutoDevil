@@ -1,6 +1,7 @@
 import usePathSpline from "../../hooks/usePathSpline.ts";
 import React from "react";
 import { Group } from "react-konva";
+import { Group as KonvaGroup } from "konva/lib/Group";
 import toDegrees from "../../utils/toDegrees.ts";
 import RobotRenderer from "./RobotRenderer.tsx";
 import useSettingsValue from "../../hooks/useSettings.ts";
@@ -11,27 +12,39 @@ const ANIMATION_SPEED = 60; // fps
 
 export default function AnimationRenderer() {
     const [isAnimating] = useIsAnimating();
-    const [t, setT] = React.useState(0);
     const spline = usePathSpline();
     const { pixelsPerInch } = useSettingsValue();
+    const renderRef = React.useRef<KonvaGroup>(null);
 
     React.useEffect(() => {
         if (!isAnimating)
             return;
+        let t = 0;
         const interval = setInterval(() => {
-            setT((t) => (t + ANIMATION_INTERVAL) % spline.length);
-        }, 1000 / ANIMATION_SPEED);
-        return () => clearInterval(interval);
-    }, [isAnimating, spline.length]);
+            t = (t + ANIMATION_INTERVAL) % spline.length;
 
-    const point = spline.at(t);
-    if (!point || !isAnimating)
+            // Update render
+            renderRef.current?.rotation(toDegrees(spline.at(t)?.r ?? 0));
+            renderRef.current?.x((spline.at(t)?.x ?? 0) * pixelsPerInch);
+            renderRef.current?.y((spline.at(t)?.y ?? 0) * pixelsPerInch);
+            renderRef.current?.getLayer()?.batchDraw();
+
+        }, 1000 / ANIMATION_SPEED);
+
+        console.log("Animation started");
+        return () => clearInterval(interval);
+    }, [isAnimating, spline, pixelsPerInch]);
+
+    if (!isAnimating)
         return null;
     return (
         <Group
-            x={point.x * pixelsPerInch}
-            y={point.y * pixelsPerInch}
-            rotation={toDegrees(point.r)}
+            x={0}
+            y={0}
+            rotation={0}
+            listening={false}
+            ref={renderRef}
+            key={"animation-renderer"}
         >
             <RobotRenderer />
         </Group>

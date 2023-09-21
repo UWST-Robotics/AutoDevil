@@ -39,13 +39,10 @@ export default function PointRenderer(props: PointRendererProps) {
     const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
         setSelectedPointID(isSelected ? undefined : props.id);
         e.cancelBubble = true;
-    }, [props.id, setSelectedPointID]);
+    }, [setSelectedPointID, isSelected, props.id]);
 
     // Drag events
-    const onDragStart = React.useCallback(() => {
-        // TODO: Dragging
-    }, []);
-    const onDragMove = React.useCallback((e: KonvaEventObject<DragEvent>) => {
+    const onDrag = React.useCallback((e: KonvaEventObject<DragEvent>) => {
         if (!point)
             return;
         setPoint({
@@ -53,17 +50,19 @@ export default function PointRenderer(props: PointRendererProps) {
             x: e.target.x() / pixelsPerInch,
             y: e.target.y() / pixelsPerInch,
         });
-        console.log("WRONG");
-    }, [point, pixelsPerInch, setPoint]);
-    const onDragEnd = React.useCallback((e: KonvaEventObject<DragEvent>) => {
-        if (!point)
-            return;
-        setPoint({
-            ...point,
-            x: e.target.x() / pixelsPerInch,
-            y: e.target.y() / pixelsPerInch,
-        });
-    }, [point, pixelsPerInch, setPoint]);
+        setSelectedPointID(props.id);
+    }, [point, pixelsPerInch, setPoint, setSelectedPointID, props.id]);
+
+    // Color
+    const color = React.useMemo(() => {
+        if (isSelected)
+            return "#fa2";
+        if (isStart)
+            return "#2f2";
+        if (isEnd)
+            return "#f22";
+        return "#fff";
+    }, [isSelected, isStart, isEnd]);
 
     if (!point)
         return;
@@ -73,24 +72,31 @@ export default function PointRenderer(props: PointRendererProps) {
                 x={point.x * pixelsPerInch}
                 y={point.y * pixelsPerInch}
                 rotation={toDegrees(point.r) - 90}
-                opacity={isHovered ? 1 : 0.5}
+                opacity={isHovered || isSelected ? 1 : 0.5}
                 onClick={onClick}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
-                onDragStart={onDragStart}
-                onDragMove={onDragMove}
-                onDragEnd={onDragEnd}
+                onDragMove={onDrag}
+                onDragEnd={onDrag}
                 draggable
                 isListening={true}
             >
                 <RobotRenderer
-                    color={isSelected ? "#fa2" : isStart ? "#2f2" : isEnd ? "#f22" : undefined}
+                    color={color}
                 />
                 {!isEnd && (
-                    <PointAnchorRenderer id={point.id} isExit={true} />
+                    <PointAnchorRenderer
+                        id={point.id}
+                        isExit={true}
+                        color={color}
+                    />
                 )}
                 {!isStart && (
-                    <PointAnchorRenderer id={point.id} isExit={false} />
+                    <PointAnchorRenderer
+                        id={point.id}
+                        isExit={false}
+                        color={color}
+                    />
                 )}
             </Group>
         </>
