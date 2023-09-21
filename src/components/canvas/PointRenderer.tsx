@@ -71,7 +71,7 @@ export default function PointRenderer(props: PointRendererProps) {
             <Group
                 x={point.x * pixelsPerInch}
                 y={point.y * pixelsPerInch}
-                rotation={toDegrees(point.r) - 90}
+                rotation={toDegrees(point.r)}
                 opacity={isHovered || isSelected ? 1 : 0.5}
                 onClick={onClick}
                 onMouseEnter={onMouseOver}

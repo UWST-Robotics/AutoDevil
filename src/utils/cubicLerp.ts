@@ -1,4 +1,5 @@
 import PathPoint from "../types/PathPoint.ts";
+import { normalizeRadians } from "./toDegrees.ts";
 
 // Math
 export function cubicLerp(a: number, b: number, t: number) {
@@ -6,17 +7,17 @@ export function cubicLerp(a: number, b: number, t: number) {
 }
 
 export function rotationLerp(a: number, b: number, t: number) {
-    const aMod = a % (2 * Math.PI) + (Math.PI / 2);
-    const bMod = b % (2 * Math.PI) + (Math.PI / 2);
+    const aMod = a % (2 * Math.PI);
+    const bMod = b % (2 * Math.PI);
     const diff = Math.abs(aMod - bMod);
     if (diff > Math.PI) {
         if (aMod > bMod) {
-            return cubicLerp(aMod, bMod + 2 * Math.PI, t);
+            return normalizeRadians(cubicLerp(aMod, bMod + 2 * Math.PI, t));
         } else {
-            return cubicLerp(aMod + 2 * Math.PI, bMod, t);
+            return normalizeRadians(cubicLerp(aMod + 2 * Math.PI, bMod, t));
         }
     }
-    return cubicLerp(aMod, bMod, t);
+    return normalizeRadians(cubicLerp(aMod, bMod, t));
 }
 
 // Points

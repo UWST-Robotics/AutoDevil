@@ -22,8 +22,8 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
 
     const pointOrgin = React.useMemo(() => {
         return {
-            x: 0,
-            y: props.isExit ? (point?.exitDelta ?? 0) * pixelsPerInch : -(point?.enterDelta ?? 0) * pixelsPerInch,
+            x: props.isExit ? (point?.exitDelta ?? 0) * pixelsPerInch : -(point?.enterDelta ?? 0) * pixelsPerInch,
+            y: 0,
         };
     }, [point, pixelsPerInch, props.isExit]);
 
@@ -33,13 +33,13 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
             return;
 
         // Calculate delta angle and distance
-        const deltaAngle = Math.atan2(e.target.y(), e.target.x()) + Math.PI / 2 * (props.isExit ? -1 : 1);
+        const deltaAngle = Math.atan2(e.target.y(), e.target.x()) + (props.isExit ? 0 : Math.PI);
         const deltaDistance = Math.sqrt(e.target.x() ** 2 + e.target.y() ** 2);
 
         // Update point
         setPoint({
             ...point,
-            r: point.r + deltaAngle,
+            r: (point.r + deltaAngle) % (Math.PI * 2),
             exitDelta: props.isExit ? deltaDistance / pixelsPerInch : point.exitDelta,
             enterDelta: !props.isExit ? deltaDistance / pixelsPerInch : point.enterDelta,
         });

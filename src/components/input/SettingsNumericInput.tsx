@@ -20,7 +20,7 @@ export default function SettingsNumericInput(props: SettingsNumericInputProps) {
             {props.label}
             <NumericInput
                 placeholder={props.label}
-                value={settings[props.setting]}
+                value={settings[props.setting] as number}
                 onValueChange={onChange}
                 min={0}
                 minorStepSize={0.001}

@@ -3,6 +3,7 @@ interface Settings {
     pixelsPerInch: number;
     robotWidth: number;
     robotHeight: number;
+    isHolonomic: boolean;
 }
 
 export default Settings;

@@ -28,8 +28,8 @@ export default function RobotRenderer(props: RobotRendererProps) {
                 points={[
                     0,
                     0,
-                    0,
                     robotHeight * pixelsPerInch * 0.5,
+                    0,
                 ]}
                 stroke={color ?? "#fff"}
                 strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch * 3}

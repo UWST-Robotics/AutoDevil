@@ -7,7 +7,7 @@ interface PathPoint {
     r: number;
     enterDelta: number;
     exitDelta: number;
-    isReverse?: boolean;
+    isReversed?: boolean;
     events?: string[];
 }
 
