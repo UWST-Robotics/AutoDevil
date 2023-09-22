@@ -3,6 +3,7 @@ import { Line, Rect } from "react-konva";
 
 interface RobotRendererProps {
     color?: string;
+    isFlipped?: boolean;
 }
 
 const ROBOT_LINE_WIDTH = 0.5; // in
@@ -28,7 +29,7 @@ export default function RobotRenderer(props: RobotRendererProps) {
                 points={[
                     0,
                     0,
-                    robotHeight * pixelsPerInch * 0.5,
+                    robotHeight * pixelsPerInch * (props.isFlipped ? -0.5 : 0.5),
                     0,
                 ]}
                 stroke={color ?? "#fff"}

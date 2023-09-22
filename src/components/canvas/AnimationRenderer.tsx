@@ -3,53 +3,60 @@ import React from "react";
 import RobotRenderer from "./RobotRenderer.tsx";
 import useSettingsValue from "../../hooks/useSettings.ts";
 import useIsAnimating from "../../hooks/useIsAnimating.ts";
-import { animated, useSpring } from "@react-spring/konva";
-import styled from "styled-components";
 import toDegrees from "../../utils/toDegrees.ts";
+import useGetAnimState from "../../hooks/useGetAnimState.ts";
+import { Group } from "react-konva";
+import Konva from "konva";
 
-// @ts-ignore
-const StyledGroup = styled(animated.Group)``;
+const ANIMATION_INTERVAL = 1000 / 60; // ms
+const POINT_INTERVAL = ANIMATION_INTERVAL / 1000; // s
 
 // Animate Spline with React Sprint
 export default function AnimationRenderer() {
+    const groupRef = React.useRef<Konva.Group>(null);
     const [isAnimating] = useIsAnimating();
     const spline = usePathSpline();
-    const { pixelsPerInch } = useSettingsValue();
+    const { pixelsPerInch, isHolonomic } = useSettingsValue();
+    const getAnimState = useGetAnimState();
 
     // Calculate points
     const points = React.useMemo(() => {
-        return Array.from({ length: spline.length / 0.05 }).map((_, i) => {
-            const point = spline.at(i * 0.05);
+        return Array.from({ length: spline.length / POINT_INTERVAL }).map((_, i) => {
+            const point = spline.at(i * POINT_INTERVAL);
+            const angle = isHolonomic ?
+                toDegrees(point?.r ?? 0) :
+                toDegrees(spline.angleAt(i * POINT_INTERVAL));
             return {
                 x: (point?.x ?? 0) * pixelsPerInch,
                 y: (point?.y ?? 0) * pixelsPerInch,
-                rotation: toDegrees(point?.r ?? 0),
-            }
+                rotation: angle + (getAnimState(i * POINT_INTERVAL).isReversed ? 180 : 0),
+            };
         });
-    }, [spline, pixelsPerInch]);
+    }, [spline, pixelsPerInch, isHolonomic, getAnimState]);
 
-    // Calculate spring
-    const spring = useSpring({
-        config: {
-            duration: 50,
-        },
-        from: points[0],
-        to: points,
-        reset: true,
-        loop: true,
-        reverse: true,
-    });
+    // Animate
+    React.useEffect(() => {
+        let index = 0;
+        const interval = setInterval(() => {
+            if (!groupRef.current)
+                return;
+            const { x, y, rotation } = points[index];
+            groupRef.current.x(x);
+            groupRef.current.y(y);
+            groupRef.current.rotation(rotation);
+            index = (index + 1) % points.length;
+        }, ANIMATION_INTERVAL);
+        return () => clearInterval(interval);
+    }, [points]);
 
     if (!isAnimating)
         return null;
     return (
-        <StyledGroup
-            x={spring.x}
-            y={spring.y}
-            rotation={spring.rotation}
+        <Group
             listening={false}
+            ref={groupRef}
         >
             <RobotRenderer />
-        </StyledGroup>
+        </Group>
     );
 }
