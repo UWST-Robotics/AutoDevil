@@ -7,8 +7,9 @@ import toDegrees from "../../utils/toDegrees.ts";
 import useGetAnimState from "../../hooks/useGetAnimState.ts";
 import { Group } from "react-konva";
 import Konva from "konva";
+import { IFrame } from "konva/lib/types";
 
-const ANIMATION_INTERVAL = 1000 / 60; // ms
+const ANIMATION_INTERVAL = 1000 / 30; // ms
 const POINT_INTERVAL = ANIMATION_INTERVAL / 1000; // s
 
 // Animate Spline with React Sprint
@@ -36,18 +37,28 @@ export default function AnimationRenderer() {
 
     // Animate
     React.useEffect(() => {
-        let index = 0;
-        const interval = setInterval(() => {
+        if (!isAnimating)
+            return () => {
+            };
+        // Animation loop
+        let t = 0;
+        const animate = (frame: IFrame | undefined) => {
             if (!groupRef.current)
                 return;
-            const { x, y, rotation } = points[index];
+
+            // Update position
+            const { x, y, rotation } = points[Math.floor(t / ANIMATION_INTERVAL) % points.length];
             groupRef.current.x(x);
             groupRef.current.y(y);
             groupRef.current.rotation(rotation);
-            index = (index + 1) % points.length;
-        }, ANIMATION_INTERVAL);
-        return () => clearInterval(interval);
-    }, [points]);
+            t += frame?.timeDiff ?? 0;
+        };
+
+        // Start animation
+        const anim = new Konva.Animation(animate, groupRef.current?.getLayer());
+        anim.start();
+        return () => anim.stop();
+    }, [isAnimating, points]);
 
     if (!isAnimating)
         return null;

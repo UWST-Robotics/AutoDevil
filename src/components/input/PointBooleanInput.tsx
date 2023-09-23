@@ -27,7 +27,7 @@ export default function PointBooleanInput(props: PointBooleanInputProps) {
             {props.label}
             <Switch
                 placeholder={props.label}
-                checked={point[props.setting] as boolean}
+                checked={(point[props.setting] ?? false) as boolean}
                 onChange={onChange}
             />
         </Label>
