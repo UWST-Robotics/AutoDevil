@@ -1,7 +1,7 @@
-import usePathPlanValue from "./usePathPlan.ts";
+import usePathPlanValue from "../Path/usePathPlan.ts";
 import React from "react";
-import AnimState from "../types/AnimState.ts";
-import GUID from "../types/GUID.ts";
+import AnimState from "../../types/AnimState.ts";
+import GUID from "../../types/GUID.ts";
 
 export default function useGetAnimState() {
     const pathPlan = usePathPlanValue();

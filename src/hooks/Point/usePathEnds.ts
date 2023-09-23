@@ -1,7 +1,7 @@
 import { atomFamily } from "jotai/utils";
-import GUID from "../types/GUID.ts";
+import GUID from "../../types/GUID.ts";
 import { atom, useAtomValue } from "jotai";
-import { pathPlanAtom } from "./usePathPlan.ts";
+import { pathPlanAtom } from "../Path/usePathPlan.ts";
 
 export const pathStartAtomFamily = atomFamily((id: GUID) => {
     const pathStartArom = atom<boolean>(

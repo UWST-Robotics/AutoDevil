@@ -1,6 +1,6 @@
-import PathPlan from "../types/PathPlan.ts";
+import PathPlan from "../../types/PathPlan.ts";
 import { atom, useAtom, useAtomValue } from "jotai";
-import generateGUID from "../utils/generateGUID.ts";
+import generateGUID from "../../utils/generateGUID.ts";
 
 const defaultPathPlan: PathPlan = {
     points: [

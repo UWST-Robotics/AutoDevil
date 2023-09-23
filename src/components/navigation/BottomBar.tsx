@@ -1,5 +1,5 @@
 import { Button, ButtonGroup } from "@blueprintjs/core";
-import useIsAnimating from "../../hooks/useIsAnimating.ts";
+import useIsAnimating from "../../hooks/Canvas/useIsAnimating.ts";
 
 export default function BottomBar() {
     const [isAnimating, setIsAnimating] = useIsAnimating();

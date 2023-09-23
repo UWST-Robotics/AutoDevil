@@ -1,7 +1,7 @@
 import { atom, useSetAtom } from "jotai";
-import { pathPlanAtom } from "./usePathPlan.ts";
-import generateGUID from "../utils/generateGUID.ts";
-import PathPoint from "../types/PathPoint.ts";
+import { pathPlanAtom } from "../Path/usePathPlan.ts";
+import generateGUID from "../../utils/generateGUID.ts";
+import PathPoint from "../../types/PathPoint.ts";
 import { selectedPointAtom } from "./useSelectPoint.ts";
 
 export interface AddPointPayload {

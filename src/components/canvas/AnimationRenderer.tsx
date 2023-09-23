@@ -1,10 +1,10 @@
-import usePathSpline from "../../hooks/usePathSpline.ts";
+import usePathSpline from "../../hooks/Path/usePathSpline.ts";
 import React from "react";
 import RobotRenderer from "./RobotRenderer.tsx";
 import useSettingsValue from "../../hooks/useSettings.ts";
-import useIsAnimating from "../../hooks/useIsAnimating.ts";
+import useIsAnimating from "../../hooks/Canvas/useIsAnimating.ts";
 import toDegrees from "../../utils/toDegrees.ts";
-import useGetAnimState from "../../hooks/useGetAnimState.ts";
+import useGetAnimState from "../../hooks/Canvas/useGetAnimState.ts";
 import { Group } from "react-konva";
 import Konva from "konva";
 import { IFrame } from "konva/lib/types";

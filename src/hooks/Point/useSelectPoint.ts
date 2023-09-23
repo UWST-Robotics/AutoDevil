@@ -1,4 +1,4 @@
-import GUID from "../types/GUID.ts";
+import GUID from "../../types/GUID.ts";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 
 export const selectedPointAtom = atom<GUID | undefined>(undefined);

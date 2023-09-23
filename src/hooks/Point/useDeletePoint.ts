@@ -1,6 +1,6 @@
 import { atom, useSetAtom } from "jotai";
-import GUID from "../types/GUID.ts";
-import { pathPlanAtom } from "./usePathPlan.ts";
+import GUID from "../../types/GUID.ts";
+import { pathPlanAtom } from "../Path/usePathPlan.ts";
 import { selectedPointAtom } from "./useSelectPoint.ts";
 
 export const deletePointAtom = atom(
@@ -9,7 +9,7 @@ export const deletePointAtom = atom(
         const path = get(pathPlanAtom);
         if (path.points.length <= 2)
             return;
-        
+
         const newPoints = path.points.filter((p) => p.id !== pointId);
         set(pathPlanAtom, { ...path, points: newPoints });
 

@@ -3,14 +3,14 @@ import useSettingsValue from "../../hooks/useSettings.ts";
 import React from "react";
 import { Group } from "react-konva";
 import GUID from "../../types/GUID.ts";
-import { usePathPoint } from "../../hooks/usePathPoint.ts";
+import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
 import PointAnchorRenderer from "./PointAnchorRenderer.tsx";
 import toDegrees from "../../utils/toDegrees.ts";
-import usePathEnds from "../../hooks/usePathEnds.ts";
-import useSelectedPoint from "../../hooks/useSelectPoint.ts";
-import useCursorListener from "../../hooks/useCursorListener.ts";
-import { useAnimState } from "../../hooks/useGetAnimState.ts";
+import usePathEnds from "../../hooks/Point/usePathEnds.ts";
+import useSelectedPoint from "../../hooks/Point/useSelectPoint.ts";
+import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
+import { useAnimState } from "../../hooks/Canvas/useGetAnimState.ts";
 
 interface PointRendererProps {
     id: GUID;

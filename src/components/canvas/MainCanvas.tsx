@@ -1,13 +1,13 @@
 import { Layer, Stage } from "react-konva";
 import GridRenderer from "./GridRenderer.tsx";
-import useWindowSize from "../../hooks/useWindowSize.ts";
+import useWindowSize from "../../hooks/Canvas/useWindowSize.ts";
 import useSettingsValue from "../../hooks/useSettings.ts";
 import FieldImageRenderer from "./FieldImageRenderer.tsx";
-import useWindowScaleValue from "../../hooks/useWindowScale.ts";
+import useWindowScaleValue from "../../hooks/Canvas/useWindowScale.ts";
 import PathRenderer from "./PathRenderer.tsx";
 import AnimationRenderer from "./AnimationRenderer.tsx";
 import React from "react";
-import { useSetSelectedPoint } from "../../hooks/useSelectPoint.ts";
+import { useSetSelectedPoint } from "../../hooks/Point/useSelectPoint.ts";
 
 export default function MainCanvas() {
     const { pixelsPerInch } = useSettingsValue();

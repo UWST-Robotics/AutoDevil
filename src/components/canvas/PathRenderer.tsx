@@ -1,13 +1,13 @@
 import { Group, Line } from "react-konva";
-import usePathPlanValue from "../../hooks/usePathPlan.ts";
+import usePathPlanValue from "../../hooks/Path/usePathPlan.ts";
 import React from "react";
 import useSettingsValue from "../../hooks/useSettings.ts";
 import PointRenderer from "./PointRenderer.tsx";
-import usePathSpline from "../../hooks/usePathSpline.ts";
-import useAddPoint from "../../hooks/useAddPoint.ts";
+import usePathSpline from "../../hooks/Path/usePathSpline.ts";
+import useAddPoint from "../../hooks/Point/useAddPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
-import useWindowScaleValue from "../../hooks/useWindowScale.ts";
-import useCursorListener from "../../hooks/useCursorListener.ts";
+import useWindowScaleValue from "../../hooks/Canvas/useWindowScale.ts";
+import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
 
 const PATH_COLOR = "#ddd";
 const PATH_WIDTH = 1; // in

@@ -1,5 +1,7 @@
-import { Button, ButtonGroup } from "@blueprintjs/core";
+import { ButtonGroup } from "@blueprintjs/core";
 import SettingsButton from "../buttons/SettingsButton.tsx";
+import DownloadButton from "../buttons/DownloadButton.tsx";
+import UploadButton from "../buttons/UploadButton.tsx";
 
 export default function TopBar() {
 
@@ -17,8 +19,8 @@ export default function TopBar() {
             }}
         >
             <ButtonGroup>
-                <Button icon={"floppy-disk"} />
-                <Button icon={"folder-open"} />
+                <DownloadButton />
+                <UploadButton />
                 <SettingsButton />
             </ButtonGroup>
         </div>

@@ -1,8 +1,8 @@
 import { atomFamily } from "jotai/utils";
-import { pathPlanAtom } from "./usePathPlan.ts";
+import { pathPlanAtom } from "../Path/usePathPlan.ts";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import GUID from "../types/GUID.ts";
-import PathPoint from "../types/PathPoint.ts";
+import GUID from "../../types/GUID.ts";
+import PathPoint from "../../types/PathPoint.ts";
 
 export const pathPointAtomFamily = atomFamily((id: GUID) => {
     const pathPointAtom = atom(

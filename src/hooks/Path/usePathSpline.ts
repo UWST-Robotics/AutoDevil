@@ -1,7 +1,7 @@
 import usePathPlanValue from "./usePathPlan.ts";
 import React from "react";
-import cubicLerpPoints from "../utils/cubicLerp.ts";
-import { normalizeRadians } from "../utils/toDegrees.ts";
+import cubicLerpPoints from "../../utils/cubicLerp.ts";
+import { normalizeRadians } from "../../utils/toDegrees.ts";
 
 export default function usePathSpline() {
     const path = usePathPlanValue();

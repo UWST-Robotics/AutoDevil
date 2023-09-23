@@ -1,10 +1,10 @@
 import GUID from "../../types/GUID.ts";
 import { Circle, Line } from "react-konva";
 import useSettingsValue from "../../hooks/useSettings.ts";
-import { usePathPoint } from "../../hooks/usePathPoint.ts";
+import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
 import React from "react";
-import { useSetSelectedPoint } from "../../hooks/useSelectPoint.ts";
+import { useSetSelectedPoint } from "../../hooks/Point/useSelectPoint.ts";
 
 interface RotateHandleRendererProps {
     id: GUID;

@@ -1,6 +1,6 @@
 import { Card, Icon } from "@blueprintjs/core";
-import { useSelectedPointValue } from "../../hooks/useSelectPoint.ts";
-import { usePathPoint } from "../../hooks/usePathPoint.ts";
+import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
+import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
 import PointBooleanInput from "../input/PointBooleanInput.tsx";
 

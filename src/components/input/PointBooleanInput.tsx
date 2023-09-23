@@ -1,8 +1,8 @@
 import { Label, Switch } from "@blueprintjs/core";
 import React from "react";
 import PathPoint from "../../types/PathPoint.ts";
-import { useSelectedPointValue } from "../../hooks/useSelectPoint.ts";
-import { usePathPoint } from "../../hooks/usePathPoint.ts";
+import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
+import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
 
 export interface PointBooleanInputProps {
