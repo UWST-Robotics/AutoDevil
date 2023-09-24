@@ -1,6 +1,6 @@
 import { Callout, Dialog, DialogBody } from "@blueprintjs/core";
 import { Chart } from "react-chartjs-2";
-import { CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Tooltip, } from 'chart.js';
+import { Chart as ChartJS, registerables } from 'chart.js';
 import usePathSpline from "../../hooks/Path/usePathSpline.ts";
 import React from "react";
 
@@ -9,7 +9,7 @@ interface GraphModalProps {
     onClose: () => void;
 }
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
+ChartJS.register(...registerables);
 
 const DELTA_T = 0.02;
 
