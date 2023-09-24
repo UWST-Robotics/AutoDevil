@@ -1,5 +1,5 @@
 interface Settings {
-    imageData: string;
+    fieldImage: string;
     pixelsPerInch: number;
     robotWidth: number;
     robotHeight: number;

@@ -15,9 +15,9 @@ export default function FieldImageRenderer() {
 
     // Load Image
     React.useEffect(() => {
-        const { imageData } = settings;
+        const { fieldImage } = settings;
         const img = new window.Image();
-        img.src = imageData;
+        img.src = fieldImage;
         img.onload = () => {
             setImage(img);
         };

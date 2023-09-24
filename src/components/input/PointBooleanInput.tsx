@@ -1,4 +1,4 @@
-import { Label, Switch } from "@blueprintjs/core";
+import { Switch } from "@blueprintjs/core";
 import React from "react";
 import PathPoint from "../../types/PathPoint.ts";
 import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
@@ -23,13 +23,10 @@ export default function PointBooleanInput(props: PointBooleanInputProps) {
     if (!point)
         return null;
     return (
-        <Label>
-            {props.label}
-            <Switch
-                placeholder={props.label}
-                checked={(point[props.setting] ?? false) as boolean}
-                onChange={onChange}
-            />
-        </Label>
+        <Switch
+            label={props.label}
+            checked={(point[props.setting] ?? false) as boolean}
+            onChange={onChange}
+        />
     );
 }

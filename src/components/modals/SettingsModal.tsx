@@ -1,6 +1,7 @@
 import { Dialog, DialogBody } from "@blueprintjs/core";
 import SettingsNumericInput from "../input/SettingsNumericInput.tsx";
 import SettingsBooleanInput from "../input/SettingsBooleanInput.tsx";
+import SettingsImageUpload from "../input/SettingsImageUpload.tsx";
 
 interface SettingsModalProps {
     isOpen: boolean;
@@ -15,9 +16,10 @@ export default function SettingsModal(props: SettingsModalProps) {
             title={"Settings"}
         >
             <DialogBody>
+                <SettingsImageUpload label={"Field Image"} setting={"fieldImage"} />
                 <SettingsNumericInput label={"Pixels Per Inch"} setting={"pixelsPerInch"} />
-                <SettingsNumericInput label={"Robot Width (in)"} setting={"robotWidth"} />
-                <SettingsNumericInput label={"Robot Height (in)"} setting={"robotHeight"} />
+                <SettingsNumericInput label={"Robot Width"} info={"(in)"} setting={"robotWidth"} />
+                <SettingsNumericInput label={"Robot Height"} info={"(in)"} setting={"robotHeight"} />
                 <SettingsBooleanInput label={"Holonomic Mode"} setting={"isHolonomic"} />
             </DialogBody>
         </Dialog>

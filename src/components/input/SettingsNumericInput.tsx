@@ -1,10 +1,11 @@
-import { Label, NumericInput } from "@blueprintjs/core";
+import { FormGroup, NumericInput } from "@blueprintjs/core";
 import PathSettings from "../../types/Settings.tsx";
 import { useSettings } from "../../hooks/useSettings.ts";
 import React from "react";
 
 export interface SettingsNumericInputProps {
     label: string;
+    info?: string;
     setting: keyof PathSettings;
 }
 
@@ -16,9 +17,13 @@ export default function SettingsNumericInput(props: SettingsNumericInputProps) {
     }, [props.setting, settings, setSettings]);
 
     return (
-        <Label>
-            {props.label}
+        <FormGroup
+            label={props.label}
+            labelFor={props.setting}
+            labelInfo={props.info}
+        >
             <NumericInput
+                id={props.setting}
                 placeholder={props.label}
                 value={settings[props.setting] as number}
                 onValueChange={onChange}
@@ -27,6 +32,6 @@ export default function SettingsNumericInput(props: SettingsNumericInputProps) {
                 stepSize={0.1}
                 majorStepSize={1}
             />
-        </Label>
+        </FormGroup>
     );
 }

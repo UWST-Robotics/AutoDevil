@@ -1,4 +1,4 @@
-import { Label, Switch } from "@blueprintjs/core";
+import { Switch } from "@blueprintjs/core";
 import PathSettings from "../../types/Settings.tsx";
 import { useSettings } from "../../hooks/useSettings.ts";
 import React from "react";
@@ -16,13 +16,10 @@ export default function SettingsBooleanInput(props: SettingsBooleanInputProps) {
     }, [props.setting, settings, setSettings]);
 
     return (
-        <Label>
-            {props.label}
-            <Switch
-                placeholder={props.label}
-                checked={settings[props.setting] as boolean}
-                onChange={onChange}
-            />
-        </Label>
+        <Switch
+            label={props.label}
+            checked={(settings[props.setting] ?? false) as boolean}
+            onChange={onChange}
+        />
     );
 }
