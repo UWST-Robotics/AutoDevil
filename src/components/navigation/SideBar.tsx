@@ -10,7 +10,6 @@ export default function SideBar() {
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
                 padding: 10,
                 pointerEvents: "auto",
             }}

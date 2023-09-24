@@ -11,7 +11,7 @@ export const pathEncoderAtom = atom((get) => {
     path.points.forEach((point) => {
         fileContent += `POINT ${formatNumber(point.x)} ${formatNumber(point.y)} ${formatNumber(point.r)} ${formatNumber(point.enterDelta)} ${formatNumber(point.exitDelta)}\n`;
         point.events?.forEach((event) => {
-            fileContent += `EVENT ${event}\n`;
+            fileContent += `EVENT ${event.name} ${event.params}\n`;
         });
         if (point.isReversed)
             fileContent += `REVERSE\n`;

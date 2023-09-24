@@ -61,6 +61,7 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
                 radius={HANDLE_RADIUS * pixelsPerInch}
                 stroke={props.color ?? "#fff"}
                 strokeWidth={HANDLE_LINE_WIDTH * pixelsPerInch}
+                fill={"transparent"}
                 draggable
                 onDragMove={onDragMove}
                 onDragEnd={onDragMove}

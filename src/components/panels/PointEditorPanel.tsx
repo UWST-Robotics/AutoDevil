@@ -3,6 +3,7 @@ import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
 import PointBooleanInput from "../input/PointBooleanInput.tsx";
+import EventsEditorPanel from "./EventsEditorPanel.tsx";
 
 export default function PointEditorPanel() {
     const selectedPointID = useSelectedPointValue();
@@ -16,7 +17,7 @@ export default function PointEditorPanel() {
             style={{
                 width: 300,
                 paddingTop: 0,
-                paddingBottom: 0,
+                paddingBottom: 10,
             }}
         >
             <h3>
@@ -30,9 +31,10 @@ export default function PointEditorPanel() {
                 Point
             </h3>
             <PointBooleanInput
-                label={"Reverse Direction"}
+                label={"Change Direction"}
                 setting={"isReversed"}
             />
+            <EventsEditorPanel />
         </Card>
     )
 }

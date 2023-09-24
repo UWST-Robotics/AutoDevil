@@ -25,8 +25,12 @@ export const pathDecoderAtom = atom(null, (_, set, fileContent: string) => {
                 events: [],
             });
         } else if (line.startsWith("EVENT")) {
-            const [_, event] = line.split(" ");
-            path.points[path.points.length - 1].events?.push(event);
+            const [_, name, params] = line.split(" ");
+            path.points[path.points.length - 1].events?.push({
+                id: generateGUID(),
+                name,
+                params,
+            });
         } else if (line.startsWith("REVERSE")) {
             path.points[path.points.length - 1].isReversed = true;
         } else if (line.startsWith("ENDPATH") || line === "") {
