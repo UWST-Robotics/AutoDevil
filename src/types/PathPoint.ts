@@ -1,8 +1,19 @@
+import GUID from "./GUID.ts";
+import PathEvent from "./PathEvent.ts";
+
 interface PathPoint {
+    id: GUID;
     x: number;
     y: number;
-    isReverse: boolean;
-    events: string[];
+    r: number;
+    enterDelta: number;
+    exitDelta: number;
+    isReversed?: boolean;
+    events?: PathEvent[];
+    state?: {
+        isReversed: boolean;
+        gyro: number;
+    }
 }
 
 export default PathPoint;
