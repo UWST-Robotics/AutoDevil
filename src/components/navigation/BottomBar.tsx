@@ -1,5 +1,6 @@
 import { Button, ButtonGroup } from "@blueprintjs/core";
 import useIsAnimating from "../../hooks/Canvas/useIsAnimating.ts";
+import GraphButton from "../buttons/GraphButton.tsx";
 
 export default function BottomBar() {
     const [isAnimating, setIsAnimating] = useIsAnimating();
@@ -30,10 +31,7 @@ export default function BottomBar() {
                     onClick={() => setIsAnimating(false)}
                     disabled={!isAnimating}
                 />
-                <Button
-                    icon={"chart"}
-                    intent={"primary"}
-                />
+                <GraphButton />
             </ButtonGroup>
         </div>
     );
