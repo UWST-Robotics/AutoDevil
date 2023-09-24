@@ -15,10 +15,15 @@ export default function BottomBar() {
                 display: "flex",
                 justifyContent: "center",
                 padding: 10,
-                pointerEvents: "auto",
+                pointerEvents: "none"
             }}
         >
-            <ButtonGroup large>
+            <ButtonGroup
+                large
+                style={{
+                    pointerEvents: "auto"
+                }}
+            >
                 <Button
                     icon={"play"}
                     intent={"success"}

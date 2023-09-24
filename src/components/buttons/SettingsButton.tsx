@@ -8,7 +8,7 @@ export default function SettingsButton() {
     return (
         <>
             <Button
-                icon={"settings"}
+                icon={"cog"}
                 onClick={() => setIsModalOpen(true)}
             />
             <SettingsModal

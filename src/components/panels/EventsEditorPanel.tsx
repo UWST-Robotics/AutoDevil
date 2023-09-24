@@ -18,7 +18,7 @@ export default function EventsEditorPanel() {
             return;
         const newEvent: PathEvent = {
             id: generateGUID(),
-            name: "pause",
+            name: "newEvent",
             params: ""
         };
         setPoint({

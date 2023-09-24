@@ -1,11 +1,12 @@
 import GUID from "../../types/GUID";
-import { MenuItem, TextArea } from "@blueprintjs/core";
+import { Button, MenuItem, TextArea } from "@blueprintjs/core";
 import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
 import React from "react";
 import { Suggest } from "@blueprintjs/select";
 import useRawPathValue from "../../hooks/Path/useRawPath.ts";
+import makeAlphanumeric from "../../utils/makeAlphanumeric.ts";
 
 interface EventEditorPanelProps {
     eventID: GUID;
@@ -28,7 +29,7 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
         if (!point || !event || !point.events)
             return;
         const eventIndex = point.events.findIndex(e => e.id === props.eventID);
-        point.events[eventIndex] = { ...event, name };
+        point.events[eventIndex] = { ...event, name: makeAlphanumeric(name) };
 
         const newPoint = {
             ...point,
@@ -40,11 +41,17 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
     }, [point, setPoint]);
 
     const onParamsChange = React.useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        if (!point || !event || !point.events)
+        if (!point?.events || !event)
             return;
-        const eventIndex = point.events.findIndex(e => e.id === props.eventID);
-        point.events[eventIndex] = { ...event, params: e.target.value };
 
+        // Apply to Event
+        const eventIndex = point.events.findIndex(e => e.id === props.eventID);
+        point.events[eventIndex] = {
+            ...event,
+            params: makeAlphanumeric(e.target.value)
+        };
+
+        // Apply to Point
         const newPoint = {
             ...point,
             events: [
@@ -54,11 +61,26 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
         setPoint(newPoint);
     }, [point, setPoint]);
 
-    console.log(eventList);
+    const onDelete = React.useCallback(() => {
+        if (!point || !event || !point.events)
+            return;
+        const eventIndex = point.events.findIndex(e => e.id === props.eventID);
+        point.events.splice(eventIndex, 1);
+
+        const newPoint = {
+            ...point,
+            events: [
+                ...point.events
+            ]
+        };
+        setPoint(newPoint);
+        props.onClose();
+    }, [point, setPoint, props.onClose]);
 
     return (
         <div style={{ padding: 20 }}>
             <Suggest
+                query={event?.name ?? ""}
                 fill
                 items={eventList}
                 inputValueRenderer={(item) => item}
@@ -80,6 +102,18 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
                 value={event?.params}
                 onChange={onParamsChange}
                 placeholder={"Parameters"}
+            />
+            <Button
+                icon={"tick"}
+                intent={"success"}
+                onClick={props.onClose}
+                style={{ margin: 2 }}
+            />
+            <Button
+                icon={"trash"}
+                intent={"danger"}
+                onClick={onDelete}
+                style={{ margin: 2 }}
             />
         </div>
     )

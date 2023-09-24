@@ -15,10 +15,14 @@ export default function TopBar() {
                 display: "flex",
                 justifyContent: "center",
                 padding: 10,
-                pointerEvents: "auto",
+                pointerEvents: "none"
             }}
         >
-            <ButtonGroup>
+            <ButtonGroup
+                style={{
+                    pointerEvents: "auto"
+                }}
+            >
                 <DownloadButton />
                 <UploadButton />
                 <SettingsButton />
