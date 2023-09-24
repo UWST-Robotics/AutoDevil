@@ -10,7 +10,6 @@ import toDegrees from "../../utils/toDegrees.ts";
 import usePathEnds from "../../hooks/Point/usePathEnds.ts";
 import useSelectedPoint from "../../hooks/Point/useSelectPoint.ts";
 import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
-import { useAnimState } from "../../hooks/Canvas/useGetAnimState.ts";
 
 interface PointRendererProps {
     id: GUID;
@@ -23,7 +22,6 @@ export default function PointRenderer(props: PointRendererProps) {
     const [selectedPointID, setSelectedPointID] = useSelectedPoint();
     const [point, setPoint] = usePathPoint(props.id);
     const { isStart, isEnd } = usePathEnds(props.id);
-    const animState = useAnimState(props.id);
 
     const isSelected = React.useMemo(() => selectedPointID === props.id, [selectedPointID, props.id]);
 
@@ -73,7 +71,7 @@ export default function PointRenderer(props: PointRendererProps) {
             <Group
                 x={point.x * pixelsPerInch}
                 y={point.y * pixelsPerInch}
-                rotation={toDegrees(point.r)}
+                rotation={toDegrees(point.state?.gyro ?? 0)}
                 opacity={isHovered || isSelected ? 1 : 0.5}
                 onClick={onClick}
                 onMouseEnter={onMouseOver}
@@ -85,7 +83,6 @@ export default function PointRenderer(props: PointRendererProps) {
             >
                 <RobotRenderer
                     color={color}
-                    isFlipped={animState.isReversed}
                 />
                 {!isEnd && (
                     <PointAnchorRenderer

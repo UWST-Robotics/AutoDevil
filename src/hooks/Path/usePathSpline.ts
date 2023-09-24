@@ -1,12 +1,12 @@
-import usePathPlanValue from "./usePathPlan.ts";
 import React from "react";
 import cubicLerpPoints from "../../utils/cubicLerp.ts";
 import { normalizeRadians } from "../../utils/toDegrees.ts";
+import usePathValue from "./usePath.ts";
 
 const DEFAULT_DELTA_T = 0.01; // Time segment to sample
 
 export default function usePathSpline(deltaT?: number) {
-    const path = usePathPlanValue();
+    const path = usePathValue();
     const actualDT = deltaT ?? DEFAULT_DELTA_T;
 
     // Point
@@ -39,7 +39,7 @@ export default function usePathSpline(deltaT?: number) {
         const p2 = pointAt(t + actualDT);
         if (!p1 || !p2)
             return undefined;
-        return normalizeRadians(Math.atan2(p2.y - p1.y, p2.x - p1.x));
+        return normalizeRadians(Math.atan2(p2.y - p1.y, p2.x - p1.x) + (p1.state?.isReversed ? Math.PI : 0));
     }, [pointAt]);
 
     // Velocity

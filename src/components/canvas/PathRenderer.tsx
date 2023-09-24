@@ -1,5 +1,5 @@
 import { Group, Line } from "react-konva";
-import usePathPlanValue from "../../hooks/Path/usePathPlan.ts";
+import useRawPathValue from "../../hooks/Path/useRawPath.ts";
 import React from "react";
 import useSettingsValue from "../../hooks/useSettings.ts";
 import PointRenderer from "./PointRenderer.tsx";
@@ -15,7 +15,7 @@ const PATH_DASH = [1, 3]; // in
 const SPLINE_INTERVAL = 0.05; // %
 
 export default function PathRenderer() {
-    const pathPlan = usePathPlanValue();
+    const pathPlan = useRawPathValue();
     const { pixelsPerInch } = useSettingsValue();
     const windowScale = useWindowScaleValue();
     const pathSpline = usePathSpline();

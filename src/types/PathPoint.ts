@@ -9,6 +9,10 @@ interface PathPoint {
     exitDelta: number;
     isReversed?: boolean;
     events?: string[];
+    state?: {
+        isReversed: boolean;
+        gyro: number;
+    }
 }
 
 export default PathPoint;

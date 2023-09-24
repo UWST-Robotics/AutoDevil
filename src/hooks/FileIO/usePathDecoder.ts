@@ -1,5 +1,5 @@
 import { atom, useSetAtom } from "jotai";
-import { pathPlanAtom } from "../Path/usePathPlan.ts";
+import { rawPathAtom } from "../Path/useRawPath.ts";
 import PathPlan from "../../types/PathPlan.ts";
 import generateGUID from "../../utils/generateGUID.ts";
 
@@ -35,7 +35,7 @@ export const pathDecoderAtom = atom(null, (_, set, fileContent: string) => {
             console.warn(`Unknown line: ${line}`);
         }
     });
-    set(pathPlanAtom, path);
+    set(rawPathAtom, path);
 });
 
 export default function usePathDecoder() {

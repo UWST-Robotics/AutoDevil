@@ -1,5 +1,5 @@
 import { atom, useSetAtom } from "jotai";
-import { pathPlanAtom } from "../Path/usePathPlan.ts";
+import { rawPathAtom } from "../Path/useRawPath.ts";
 import generateGUID from "../../utils/generateGUID.ts";
 import PathPoint from "../../types/PathPoint.ts";
 import { selectedPointAtom } from "./useSelectPoint.ts";
@@ -12,7 +12,7 @@ export interface AddPointPayload {
 }
 
 export const addPointAtom = atom(null, (get, set, payload: AddPointPayload) => {
-    const path = get(pathPlanAtom);
+    const path = get(rawPathAtom);
     const point: PathPoint = {
         id: generateGUID(),
         x: payload.x,
@@ -24,7 +24,7 @@ export const addPointAtom = atom(null, (get, set, payload: AddPointPayload) => {
     // Update path
     const newPoints = [...path.points];
     newPoints.splice(payload.index, 0, point);
-    set(pathPlanAtom, { ...path, points: newPoints });
+    set(rawPathAtom, { ...path, points: newPoints });
 
     // Select point
     set(selectedPointAtom, point.id);

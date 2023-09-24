@@ -27,6 +27,10 @@ export function lerpPoints(a: PathPoint, b: PathPoint, t: number): PathPoint {
         x: cubicLerp(a.x, b.x, t),
         y: cubicLerp(a.y, b.y, t),
         r: rotationLerp(a.r, b.r, t),
+        state: {
+            isReversed: a.state?.isReversed ?? false,
+            gyro: rotationLerp(a.state?.gyro ?? 0, b.state?.gyro ?? 0, t)
+        }
     };
 }
 

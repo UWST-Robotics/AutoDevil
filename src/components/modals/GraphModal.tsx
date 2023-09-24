@@ -3,7 +3,6 @@ import { Chart } from "react-chartjs-2";
 import { CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Tooltip, } from 'chart.js';
 import usePathSpline from "../../hooks/Path/usePathSpline.ts";
 import React from "react";
-import useGetAnimState from "../../hooks/Canvas/useGetAnimState.ts";
 
 interface GraphModalProps {
     isOpen: boolean;
@@ -16,7 +15,6 @@ const DELTA_T = 0.02;
 
 export default function GraphModal(props: GraphModalProps) {
     const spline = usePathSpline(DELTA_T);
-    const getAnimState = useGetAnimState();
 
     const options = React.useMemo<any>(() => ({
         maintainAspectRatio: false,
@@ -35,9 +33,10 @@ export default function GraphModal(props: GraphModalProps) {
     }), []);
 
     const data = React.useMemo<any>(() => {
+        const getIsReversed = (i: number) => spline.path.points[Math.floor(i)].state?.isReversed ?? false;
         const data = Array.from({ length: spline.length / DELTA_T }, (_, t) => ({
             x: t * DELTA_T,
-            y: (spline.velocityAt(t * DELTA_T) ?? 0) * (getAnimState(t * DELTA_T).isReversed ? -1 : 1),
+            y: (spline.velocityAt(t * DELTA_T) ?? 0) * (getIsReversed(t * DELTA_T) ? -1 : 1),
         }));
         return {
             datasets: [
@@ -55,7 +54,7 @@ export default function GraphModal(props: GraphModalProps) {
                 }
             ]
         }
-    }, [spline, getAnimState]);
+    }, [spline]);
 
     return (
         <Dialog

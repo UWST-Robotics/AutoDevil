@@ -4,7 +4,6 @@ import RobotRenderer from "./RobotRenderer.tsx";
 import useSettingsValue from "../../hooks/useSettings.ts";
 import useIsAnimating from "../../hooks/Canvas/useIsAnimating.ts";
 import toDegrees from "../../utils/toDegrees.ts";
-import useGetAnimState from "../../hooks/Canvas/useGetAnimState.ts";
 import { Group } from "react-konva";
 import Konva from "konva";
 import { IFrame } from "konva/lib/types";
@@ -18,22 +17,21 @@ export default function AnimationRenderer() {
     const [isAnimating] = useIsAnimating();
     const spline = usePathSpline();
     const { pixelsPerInch, isHolonomic } = useSettingsValue();
-    const getAnimState = useGetAnimState();
 
     // Calculate points
     const points = React.useMemo(() => {
         return Array.from({ length: spline.length / POINT_INTERVAL }).map((_, i) => {
             const point = spline.at(i * POINT_INTERVAL);
             const angle = isHolonomic ?
-                toDegrees(point?.r ?? 0) :
-                toDegrees(spline.angleAt(i * POINT_INTERVAL));
+                toDegrees(point?.state?.gyro ?? 0) :
+                toDegrees(spline.angleAt(i * POINT_INTERVAL) ?? 0);
             return {
                 x: (point?.x ?? 0) * pixelsPerInch,
                 y: (point?.y ?? 0) * pixelsPerInch,
-                rotation: angle + (getAnimState(i * POINT_INTERVAL).isReversed ? 180 : 0),
+                rotation: angle,
             };
         });
-    }, [spline, pixelsPerInch, isHolonomic, getAnimState]);
+    }, [spline, pixelsPerInch, isHolonomic]);
 
     // Animate
     React.useEffect(() => {
