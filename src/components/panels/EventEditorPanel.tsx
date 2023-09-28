@@ -29,7 +29,7 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
         if (!point || !event || !point.events)
             return;
         const eventIndex = point.events.findIndex(e => e.id === props.eventID);
-        point.events[eventIndex] = { ...event, name: makeAlphanumeric(name) };
+        point.events[eventIndex] = { ...event, name: makeAlphanumeric(name, "_-") };
 
         const newPoint = {
             ...point,
@@ -48,7 +48,7 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
         const eventIndex = point.events.findIndex(e => e.id === props.eventID);
         point.events[eventIndex] = {
             ...event,
-            params: makeAlphanumeric(e.target.value)
+            params: makeAlphanumeric(e.target.value, "_,=-")
         };
 
         // Apply to Point
