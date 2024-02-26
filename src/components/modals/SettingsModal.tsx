@@ -21,6 +21,7 @@ export default function SettingsModal(props: SettingsModalProps) {
                 <SettingsNumericInput label={"Robot Width"} info={"(in)"} setting={"robotWidth"} />
                 <SettingsNumericInput label={"Robot Height"} info={"(in)"} setting={"robotHeight"} />
                 <SettingsBooleanInput label={"Holonomic Mode"} setting={"isHolonomic"} />
+                <SettingsBooleanInput label={"Spline Mode"} setting={"isSpline"} defaultValue={true} />
             </DialogBody>
         </Dialog>
     )

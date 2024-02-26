@@ -40,7 +40,7 @@ export default function PathRenderer() {
         <>
             {Array.from({ length: pathSpline.length }).map((_, index) => {
 
-                // Calculate points
+                // Spline Points
                 const points = Array.from({ length: 1 / SPLINE_INTERVAL }).map((_, i) => {
                     const point = pathSpline.at(index + i * SPLINE_INTERVAL);
                     if (!point)

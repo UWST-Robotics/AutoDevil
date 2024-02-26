@@ -10,17 +10,22 @@ import toDegrees from "../../utils/toDegrees.ts";
 import usePathEnds from "../../hooks/Point/usePathEnds.ts";
 import useSelectedPoint from "../../hooks/Point/useSelectPoint.ts";
 import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
+import useNextPathPointValue from "../../hooks/Point/useNextPathPoint.ts";
+import { usePrevPathPoint } from "../../hooks/Point/usePrevPathPoint.ts";
+import PathPoint from "../../types/PathPoint.ts";
 
 interface PointRendererProps {
     id: GUID;
 }
 
 export default function PointRenderer(props: PointRendererProps) {
-    const { pixelsPerInch } = useSettingsValue();
+    const { pixelsPerInch, isSpline } = useSettingsValue();
     const cursorListener = useCursorListener("pointer");
     const [isHovered, setIsHovered] = React.useState(false);
     const [selectedPointID, setSelectedPointID] = useSelectedPoint();
     const [point, setPoint] = usePathPoint(props.id);
+    const nextPoint = useNextPathPointValue(props.id);
+    const [prevPoint, setPrevPoint] = usePrevPathPoint(props.id);
     const { isStart, isEnd } = usePathEnds(props.id);
 
     const isSelected = React.useMemo(() => selectedPointID === props.id, [selectedPointID, props.id]);
@@ -41,17 +46,50 @@ export default function PointRenderer(props: PointRendererProps) {
         e.cancelBubble = true;
     }, [setSelectedPointID, isSelected, props.id]);
 
+    // Angle Calculation
+    const calcAngle = React.useCallback((a: PathPoint, b: PathPoint) => {
+        let angle = Math.atan2(
+            a.x - b.x,
+            a.y - b.y
+        ) + (Math.PI / 2);
+
+        if (a.isReversed)
+            angle += Math.PI;
+
+        return -angle;
+    }, []);
+
     // Drag events
     const onDrag = React.useCallback((e: KonvaEventObject<DragEvent>) => {
         if (!point)
             return;
-        setPoint({
+
+        // Calculate angle between this and next point
+        const currentPoint = {
             ...point,
             x: e.target.x() / pixelsPerInch,
-            y: e.target.y() / pixelsPerInch,
+            y: e.target.y() / pixelsPerInch
+        };
+        const angle = calcAngle(currentPoint, nextPoint ?? currentPoint);
+
+        setPoint({
+            ...point,
+            x: currentPoint.x,
+            y: currentPoint.y,
+            r: (isSpline || isEnd) ? point.r : angle
         });
+
+        // Update Previous Point
+        if (prevPoint && !isSpline) {
+            const prevAngle = calcAngle(prevPoint, currentPoint);
+            setPrevPoint({
+                ...prevPoint,
+                r: prevAngle
+            });
+        }
+
         setSelectedPointID(props.id);
-    }, [point, pixelsPerInch, setPoint, setSelectedPointID, props.id]);
+    }, [point, pixelsPerInch, setPoint, setSelectedPointID, props.id, nextPoint, isEnd, isSpline, prevPoint, setPrevPoint, calcAngle]);
 
     // Color
     const color = React.useMemo(() => {
@@ -84,14 +122,14 @@ export default function PointRenderer(props: PointRendererProps) {
                 <RobotRenderer
                     color={color}
                 />
-                {!isEnd && (
+                {!isEnd || isSpline && (
                     <PointAnchorRenderer
                         id={point.id}
                         isExit={true}
                         color={color}
                     />
                 )}
-                {!isStart && (
+                {(!isStart && (isSpline || isEnd)) && (
                     <PointAnchorRenderer
                         id={point.id}
                         isExit={false}

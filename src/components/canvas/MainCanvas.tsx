@@ -37,6 +37,10 @@ export default function MainCanvas() {
                 <AnimationRenderer />
                 <GridRenderer
                     cellSize={pixelsPerInch * 12}
+                    color={"#333"}
+                />
+                <GridRenderer
+                    cellSize={pixelsPerInch * 24}
                     color={"#444"}
                 />
             </Layer>

@@ -15,10 +15,11 @@ export default function GridRenderer(props: CanvasGridProps) {
     const windowScale = useWindowScaleValue();
 
     const gridSize = React.useMemo(() => {
-        return (Math.max(windowWidth, windowHeight) / windowScale) / props.cellSize;
+        const size = Math.ceil((Math.max(windowWidth, windowHeight) / windowScale) / props.cellSize);
+        return size + (size % 2);
     }, [windowWidth, windowHeight, windowScale, props.cellSize]);
 
-    console.log(props.cellSize);
+    console.log(gridSize);
 
     if (props.cellSize < MIN_CELL_SIZE)
         return null;

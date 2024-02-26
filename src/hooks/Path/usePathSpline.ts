@@ -1,11 +1,13 @@
 import React from "react";
-import cubicLerpPoints from "../../utils/cubicLerp.ts";
+import cubicLerpPoints, { lerpPoints } from "../../utils/cubicLerp.ts";
 import { normalizeRadians } from "../../utils/toDegrees.ts";
 import usePathValue from "./usePath.ts";
+import useSettingsValue from "../useSettings.ts";
 
 const DEFAULT_DELTA_T = 0.01; // Time segment to sample
 
 export default function usePathSpline(deltaT?: number) {
+    const { isSpline } = useSettingsValue();
     const path = usePathValue();
     const actualDT = deltaT ?? DEFAULT_DELTA_T;
 
@@ -18,6 +20,9 @@ export default function usePathSpline(deltaT?: number) {
         // Points
         const p1 = { ...path.points[index] };
         const p2 = { ...path.points[index + 1] };
+        // Linear Lerp
+        if (!isSpline)
+            return lerpPoints(p1, p2, t - index);
         // Anchor points
         const a1 = {
             ...p1,
@@ -29,9 +34,9 @@ export default function usePathSpline(deltaT?: number) {
             x: p2.x - p2.enterDelta * Math.cos(p2.r),
             y: p2.y - p2.enterDelta * Math.sin(p2.r)
         };
-        // Lerp
+        // Cubic Lerp
         return cubicLerpPoints(p1, a1, a2, p2, t - index);
-    }, [path]);
+    }, [path, isSpline]);
 
     // Angle
     const angleAt = React.useCallback((t: number) => {
@@ -40,7 +45,7 @@ export default function usePathSpline(deltaT?: number) {
         if (!p1 || !p2)
             return undefined;
         return normalizeRadians(Math.atan2(p2.y - p1.y, p2.x - p1.x) + (p1.state?.isReversed ? Math.PI : 0));
-    }, [pointAt]);
+    }, [pointAt, actualDT]);
 
     // Velocity
     const velocityAt = React.useCallback((t: number) => {
@@ -49,7 +54,7 @@ export default function usePathSpline(deltaT?: number) {
         if (p1 === undefined || p2 === undefined)
             return undefined;
         return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2)) / actualDT;
-    }, [pointAt]);
+    }, [pointAt, actualDT]);
 
     // Angular Velocity
     const angularVelocityAt = React.useCallback((t: number) => {
@@ -58,7 +63,7 @@ export default function usePathSpline(deltaT?: number) {
         if (a1 === undefined || a2 === undefined)
             return undefined;
         return normalizeRadians(a2 - a1) / actualDT;
-    }, [angleAt]);
+    }, [angleAt, actualDT]);
 
     return {
         path,
