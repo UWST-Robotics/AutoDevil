@@ -7,6 +7,7 @@ export const DEFAULT_SETTINGS: Settings = {
     robotWidth: 15,
     robotHeight: 15,
     isHolonomic: false,
+    isSpline: true
 };
 
 export const pathSettingsAtom = atom(DEFAULT_SETTINGS);

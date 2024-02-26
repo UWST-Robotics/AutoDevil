@@ -1,4 +1,4 @@
-import { Button, Icon } from "@blueprintjs/core";
+import { Button } from "@blueprintjs/core";
 import React from "react";
 import DropdownList from "../util/DropdownList.tsx";
 import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
@@ -32,20 +32,13 @@ export default function EventsEditorPanel() {
 
     return (
         <>
-            <h3
+            <h4
                 style={{
-                    marginBottom: 10
+                    marginBottom: 4
                 }}
             >
-                <Icon
-                    icon={"antenna"}
-                    style={{
-                        marginRight: 7,
-                        marginBottom: 2
-                    }}
-                />
                 Events
-            </h3>
+            </h4>
             <Button
                 alignText="left"
                 minimal

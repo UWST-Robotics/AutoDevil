@@ -4,6 +4,7 @@ interface Settings {
     robotWidth: number;
     robotHeight: number;
     isHolonomic: boolean;
+    isSpline: boolean;
 }
 
 export default Settings;
