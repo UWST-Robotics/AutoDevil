@@ -1,23 +1,20 @@
 {
 	"name": "devils-plotter",
 	"description": "A simple web-app for robot path planning",
-	"main": "./out/main/index.js",
 	"author": "DEVIL5",
 	"private": true,
 	"version": "0.0.0",
+	"type": "module",
 	"scripts": {
-		"dev": "electron-vite dev",
-		"build": "electron-vite build",
-		"preview": "electron-vite preview",
-		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+		"preview": "vite preview"
 	},
 	"dependencies": {
 		"@blueprintjs/core": "^5.3.0",
 		"@blueprintjs/popover2": "^2.0.11",
 		"@blueprintjs/select": "^5.0.11",
-		"@electron-toolkit/preload": "^2.0.0",
-		"@electron-toolkit/tsconfig": "^1.0.1",
-		"@electron-toolkit/utils": "^2.0.1",
 		"chart.js": "^4.4.0",
 		"jotai": "^2.4.2",
 		"konva": "^9.2.1",
@@ -32,8 +29,6 @@
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"@vitejs/plugin-react-swc": "^3.3.2",
-		"electron": "^26.2.3",
-		"electron-vite": "^1.0.28",
 		"eslint": "^8.45.0",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-plugin-react-refresh": "^0.4.3",
