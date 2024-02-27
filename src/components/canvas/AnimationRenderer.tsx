@@ -7,6 +7,7 @@ import toDegrees from "../../utils/toDegrees.ts";
 import { Group } from "react-konva";
 import Konva from "konva";
 import { IFrame } from "konva/lib/types";
+import useScopeIndices from "../../hooks/Scope/useScopeIndices.ts";
 
 const ANIMATION_INTERVAL = 1000 / 30; // ms
 const POINT_INTERVAL = ANIMATION_INTERVAL / 1000; // s
@@ -16,22 +17,31 @@ export default function AnimationRenderer() {
     const groupRef = React.useRef<Konva.Group>(null);
     const [isAnimating] = useIsAnimating();
     const spline = usePathSpline();
+    const scopeIndices = useScopeIndices();
     const { pixelsPerInch, isHolonomic } = useSettingsValue();
 
     // Calculate points
     const points = React.useMemo(() => {
-        return Array.from({ length: spline.length / POINT_INTERVAL }).map((_, i) => {
-            const point = spline.at(i * POINT_INTERVAL);
+        const pointArr = [];
+        for (let t = 0; t < spline.length; t += POINT_INTERVAL) {
+
+            // Skip if out of scope
+            if (t < scopeIndices.start || t >= scopeIndices.end)
+                continue;
+
+            // Add point
+            const point = spline.at(t);
             const angle = isHolonomic ?
                 toDegrees(point?.state?.gyro ?? 0) :
-                toDegrees(spline.angleAt(i * POINT_INTERVAL) ?? 0);
-            return {
+                toDegrees(spline.angleAt(t) ?? 0);
+            pointArr.push({
                 x: (point?.x ?? 0) * pixelsPerInch,
                 y: (point?.y ?? 0) * pixelsPerInch,
                 rotation: angle,
-            };
-        });
-    }, [spline, pixelsPerInch, isHolonomic]);
+            });
+        }
+        return pointArr;
+    }, [spline, pixelsPerInch, isHolonomic, scopeIndices]);
 
     // Animate
     React.useEffect(() => {
@@ -41,7 +51,7 @@ export default function AnimationRenderer() {
         // Animation loop
         let t = 0;
         const animate = (frame: IFrame | undefined) => {
-            if (!groupRef.current)
+            if (!groupRef.current || points.length <= 0)
                 return;
 
             // Update position

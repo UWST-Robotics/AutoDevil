@@ -3,7 +3,7 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 
 export const DEFAULT_SETTINGS: Settings = {
     fieldImage: "./default-field.png",
-    pixelsPerInch: 13.888,
+    pixelsPerInch: 6.6,
     robotWidth: 15,
     robotHeight: 15,
     isHolonomic: false,

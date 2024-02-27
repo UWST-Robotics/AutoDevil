@@ -8,6 +8,7 @@ import useAddPoint from "../../hooks/Point/useAddPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
 import useWindowScaleValue from "../../hooks/Canvas/useWindowScale.ts";
 import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
+import useScopeIndices from "../../hooks/Scope/useScopeIndices.ts";
 
 const PATH_COLOR = "#ddd";
 const PATH_WIDTH = 1; // in
@@ -15,6 +16,7 @@ const PATH_DASH = [1, 3]; // in
 const SPLINE_INTERVAL = 0.05; // %
 
 export default function PathRenderer() {
+    const scopeIndices = useScopeIndices();
     const pathPlan = useRawPathValue();
     const { pixelsPerInch } = useSettingsValue();
     const windowScale = useWindowScaleValue();
@@ -39,6 +41,9 @@ export default function PathRenderer() {
     return (
         <>
             {Array.from({ length: pathSpline.length }).map((_, index) => {
+
+                if (index < scopeIndices.start || index >= scopeIndices.end)
+                    return null;
 
                 // Spline Points
                 const points = Array.from({ length: 1 / SPLINE_INTERVAL }).map((_, i) => {
@@ -74,12 +79,16 @@ export default function PathRenderer() {
                     </Group>
                 );
             })}
-            {pathPlan.points.map((point, index) => (
-                <PointRenderer
-                    key={index + "point"}
-                    id={point.id}
-                />
-            ))}
+            {pathPlan.points.map((point, index) => {
+                if (index < scopeIndices.start || index > scopeIndices.end)
+                    return null;
+                return (
+                    <PointRenderer
+                        key={index + "point"}
+                        id={point.id}
+                    />
+                )
+            })}
         </>
     );
 }
