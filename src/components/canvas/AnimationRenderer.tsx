@@ -51,7 +51,7 @@ export default function AnimationRenderer() {
         // Animation loop
         let t = 0;
         const animate = (frame: IFrame | undefined) => {
-            if (!groupRef.current)
+            if (!groupRef.current || points.length <= 0)
                 return;
 
             // Update position
