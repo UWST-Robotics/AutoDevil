@@ -13,15 +13,20 @@ export default function FieldImageRenderer() {
     const setWindowScale = useSetWindowScale();
     const [image, setImage] = React.useState<HTMLImageElement | undefined>(undefined);
 
+    // Field Image
+    const fieldImageURL = settings.fieldImage ?? "/default-field.png";
+
     // Load Image
     React.useEffect(() => {
-        const { fieldImage } = settings;
         const img = new window.Image();
-        img.src = fieldImage;
+        img.src = fieldImageURL;
         img.onload = () => {
             setImage(img);
         };
-    }, [settings]);
+        img.onerror = () => {
+            setImage(undefined);
+        }
+    }, [fieldImageURL]);
 
     // Set window scale
     React.useEffect(() => {

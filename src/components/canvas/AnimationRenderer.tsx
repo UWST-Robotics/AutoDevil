@@ -1,7 +1,7 @@
 import usePathSpline from "../../hooks/Path/usePathSpline.ts";
 import React from "react";
 import RobotRenderer from "./RobotRenderer.tsx";
-import useSettingsValue from "../../hooks/useSettings.ts";
+import useSettingsValue, { DEFAULT_SETTINGS } from "../../hooks/useSettings.ts";
 import useIsAnimating from "../../hooks/Canvas/useIsAnimating.ts";
 import toDegrees from "../../utils/toDegrees.ts";
 import { Group } from "react-konva";
@@ -18,7 +18,11 @@ export default function AnimationRenderer() {
     const [isAnimating] = useIsAnimating();
     const spline = usePathSpline();
     const scopeIndices = useScopeIndices();
-    const { pixelsPerInch, isHolonomic } = useSettingsValue();
+    const settings = useSettingsValue();
+
+    // Get Settings
+    const pixelsPerInch = settings.pixelsPerInch ?? DEFAULT_SETTINGS.pixelsPerInch ?? 0;
+    const isHolonomic = settings.isHolonomic ?? DEFAULT_SETTINGS.isHolonomic ?? false;
 
     // Calculate points
     const points = React.useMemo(() => {

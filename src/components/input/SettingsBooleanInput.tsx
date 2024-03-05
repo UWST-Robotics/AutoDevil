@@ -1,12 +1,12 @@
 import { Switch } from "@blueprintjs/core";
-import PathSettings from "../../types/Settings.tsx";
+import Settings from "../../types/Settings.tsx";
 import { useSettings } from "../../hooks/useSettings.ts";
 import React from "react";
 
 export interface SettingsBooleanInputProps {
     label: string;
     defaultValue?: boolean;
-    setting: keyof PathSettings;
+    setting: keyof Settings;
 }
 
 export default function SettingsBooleanInput(props: SettingsBooleanInputProps) {

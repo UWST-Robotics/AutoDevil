@@ -1,6 +1,6 @@
 import GUID from "../../types/GUID.ts";
 import { Circle, Line } from "react-konva";
-import useSettingsValue from "../../hooks/useSettings.ts";
+import useSettingsValue, { DEFAULT_SETTINGS } from "../../hooks/useSettings.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
 import React from "react";
@@ -14,12 +14,18 @@ interface RotateHandleRendererProps {
 
 const HANDLE_RADIUS = 1; // in
 const HANDLE_LINE_WIDTH = 0.5; // in
+const SNAP_ANGLE = Math.PI / 16; // rad
 
 export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
-    const { pixelsPerInch } = useSettingsValue();
+    const settings = useSettingsValue();
     const [point, setPoint] = usePathPoint(props.id);
     const setSelectedPointID = useSetSelectedPoint();
 
+    // Get Settings
+    const pixelsPerInch = settings.pixelsPerInch ?? DEFAULT_SETTINGS.pixelsPerInch ?? 0;
+    const snapRotation = settings?.snapRotation ?? DEFAULT_SETTINGS.snapRotation ?? false;
+
+    // Calculate handle origin
     const pointOrgin = React.useMemo(() => {
         return {
             x: props.isExit ? (point?.exitDelta ?? 0) * pixelsPerInch : -(point?.enterDelta ?? 0) * pixelsPerInch,
@@ -36,10 +42,18 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
         const deltaAngle = Math.atan2(e.target.y(), e.target.x()) + (props.isExit ? 0 : Math.PI);
         const deltaDistance = Math.sqrt(e.target.x() ** 2 + e.target.y() ** 2);
 
+        // Calculate angle
+        let r = (point.r + deltaAngle + Math.PI * 2) % (Math.PI * 2);
+        if (snapRotation) {
+            const snap = Math.round(r / SNAP_ANGLE) * SNAP_ANGLE;
+            if (Math.abs(snap - r) < SNAP_ANGLE / 2)
+                r = snap;
+        }
+
         // Update point
         setPoint({
             ...point,
-            r: (point.r + deltaAngle) % (Math.PI * 2),
+            r,
             exitDelta: props.isExit ? deltaDistance / pixelsPerInch : point.exitDelta,
             enterDelta: !props.isExit ? deltaDistance / pixelsPerInch : point.enterDelta,
         });

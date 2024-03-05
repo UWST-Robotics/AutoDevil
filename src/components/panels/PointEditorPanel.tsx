@@ -16,15 +16,20 @@ export default function PointEditorPanel() {
     const [point] = usePathPoint(selectedPointID ?? DEFAULT_GUID);
     const deletePoint = useDeletePoint();
 
+    // Select next/prev point
     const selectNextPoint = React.useCallback(() => {
         if (nextPoint)
             setSelectedPointID(nextPoint.id);
     }, [setSelectedPointID, nextPoint])
-
     const selectPrevPoint = React.useCallback(() => {
         if (prevPoint)
             setSelectedPointID(prevPoint.id);
     }, [setSelectedPointID, prevPoint]);
+
+    // Format X,Y
+    const x = point?.x.toFixed(2);
+    const y = point?.y.toFixed(2);
+    const r = (180 / Math.PI * (point?.r ?? 0)).toFixed(2);
 
     if (!selectedPointID || !point)
         return null;
@@ -46,17 +51,21 @@ export default function PointEditorPanel() {
                     onClick={selectPrevPoint}
                     disabled={!prevPoint}
                 />
-
-                <h3 style={{ margin: 5 }}>
-                    <Icon
-                        icon={"area-of-interest"}
-                        style={{
-                            marginRight: 7,
-                            marginBottom: 2
-                        }}
-                    />
-                    Point
-                </h3>
+                <div>
+                    <h3 style={{ margin: 5 }}>
+                        <Icon
+                            icon={"area-of-interest"}
+                            style={{
+                                marginRight: 7,
+                                marginBottom: 2
+                            }}
+                        />
+                        Point
+                    </h3>
+                    <p className={"bp5-text-muted"} style={{ margin: 0 }}>
+                        {x}in {y}in {r}°
+                    </p>
+                </div>
                 <Button
                     icon={"double-chevron-right"}
                     minimal

@@ -1,5 +1,6 @@
 import Settings from "../types/Settings.ts";
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 
 export const DEFAULT_SETTINGS: Settings = {
     fieldImage: "./default-field.png",
@@ -7,10 +8,12 @@ export const DEFAULT_SETTINGS: Settings = {
     robotWidth: 15,
     robotHeight: 15,
     isHolonomic: false,
-    isSpline: true
+    isSpline: true,
+    snapRotation: true,
+    snapPosition: false,
 };
 
-export const pathSettingsAtom = atom(DEFAULT_SETTINGS);
+export const pathSettingsAtom = atomWithStorage<Settings>("settings", {});
 
 export function useSettings() {
     return useAtom(pathSettingsAtom);

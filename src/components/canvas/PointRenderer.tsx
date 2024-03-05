@@ -1,5 +1,5 @@
 import RobotRenderer from "./RobotRenderer.tsx";
-import useSettingsValue from "../../hooks/useSettings.ts";
+import useSettingsValue, { DEFAULT_SETTINGS } from "../../hooks/useSettings.ts";
 import React from "react";
 import { Group } from "react-konva";
 import GUID from "../../types/GUID.ts";
@@ -18,8 +18,10 @@ interface PointRendererProps {
     id: GUID;
 }
 
+const SNAP_DISTANCE = 3; // in
+
 export default function PointRenderer(props: PointRendererProps) {
-    const { pixelsPerInch, isSpline } = useSettingsValue();
+    const settings = useSettingsValue();
     const cursorListener = useCursorListener("pointer");
     const [isHovered, setIsHovered] = React.useState(false);
     const [selectedPointID, setSelectedPointID] = useSelectedPoint();
@@ -28,6 +30,12 @@ export default function PointRenderer(props: PointRendererProps) {
     const [prevPoint, setPrevPoint] = usePrevPathPoint(props.id);
     const { isStart, isEnd } = usePathEnds(props.id);
 
+    // Get Settings
+    const pixelsPerInch = settings.pixelsPerInch ?? DEFAULT_SETTINGS.pixelsPerInch ?? 0;
+    const isSpline = settings?.isSpline ?? DEFAULT_SETTINGS.isSpline ?? false;
+    const snapPosition = settings?.snapPosition ?? DEFAULT_SETTINGS.snapPosition ?? false;
+
+    // Check if selected
     const isSelected = React.useMemo(() => selectedPointID === props.id, [selectedPointID, props.id]);
 
     // Mouse events
@@ -64,12 +72,21 @@ export default function PointRenderer(props: PointRendererProps) {
         if (!point)
             return;
 
+        // Calculate new position
+        let x = e.target.x() / pixelsPerInch;
+        let y = e.target.y() / pixelsPerInch;
+
+        // Snap to grid
+        if (snapPosition) {
+            x = Math.round(x / SNAP_DISTANCE) * SNAP_DISTANCE;
+            y = Math.round(y / SNAP_DISTANCE) * SNAP_DISTANCE;
+
+            e.target.x(x * pixelsPerInch);
+            e.target.y(y * pixelsPerInch);
+        }
+
         // Calculate angle between this and next point
-        const currentPoint = {
-            ...point,
-            x: e.target.x() / pixelsPerInch,
-            y: e.target.y() / pixelsPerInch
-        };
+        const currentPoint = { ...point, x, y };
         const angle = calcAngle(currentPoint, nextPoint ?? currentPoint);
 
         setPoint({
@@ -89,7 +106,7 @@ export default function PointRenderer(props: PointRendererProps) {
         }
 
         setSelectedPointID(props.id);
-    }, [point, pixelsPerInch, setPoint, setSelectedPointID, props.id, nextPoint, isEnd, isSpline, prevPoint, setPrevPoint, calcAngle]);
+    }, [point, pixelsPerInch, setPoint, setSelectedPointID, props.id, nextPoint, isEnd, isSpline, prevPoint, setPrevPoint, calcAngle, snapPosition]);
 
     // Color
     const color = React.useMemo(() => {
