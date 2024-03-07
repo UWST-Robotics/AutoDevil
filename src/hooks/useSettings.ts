@@ -1,5 +1,5 @@
 import Settings, { DEFAULT_SETTINGS } from "../types/Settings.ts";
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
 // Storage is used to persist the settings between sessions
@@ -22,4 +22,8 @@ export function useSettings() {
 
 export default function useSettingsValue() {
     return useAtomValue(pathSettingsAtom);
+}
+
+export function useSetSettings() {
+    return useSetAtom(pathSettingsAtom);
 }

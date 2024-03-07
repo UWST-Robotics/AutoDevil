@@ -1,3 +1,5 @@
+import { DEFAULT_FIELD_PRESET } from "./FieldPreset.ts";
+
 interface Settings {
     fieldImage: string;
     pixelsPerInch: number;
@@ -10,8 +12,8 @@ interface Settings {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
-    fieldImage: "./default-field.png",
-    pixelsPerInch: 6.6,
+    fieldImage: DEFAULT_FIELD_PRESET.fieldImage,
+    pixelsPerInch: DEFAULT_FIELD_PRESET.pixelsPerInch,
     robotWidth: 15,
     robotHeight: 15,
     isHolonomic: false,

@@ -18,7 +18,7 @@ interface PointRendererProps {
     id: GUID;
 }
 
-const SNAP_DISTANCE = 3; // in
+const SNAP_DISTANCE = 1; // in
 
 export default function PointRenderer(props: PointRendererProps) {
     const { pixelsPerInch, isSpline, snapPosition } = useSettingsValue();

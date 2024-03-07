@@ -2,6 +2,7 @@ import { Dialog, DialogBody } from "@blueprintjs/core";
 import SettingsNumericInput from "../input/SettingsNumericInput.tsx";
 import SettingsBooleanInput from "../input/SettingsBooleanInput.tsx";
 import SettingsImageUpload from "../input/SettingsImageUpload.tsx";
+import SettingsFieldPresetDropdown from "../input/SettingsFieldPresetDropdown.tsx";
 
 interface SettingsModalProps {
     isOpen: boolean;
@@ -16,7 +17,9 @@ export default function SettingsModal(props: SettingsModalProps) {
             title={"Settings"}
         >
             <DialogBody>
+
                 <SettingsImageUpload label={"Field Image"} setting={"fieldImage"} />
+                <SettingsFieldPresetDropdown />
                 <SettingsNumericInput label={"Pixels Per Inch"} setting={"pixelsPerInch"} />
                 <SettingsNumericInput label={"Robot Width"} info={"(in)"} setting={"robotWidth"} />
                 <SettingsNumericInput label={"Robot Height"} info={"(in)"} setting={"robotHeight"} />

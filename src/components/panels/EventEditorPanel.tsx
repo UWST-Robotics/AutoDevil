@@ -29,7 +29,7 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
         if (!point || !event || !point.events)
             return;
         const eventIndex = point.events.findIndex(e => e.id === props.eventID);
-        point.events[eventIndex] = { ...event, name: makeAlphanumeric(name, "_-") };
+        point.events[eventIndex] = { ...event, name: makeAlphanumeric(name, "\\._-") };
 
         const newPoint = {
             ...point,
@@ -38,7 +38,7 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
             ]
         };
         setPoint(newPoint);
-    }, [point, setPoint]);
+    }, [point, setPoint, props.eventID, event]);
 
     const onParamsChange = React.useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
         if (!point?.events || !event)
@@ -48,7 +48,7 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
         const eventIndex = point.events.findIndex(e => e.id === props.eventID);
         point.events[eventIndex] = {
             ...event,
-            params: makeAlphanumeric(e.target.value, "_,=-")
+            params: makeAlphanumeric(e.target.value, " \\._-")
         };
 
         // Apply to Point
@@ -59,7 +59,7 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
             ]
         };
         setPoint(newPoint);
-    }, [point, setPoint]);
+    }, [point, setPoint, props.eventID, event]);
 
     const onDelete = React.useCallback(() => {
         if (!point || !event || !point.events)
@@ -75,7 +75,7 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
         };
         setPoint(newPoint);
         props.onClose();
-    }, [point, setPoint, props.onClose]);
+    }, [point, setPoint, props.onClose, props.eventID, event]);
 
     return (
         <div style={{ padding: 20 }}>

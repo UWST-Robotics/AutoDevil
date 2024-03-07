@@ -21,6 +21,29 @@
   dependencies:
     tslib "~2.5.0"
 
+"@blueprintjs/colors@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/colors/-/colors-5.1.1.tgz#b227d1ce8b95d9266d976441f34cd71d436735db"
+  integrity sha512-Mni/GgCYLaMf5U5zsCN42skOG49w3U0QmUFuJgFZ/1pv+3cHF/9xR4L4dXcj5DtgJoHkmUbK36PR5mdFB65WEA==
+  dependencies:
+    tslib "~2.6.2"
+
+"@blueprintjs/core@^5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/core/-/core-5.10.0.tgz#3ad53fe624f6f7d9ed8b4ed27f5acee280b88123"
+  integrity sha512-jJNRw61ITWDJlrqSM+vx8kG6nBrFO55SmIQU2TepQ6iPIv3PQtv1gmLWc0TmUdtiROMy0ehhddMqEulOmOXGsQ==
+  dependencies:
+    "@blueprintjs/colors" "^5.1.1"
+    "@blueprintjs/icons" "^5.8.0"
+    "@popperjs/core" "^2.11.8"
+    classnames "^2.3.1"
+    normalize.css "^8.0.1"
+    react-popper "^2.3.0"
+    react-transition-group "^4.4.5"
+    react-uid "^2.3.3"
+    tslib "~2.6.2"
+    use-sync-external-store "^1.2.0"
+
 "@blueprintjs/core@^5.3.0":
   version "5.3.0"
   resolved "https://registry.npmjs.org/@blueprintjs/core/-/core-5.3.0.tgz"
@@ -67,6 +90,15 @@
     classnames "^2.3.1"
     tslib "~2.5.0"
 
+"@blueprintjs/icons@^5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/icons/-/icons-5.8.0.tgz#5c6b8ab32ba238a7bbc1fc4a0aec7fcd6cb0d6a2"
+  integrity sha512-QAl0eh1lzYR7CDkT6Uerci5x7jy0vtOj6+B+5cg0noEdjguHoRmhx7b3dDcj+Nmlz6rAvRZoU3cgzfk0NiD1zg==
+  dependencies:
+    change-case "^4.1.2"
+    classnames "^2.3.1"
+    tslib "~2.6.2"
+
 "@blueprintjs/popover2@^2.0.11":
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/@blueprintjs/popover2/-/popover2-2.0.11.tgz#67e8caa6efd03b7689798e0be50a45eb3a595f62"
@@ -76,15 +108,15 @@
     classnames "^2.3.1"
     tslib "~2.5.0"
 
-"@blueprintjs/select@^5.0.11":
-  version "5.0.11"
-  resolved "https://registry.yarnpkg.com/@blueprintjs/select/-/select-5.0.11.tgz#5347856cd8f13a746948e8530f12df6d49f23f8d"
-  integrity sha512-ECSGWVoM7Ny7EHhRFw7cTFEHmWwPpiIxoVMArHzFg5X3J2llX1xBcNWwHLb4cagE/GQ0/+FI0tYQ71//xuUYjA==
+"@blueprintjs/select@^5.1.2":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/select/-/select-5.1.2.tgz#9b9280b8c08efc4e516705ccced4f76f255beab7"
+  integrity sha512-9LgAzOXL/WKdh2o63dzE6oT8gPNgOzR5PWJcVZu4fHFPz4CZ/hD3scsMIhACE+K0DfHWNCPtPjWqZX6U24q/fQ==
   dependencies:
-    "@blueprintjs/core" "^5.3.1"
-    "@blueprintjs/icons" "^5.1.7"
+    "@blueprintjs/core" "^5.10.0"
+    "@blueprintjs/icons" "^5.8.0"
     classnames "^2.3.1"
-    tslib "~2.5.0"
+    tslib "~2.6.2"
 
 "@esbuild/android-arm64@0.18.20":
   version "0.18.20"
@@ -273,7 +305,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@popperjs/core@^2.11.7":
+"@popperjs/core@^2.11.7", "@popperjs/core@^2.11.8":
   version "2.11.8"
   resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
@@ -1353,6 +1385,13 @@ react-transition-group@^4.4.5:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
+react-uid@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/react-uid/-/react-uid-2.3.3.tgz#6a485ccc868555997f3506c6db97a3e735d97adf"
+  integrity sha512-iNpDovcb9qBpBTo8iUgqRSQOS8GV3bWoNaTaUptHkXtAooXSo0OWe7vN6TqqB8x3x0bNBbQx96kkmSltQ5h9kQ==
+  dependencies:
+    tslib "^2.0.0"
+
 react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
@@ -1485,7 +1524,7 @@ ts-api-utils@^1.0.1:
   resolved "https://registry.npmjs.org/ts-api-utils/-/ts-api-utils-1.0.3.tgz"
   integrity sha512-wNMeqtMz5NtwpT/UZGY5alT+VoKdSsOOP/kqHFcUW1P/VRhH2wJ48+DN2WwUliNbQ976ETwDL0Ifd2VVvgonvg==
 
-tslib@^2.0.3:
+tslib@^2.0.0, tslib@^2.0.3, tslib@~2.6.2:
   version "2.6.2"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.6.2.tgz"
   integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
@@ -1532,6 +1571,11 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
+
+use-sync-external-store@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
 
 vite@^4.4.5:
   version "4.4.9"
