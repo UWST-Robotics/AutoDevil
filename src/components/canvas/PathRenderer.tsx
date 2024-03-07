@@ -1,7 +1,7 @@
 import { Group, Line } from "react-konva";
 import useRawPathValue from "../../hooks/Path/useRawPath.ts";
 import React from "react";
-import useSettingsValue, { DEFAULT_SETTINGS } from "../../hooks/useSettings.ts";
+import useSettingsValue from "../../hooks/useSettings.ts";
 import PointRenderer from "./PointRenderer.tsx";
 import usePathSpline from "../../hooks/Path/usePathSpline.ts";
 import useAddPoint from "../../hooks/Point/useAddPoint.ts";
@@ -18,15 +18,12 @@ const SPLINE_INTERVAL = 0.05; // %
 export default function PathRenderer() {
     const scopeIndices = useScopeIndices();
     const pathPlan = useRawPathValue();
-    const settings = useSettingsValue();
+    const { pixelsPerInch } = useSettingsValue();
     const windowScale = useWindowScaleValue();
     const pathSpline = usePathSpline();
     const addPoint = useAddPoint();
     const cursorListener = useCursorListener("pointer");
 
-    // Get Settings
-    const pixelsPerInch = settings.pixelsPerInch ?? DEFAULT_SETTINGS.pixelsPerInch ?? 0;
-    
     // Click events
     const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>, index: number) => {
         const x = (e.evt.offsetX - window.innerWidth / 2) / pixelsPerInch / windowScale;

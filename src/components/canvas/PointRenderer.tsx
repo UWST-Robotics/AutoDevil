@@ -1,5 +1,5 @@
 import RobotRenderer from "./RobotRenderer.tsx";
-import useSettingsValue, { DEFAULT_SETTINGS } from "../../hooks/useSettings.ts";
+import useSettingsValue from "../../hooks/useSettings.ts";
 import React from "react";
 import { Group } from "react-konva";
 import GUID from "../../types/GUID.ts";
@@ -21,7 +21,7 @@ interface PointRendererProps {
 const SNAP_DISTANCE = 3; // in
 
 export default function PointRenderer(props: PointRendererProps) {
-    const settings = useSettingsValue();
+    const { pixelsPerInch, isSpline, snapPosition } = useSettingsValue();
     const cursorListener = useCursorListener("pointer");
     const [isHovered, setIsHovered] = React.useState(false);
     const [selectedPointID, setSelectedPointID] = useSelectedPoint();
@@ -29,11 +29,6 @@ export default function PointRenderer(props: PointRendererProps) {
     const nextPoint = useNextPathPointValue(props.id);
     const [prevPoint, setPrevPoint] = usePrevPathPoint(props.id);
     const { isStart, isEnd } = usePathEnds(props.id);
-
-    // Get Settings
-    const pixelsPerInch = settings.pixelsPerInch ?? DEFAULT_SETTINGS.pixelsPerInch ?? 0;
-    const isSpline = settings?.isSpline ?? DEFAULT_SETTINGS.isSpline ?? false;
-    const snapPosition = settings?.snapPosition ?? DEFAULT_SETTINGS.snapPosition ?? false;
 
     // Check if selected
     const isSelected = React.useMemo(() => selectedPointID === props.id, [selectedPointID, props.id]);
@@ -139,7 +134,7 @@ export default function PointRenderer(props: PointRendererProps) {
                 <RobotRenderer
                     color={color}
                 />
-                {!isEnd || isSpline && (
+                {(!isEnd || isSpline) && (
                     <PointAnchorRenderer
                         id={point.id}
                         isExit={true}

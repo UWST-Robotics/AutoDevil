@@ -8,25 +8,22 @@ import useWindowSize from "../../hooks/Canvas/useWindowSize.ts";
 const IMAGE_PADDING = 110;
 
 export default function FieldImageRenderer() {
-    const settings = useSettingsValue();
+    const { fieldImage } = useSettingsValue();
     const [windowWidth, windowHeight] = useWindowSize();
     const setWindowScale = useSetWindowScale();
     const [image, setImage] = React.useState<HTMLImageElement | undefined>(undefined);
 
-    // Field Image
-    const fieldImageURL = settings.fieldImage ?? "/default-field.png";
-
     // Load Image
     React.useEffect(() => {
         const img = new window.Image();
-        img.src = fieldImageURL;
+        img.src = fieldImage;
         img.onload = () => {
             setImage(img);
         };
         img.onerror = () => {
             setImage(undefined);
         }
-    }, [fieldImageURL]);
+    }, [fieldImage]);
 
     // Set window scale
     React.useEffect(() => {

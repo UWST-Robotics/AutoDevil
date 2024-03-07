@@ -1,4 +1,4 @@
-import useSettingsValue, { DEFAULT_SETTINGS } from "../../hooks/useSettings.ts";
+import useSettingsValue from "../../hooks/useSettings.ts";
 import { Line, Rect } from "react-konva";
 
 interface RobotRendererProps {
@@ -9,12 +9,7 @@ interface RobotRendererProps {
 const ROBOT_LINE_WIDTH = 0.5; // in
 
 export default function RobotRenderer(props: RobotRendererProps) {
-    const settings = useSettingsValue();
-
-    // Get Settings
-    const pixelsPerInch = settings.pixelsPerInch ?? DEFAULT_SETTINGS.pixelsPerInch ?? 0;
-    const robotWidth = settings.robotWidth ?? DEFAULT_SETTINGS.robotWidth ?? 0;
-    const robotHeight = settings.robotHeight ?? DEFAULT_SETTINGS.robotHeight ?? 0;
+    const { pixelsPerInch, robotWidth, robotHeight } = useSettingsValue();
 
     // Get Props
     const { color } = props;

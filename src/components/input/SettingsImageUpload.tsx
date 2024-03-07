@@ -1,7 +1,8 @@
 import PathSettings from "../../types/Settings.tsx";
-import { DEFAULT_SETTINGS, useSettings } from "../../hooks/useSettings.ts";
+import { useSettings } from "../../hooks/useSettings.ts";
 import React from "react";
 import ImageUpload from "./ImageUpload.tsx";
+import { DEFAULT_SETTINGS } from "../../types/Settings.ts";
 
 export interface SettingsBooleanInputProps {
     label: string;

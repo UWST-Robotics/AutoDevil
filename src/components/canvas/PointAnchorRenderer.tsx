@@ -1,6 +1,6 @@
 import GUID from "../../types/GUID.ts";
 import { Circle, Line } from "react-konva";
-import useSettingsValue, { DEFAULT_SETTINGS } from "../../hooks/useSettings.ts";
+import useSettingsValue from "../../hooks/useSettings.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
 import React from "react";
@@ -17,13 +17,9 @@ const HANDLE_LINE_WIDTH = 0.5; // in
 const SNAP_ANGLE = Math.PI / 16; // rad
 
 export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
-    const settings = useSettingsValue();
+    const { pixelsPerInch, snapRotation } = useSettingsValue();
     const [point, setPoint] = usePathPoint(props.id);
     const setSelectedPointID = useSetSelectedPoint();
-
-    // Get Settings
-    const pixelsPerInch = settings.pixelsPerInch ?? DEFAULT_SETTINGS.pixelsPerInch ?? 0;
-    const snapRotation = settings?.snapRotation ?? DEFAULT_SETTINGS.snapRotation ?? false;
 
     // Calculate handle origin
     const pointOrgin = React.useMemo(() => {

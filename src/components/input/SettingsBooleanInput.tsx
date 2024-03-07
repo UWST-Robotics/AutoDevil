@@ -5,7 +5,6 @@ import React from "react";
 
 export interface SettingsBooleanInputProps {
     label: string;
-    defaultValue?: boolean;
     setting: keyof Settings;
 }
 
@@ -19,7 +18,7 @@ export default function SettingsBooleanInput(props: SettingsBooleanInputProps) {
     return (
         <Switch
             label={props.label}
-            checked={(settings[props.setting] ?? props.defaultValue ?? false) as boolean}
+            checked={settings[props.setting] as boolean}
             onChange={onChange}
         />
     );

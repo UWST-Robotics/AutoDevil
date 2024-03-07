@@ -66,7 +66,7 @@ export default function ImageUpload(props: ImageUploadProps) {
             <ButtonGroup fill>
                 <Button
                     icon="cloud-upload"
-                    intent="primary"
+                    intent="success"
                     onClick={() => onUploadClick()}
                     style={{ margin: 3 }}
                 />

@@ -1,6 +1,5 @@
 import { Button, ButtonGroup } from "@blueprintjs/core";
 import useIsAnimating from "../../hooks/Canvas/useIsAnimating.ts";
-import GraphButton from "../buttons/GraphButton.tsx";
 import ScopeSlider from "../input/ScopeSlider.tsx";
 
 export default function BottomBar() {
@@ -43,7 +42,6 @@ export default function BottomBar() {
                         onClick={() => setIsAnimating(false)}
                         disabled={!isAnimating}
                     />
-                    <GraphButton />
                 </ButtonGroup>
                 <div style={{
                     pointerEvents: "auto"
