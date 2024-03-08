@@ -32,22 +32,9 @@ export default function EventsEditorPanel() {
 
     return (
         <>
-            <h4
-                style={{
-                    marginBottom: 4
-                }}
-            >
+            <h4 style={{ marginBottom: 0 }}>
                 Events
             </h4>
-            <Button
-                alignText="left"
-                minimal
-                fill
-                icon="add"
-                text={"Add Event"}
-                onClick={addEvent}
-                style={{ marginBottom: 0 }}
-            />
             <DropdownList
                 elements={point?.events?.map((event) => ({
                     id: event.id,
@@ -64,6 +51,15 @@ export default function EventsEditorPanel() {
                         onClose={() => setSelectedEventID(undefined)}
                     />
                 )}
+            />
+            <Button
+                alignText="left"
+                minimal
+                fill
+                icon="add"
+                text={"Add Event"}
+                onClick={addEvent}
+                style={{ marginBottom: 4 }}
             />
 
         </>

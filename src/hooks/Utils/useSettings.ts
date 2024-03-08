@@ -1,4 +1,4 @@
-import Settings, { DEFAULT_SETTINGS } from "../types/Settings.ts";
+import Settings, { DEFAULT_SETTINGS } from "../../types/Settings.ts";
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
@@ -6,7 +6,7 @@ import { atomWithStorage } from 'jotai/utils';
 const settingsStoreAtom = atomWithStorage<Partial<Settings>>("settings", {});
 
 // The pathSettingsAtom is the main atom for the settings. It is a derived atom from the storage atom
-export const pathSettingsAtom = atom((get) => {
+export const settingsAtom = atom((get) => {
         const storageSettings = get(settingsStoreAtom);
         return { ...DEFAULT_SETTINGS, ...storageSettings } as Settings;
     },
@@ -17,13 +17,13 @@ export const pathSettingsAtom = atom((get) => {
 );
 
 export function useSettings() {
-    return useAtom(pathSettingsAtom);
+    return useAtom(settingsAtom);
 }
 
 export default function useSettingsValue() {
-    return useAtomValue(pathSettingsAtom);
+    return useAtomValue(settingsAtom);
 }
 
 export function useSetSettings() {
-    return useSetAtom(pathSettingsAtom);
+    return useSetAtom(settingsAtom);
 }

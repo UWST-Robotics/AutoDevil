@@ -1,6 +1,6 @@
 import { FormGroup, NumericInput } from "@blueprintjs/core";
 import PathSettings from "../../types/Settings.tsx";
-import { useSettings } from "../../hooks/useSettings.ts";
+import { useSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
 
 export interface SettingsNumericInputProps {
@@ -25,7 +25,7 @@ export default function SettingsNumericInput(props: SettingsNumericInputProps) {
             <NumericInput
                 id={props.setting}
                 placeholder={props.label}
-                value={settings[props.setting] as number}
+                defaultValue={settings[props.setting] as number}
                 onValueChange={onChange}
                 min={0}
                 minorStepSize={0.001}

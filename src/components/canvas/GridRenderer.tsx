@@ -9,17 +9,20 @@ interface CanvasGridProps {
 }
 
 const MIN_CELL_SIZE = 10;
+const MAX_GRID_SIZE = 30;
+const MIN_GRID_SIZE = 2;
 
 export default function GridRenderer(props: CanvasGridProps) {
     const [windowWidth, windowHeight] = useWindowSize();
     const windowScale = useWindowScaleValue();
 
     const gridSize = React.useMemo(() => {
-        const size = Math.ceil((Math.max(windowWidth, windowHeight) / windowScale) / props.cellSize);
-        return size + (size % 2);
-    }, [windowWidth, windowHeight, windowScale, props.cellSize]);
+        let size = Math.ceil((Math.max(windowWidth, windowHeight) / windowScale) / props.cellSize);
+        size = Math.max(Math.min(size, MAX_GRID_SIZE), MIN_GRID_SIZE); // Clamp between MIN_GRID_SIZE and MAX_GRID_SIZE
+        size += (size % 2); // Make sure it's odd
 
-    console.log(gridSize);
+        return size;
+    }, [windowWidth, windowHeight, windowScale, props.cellSize]);
 
     if (props.cellSize < MIN_CELL_SIZE)
         return null;

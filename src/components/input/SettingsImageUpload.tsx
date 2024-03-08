@@ -1,5 +1,5 @@
 import PathSettings from "../../types/Settings.tsx";
-import { useSettings } from "../../hooks/useSettings.ts";
+import { useSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
 import ImageUpload from "./ImageUpload.tsx";
 import { DEFAULT_SETTINGS } from "../../types/Settings.ts";

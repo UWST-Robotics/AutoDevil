@@ -1,5 +1,5 @@
-import { useSelectedPointValue } from "./Point/useSelectPoint.ts";
-import useDeletePoint from "./Point/useDeletePoint.ts";
+import { useSelectedPointValue } from "../Point/useSelectPoint.ts";
+import useDeletePoint from "../Point/useDeletePoint.ts";
 import { HotkeyConfig, useHotkeys } from "@blueprintjs/core";
 import React from "react";
 

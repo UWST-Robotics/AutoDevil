@@ -1,7 +1,7 @@
 import { ItemRenderer, Select } from "@blueprintjs/select";
 import FieldPreset, { FIELD_PRESETS } from "../../types/FieldPreset.ts";
 import { Button, MenuItem } from "@blueprintjs/core";
-import { useSetSettings } from "../../hooks/useSettings.ts";
+import { useSetSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
 
 const filterFieldPreset = (query: string, fieldPreset: FieldPreset) => {
@@ -37,15 +37,14 @@ export default function SettingsFieldPresetDropdown() {
 
     return (
         <Select
-            fill
             items={FIELD_PRESETS}
             itemPredicate={filterFieldPreset}
             itemRenderer={renderFieldPreset}
             onItemSelect={onPresetSelect}
         >
             <Button
-                fill
-                text={"Field Preset"}
+                small
+                text={"Field Presets"}
                 rightIcon={"caret-down"}
             />
         </Select>

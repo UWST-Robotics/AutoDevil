@@ -1,7 +1,7 @@
 import usePathSpline from "../../hooks/Path/usePathSpline.ts";
 import React from "react";
 import RobotRenderer from "./RobotRenderer.tsx";
-import useSettingsValue from "../../hooks/useSettings.ts";
+import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import useIsAnimating from "../../hooks/Canvas/useIsAnimating.ts";
 import toDegrees from "../../utils/toDegrees.ts";
 import { Group } from "react-konva";

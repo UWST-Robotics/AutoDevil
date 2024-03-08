@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Card, Icon } from "@blueprintjs/core";
+import { Button, ButtonGroup, Icon } from "@blueprintjs/core";
 import useSelectedPoint from "../../hooks/Point/useSelectPoint.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
@@ -34,15 +34,7 @@ export default function PointEditorPanel() {
     if (!selectedPointID || !point)
         return null;
     return (
-        <Card
-            elevation={2}
-            style={{
-                width: 300,
-                paddingTop: 0,
-                paddingBottom: 10,
-                pointerEvents: "auto"
-            }}
-        >
+        <>
 
             <ButtonGroup fill style={{ marginTop: 10 }}>
                 <Button
@@ -52,7 +44,7 @@ export default function PointEditorPanel() {
                     disabled={!prevPoint}
                 />
                 <div>
-                    <h3 style={{ margin: 5 }}>
+                    <h3 style={{ margin: 0, marginTop: 5, textAlign: "center" }}>
                         <Icon
                             icon={"area-of-interest"}
                             style={{
@@ -93,6 +85,6 @@ export default function PointEditorPanel() {
                 intent={"danger"}
                 onClick={() => deletePoint(selectedPointID)}
             />
-        </Card>
+        </>
     )
 }

@@ -2,6 +2,8 @@ import { ButtonGroup } from "@blueprintjs/core";
 import SettingsButton from "../buttons/SettingsButton.tsx";
 import DownloadButton from "../buttons/DownloadButton.tsx";
 import UploadButton from "../buttons/UploadButton.tsx";
+import SettingsFieldPresetDropdown from "../input/SettingsFieldPresetDropdown.tsx";
+import MirrorPathButton from "../buttons/MirrorPathButton.tsx";
 
 export default function TopBar() {
 
@@ -25,7 +27,10 @@ export default function TopBar() {
             >
                 <DownloadButton />
                 <UploadButton />
+                <MirrorPathButton />
+                <MirrorPathButton vertical />
                 <SettingsButton />
+                <SettingsFieldPresetDropdown />
             </ButtonGroup>
         </div>
     )

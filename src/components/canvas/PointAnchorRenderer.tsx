@@ -1,10 +1,11 @@
 import GUID from "../../types/GUID.ts";
 import { Circle, Line } from "react-konva";
-import useSettingsValue from "../../hooks/useSettings.ts";
+import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
 import React from "react";
 import { useSetSelectedPoint } from "../../hooks/Point/useSelectPoint.ts";
+import { normalizeRadians } from "../../utils/toDegrees.ts";
 
 interface RotateHandleRendererProps {
     id: GUID;
@@ -39,7 +40,7 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
         const deltaDistance = Math.sqrt(e.target.x() ** 2 + e.target.y() ** 2);
 
         // Calculate angle
-        let r = (point.r + deltaAngle + Math.PI * 2) % (Math.PI * 2);
+        let r = normalizeRadians(point.r + deltaAngle);
         if (snapRotation) {
             const snap = Math.round(r / SNAP_ANGLE) * SNAP_ANGLE;
             if (Math.abs(snap - r) < SNAP_ANGLE / 2)

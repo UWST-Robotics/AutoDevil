@@ -1,7 +1,7 @@
 import { Group, Line } from "react-konva";
 import useRawPathValue from "../../hooks/Path/useRawPath.ts";
 import React from "react";
-import useSettingsValue from "../../hooks/useSettings.ts";
+import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import PointRenderer from "./PointRenderer.tsx";
 import usePathSpline from "../../hooks/Path/usePathSpline.ts";
 import useAddPoint from "../../hooks/Point/useAddPoint.ts";
@@ -12,7 +12,7 @@ import useScopeIndices from "../../hooks/Scope/useScopeIndices.ts";
 
 const PATH_COLOR = "#ddd";
 const PATH_WIDTH = 1; // in
-const PATH_DASH = [1, 3]; // in
+const PATH_DASH = [2, 4]; // in
 const SPLINE_INTERVAL = 0.05; // %
 
 export default function PathRenderer() {

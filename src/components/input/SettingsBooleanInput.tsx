@@ -1,6 +1,6 @@
 import { Switch } from "@blueprintjs/core";
 import Settings from "../../types/Settings.tsx";
-import { useSettings } from "../../hooks/useSettings.ts";
+import { useSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
 
 export interface SettingsBooleanInputProps {

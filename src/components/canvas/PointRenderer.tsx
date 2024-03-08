@@ -1,5 +1,5 @@
 import RobotRenderer from "./RobotRenderer.tsx";
-import useSettingsValue from "../../hooks/useSettings.ts";
+import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import React from "react";
 import { Group } from "react-konva";
 import GUID from "../../types/GUID.ts";
@@ -18,7 +18,7 @@ interface PointRendererProps {
     id: GUID;
 }
 
-const SNAP_DISTANCE = 1; // in
+const SNAP_DISTANCE = 2; // in
 
 export default function PointRenderer(props: PointRendererProps) {
     const { pixelsPerInch, isSpline, snapPosition } = useSettingsValue();
@@ -134,7 +134,7 @@ export default function PointRenderer(props: PointRendererProps) {
                 <RobotRenderer
                     color={color}
                 />
-                {(!isEnd || isSpline) && (
+                {(!isEnd && isSpline) && (
                     <PointAnchorRenderer
                         id={point.id}
                         isExit={true}
