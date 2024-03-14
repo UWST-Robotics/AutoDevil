@@ -1,12 +1,12 @@
 import GUID from "../../types/GUID";
-import { Button, MenuItem, TextArea } from "@blueprintjs/core";
 import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
 import React from "react";
-import { Suggest } from "@blueprintjs/select";
-import useRawPathValue from "../../hooks/Path/useRawPath.ts";
 import makeAlphanumeric from "../../utils/makeAlphanumeric.ts";
+import { Button, ButtonGroup, TextField } from "@mui/material";
+import CheckmarkIcon from "@mui/icons-material/Check";
+import TrashIcon from "@mui/icons-material/Delete";
 
 interface EventEditorPanelProps {
     eventID: GUID;
@@ -14,22 +14,20 @@ interface EventEditorPanelProps {
 }
 
 export default function EventEditorPanel(props: EventEditorPanelProps) {
-    const path = useRawPathValue();
     const selectedPointID = useSelectedPointValue();
     const [point, setPoint] = usePathPoint(selectedPointID ?? DEFAULT_GUID);
     const event = point?.events?.find(e => e.id === props.eventID);
 
-    const eventList = React.useMemo(() => {
-        if (!path || !point || !point.events)
-            return [];
-        return path.points.map(p => p.events?.map(e => e.name)).flat().filter((v, i, a) => a.indexOf(v) === i && v !== undefined) as string[];
-    }, [path, point]);
-
-    const onNameChange = React.useCallback((name: string) => {
+    const onNameChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         if (!point || !event || !point.events)
             return;
+
+        // Apply to Event
         const eventIndex = point.events.findIndex(e => e.id === props.eventID);
-        point.events[eventIndex] = { ...event, name: makeAlphanumeric(name, "\\._-") };
+        point.events[eventIndex] = {
+            ...event,
+            name: makeAlphanumeric(e.target.value, "\\._-")
+        };
 
         const newPoint = {
             ...point,
@@ -78,43 +76,37 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
     }, [point, setPoint, props.onClose, props.eventID, event]);
 
     return (
-        <div style={{ padding: 20 }}>
-            <Suggest
-                query={event?.name ?? ""}
-                fill
-                items={eventList}
-                inputValueRenderer={(item) => item}
-                itemPredicate={(query, item) => item.toLowerCase().indexOf(query.toLowerCase()) >= 0}
-                itemRenderer={(item, { handleClick, modifiers }) => (
-                    <MenuItem
-                        key={item}
-                        text={item}
-                        active={modifiers.active}
-                        onClick={handleClick}
-                    />
-                )}
-                onQueryChange={onNameChange}
-                onItemSelect={onNameChange}
-                selectedItem={event?.name ?? ""}
+        <div style={{ marginLeft: 10, marginRight: 10 }}>
+            <TextField
+                fullWidth
+                value={event?.name}
+                onChange={onNameChange}
+                size={"small"}
+                label={"Name"}
+                style={{ margin: 4 }}
             />
-            <TextArea
-                fill
+            <TextField
+                fullWidth
                 value={event?.params}
                 onChange={onParamsChange}
-                placeholder={"Parameters"}
+                size={"small"}
+                label={"Parameters"}
+                style={{ margin: 4 }}
             />
-            <Button
-                icon={"tick"}
-                intent={"success"}
-                onClick={props.onClose}
-                style={{ margin: 2 }}
-            />
-            <Button
-                icon={"trash"}
-                intent={"danger"}
-                onClick={onDelete}
-                style={{ margin: 2 }}
-            />
+            <ButtonGroup fullWidth style={{ margin: 4 }}>
+                <Button
+                    color={"success"}
+                    onClick={props.onClose}
+                >
+                    <CheckmarkIcon />
+                </Button>
+                <Button
+                    color={"error"}
+                    onClick={onDelete}
+                >
+                    <TrashIcon />
+                </Button>
+            </ButtonGroup>
         </div>
     )
 }

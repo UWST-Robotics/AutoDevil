@@ -1,8 +1,8 @@
 import { atom, useAtom, useSetAtom } from "jotai";
 import PathPlan from "../../types/PathPlan.ts";
-import { rawPathAtom } from "../Path/useRawPath.ts";
+import { DEFAULT_PATH, rawPathAtom } from "../Path/useRawPath.ts";
 
-const pathHistoryAtom = atom<PathPlan[]>([]);
+const pathHistoryAtom = atom<PathPlan[]>([DEFAULT_PATH]);
 const pathHistoryIndexAtom = atom(0);
 
 const undoAtom = atom((get) => {

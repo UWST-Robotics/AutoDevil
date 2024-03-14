@@ -1,6 +1,8 @@
-import { Button, ButtonGroup, Icon } from "@blueprintjs/core";
 import React from "react";
 import openUploadDialog from "../../utils/openUploadDialog.ts";
+import { Button, ButtonGroup } from "@mui/material";
+import ReplayIcon from '@mui/icons-material/Replay';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 interface ImageUploadProps {
     label: string;
@@ -63,21 +65,23 @@ export default function ImageUpload(props: ImageUploadProps) {
             </div>
 
             {/* Buttons */}
-            <ButtonGroup fill>
+            <ButtonGroup fullWidth>
                 <Button
-                    icon="cloud-upload"
-                    intent="success"
-                    onClick={() => onUploadClick()}
-                    style={{ margin: 3 }}
-                />
+                    onClick={onUploadClick}
+                    color={"success"}
+                    variant={"contained"}
+                >
+                    <FileUploadIcon />
+                </Button>
 
                 <Button
-                    icon="refresh"
-                    intent="danger"
                     onClick={props.onReset}
-                    style={{ margin: 3 }}
                     disabled={props.spriteURL === undefined}
-                />
+                    color={"error"}
+                    variant={"contained"}
+                >
+                    <ReplayIcon />
+                </Button>
             </ButtonGroup>
 
             {/* Drag & Drop File Upload */}
@@ -101,11 +105,7 @@ export default function ImageUpload(props: ImageUploadProps) {
                     pointerEvents: "none",
                 }}>
 
-                <Icon
-                    icon="cloud-upload"
-                    size={40}
-                    style={{ marginRight: 10 }}
-                />
+                <FileUploadIcon />
                 <span style={{
                     fontSize: 20,
                     fontWeight: "bold",

@@ -30,7 +30,7 @@ export default function BottomBar() {
                 }}
             >
                 <AnimateButton />
-                <div style={{ maxWidth: 500, marginLeft: 20, marginRight: 20 }}>
+                <div style={{ width: 500, marginLeft: 20, marginRight: 20 }}>
                     <ScopeSlider />
                 </div>
             </div>

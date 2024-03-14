@@ -1,7 +1,7 @@
-import { FormGroup, NumericInput } from "@blueprintjs/core";
 import PathSettings from "../../types/Settings.tsx";
 import { useSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
+import { TextField } from "@mui/material";
 
 export interface SettingsNumericInputProps {
     label: string;
@@ -12,26 +12,27 @@ export interface SettingsNumericInputProps {
 export default function SettingsNumericInput(props: SettingsNumericInputProps) {
     const [settings, setSettings] = useSettings();
 
-    const onChange = React.useCallback((value: number) => {
+    const onChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseFloat(e.target.value);
+        if (isNaN(value))
+            return;
         setSettings({ ...settings, [props.setting]: value });
     }, [props.setting, settings, setSettings]);
 
     return (
-        <FormGroup
+        <TextField
+            id={props.setting}
             label={props.label}
-            labelFor={props.setting}
-            labelInfo={props.info}
-        >
-            <NumericInput
-                id={props.setting}
-                placeholder={props.label}
-                defaultValue={settings[props.setting] as number}
-                onValueChange={onChange}
-                min={0}
-                minorStepSize={0.001}
-                stepSize={0.1}
-                majorStepSize={1}
-            />
-        </FormGroup>
+            variant={"outlined"}
+            type={"number"}
+            InputLabelProps={{
+                shrink: true,
+            }}
+            defaultValue={settings[props.setting] as number}
+            onChange={onChange}
+            style={{
+                margin: 5
+            }}
+        />
     );
 }

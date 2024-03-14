@@ -1,8 +1,9 @@
 import { useRawPath } from "../../hooks/Path/useRawPath.ts";
-import { Button } from "@blueprintjs/core";
 import React from "react";
 import { normalizeRadians } from "../../utils/toDegrees.ts";
 import useSavePathHistory from "../../hooks/Utils/useUndoHistory.ts";
+import { IconButton } from "@mui/material";
+import FlipIcon from '@mui/icons-material/Flip';
 
 export interface MirrorPathButtonProps {
     vertical?: boolean;
@@ -29,9 +30,15 @@ export default function MirrorPathButton(props: MirrorPathButtonProps) {
     }, [path, setPath, vertical, savePathHistory]);
 
     return (
-        <Button
-            icon={vertical ? "arrows-vertical" : "arrows-horizontal"}
+        <IconButton
+            aria-label={`Mirror Path ${vertical ? "Vertically" : "Horizontally"}`}
             onClick={onClick}
-        />
+        >
+            <FlipIcon
+                sx={{
+                    transform: vertical ? "rotate(90deg)" : "rotate(0deg)"
+                }}
+            />
+        </IconButton>
     )
 }

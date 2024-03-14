@@ -1,9 +1,9 @@
-import { Switch } from "@blueprintjs/core";
 import React from "react";
 import PathPoint from "../../types/PathPoint.ts";
 import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 export interface PointBooleanInputProps {
     label: string;
@@ -23,10 +23,15 @@ export default function PointBooleanInput(props: PointBooleanInputProps) {
     if (!point)
         return null;
     return (
-        <Switch
+        <FormControlLabel
             label={props.label}
-            checked={(point[props.setting] ?? false) as boolean}
-            onChange={onChange}
+            control={
+                <Checkbox
+                    size={"small"}
+                    checked={(point[props.setting] ?? false) as boolean}
+                    onChange={onChange}
+                />
+            }
         />
     );
 }

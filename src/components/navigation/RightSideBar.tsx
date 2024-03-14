@@ -4,14 +4,15 @@ export default function RightSideBar() {
     return (
         <div
             style={{
-                width: 250,
-                height: "100%",
-                backgroundColor: "#252A31",
-                position: "fixed",
+                position: "absolute",
                 top: 0,
                 right: 0,
-                pointerEvents: "all",
-                padding: 20
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                pointerEvents: "none",
+                width: 250
             }}
         >
             <PointEditorPanel />

@@ -1,9 +1,5 @@
-import { useSelectedPointValue } from "../Point/useSelectPoint.ts";
-import useDeletePoint from "../Point/useDeletePoint.ts";
-import { HotkeyConfig, useHotkeys } from "@blueprintjs/core";
-import React from "react";
-
 export default function useKeybinds() {
+    /*
     const deletePoint = useDeletePoint();
     const selectedPointID = useSelectedPointValue();
 
@@ -29,4 +25,7 @@ export default function useKeybinds() {
     ], [deletePoint, selectedPointID]);
 
     return useHotkeys(hotkeys);
+    */
+    // TODO: Implement useHotkeys
+    return null;
 }

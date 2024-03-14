@@ -1,7 +1,7 @@
-import { Switch } from "@blueprintjs/core";
 import Settings from "../../types/Settings.tsx";
 import { useSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
+import { FormControlLabel, Switch } from "@mui/material";
 
 export interface SettingsBooleanInputProps {
     label: string;
@@ -16,10 +16,14 @@ export default function SettingsBooleanInput(props: SettingsBooleanInputProps) {
     }, [props.setting, settings, setSettings]);
 
     return (
-        <Switch
+        <FormControlLabel
             label={props.label}
-            checked={settings[props.setting] as boolean}
-            onChange={onChange}
+            control={
+                <Switch
+                    checked={settings[props.setting] as boolean}
+                    onChange={onChange}
+                />
+            }
         />
     );
 }

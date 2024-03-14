@@ -1,10 +1,9 @@
 import SettingsButton from "../buttons/SettingsButton.tsx";
 import DownloadButton from "../buttons/DownloadButton.tsx";
 import UploadButton from "../buttons/UploadButton.tsx";
-import SettingsFieldPresetDropdown from "../input/SettingsFieldPresetDropdown.tsx";
 import MirrorPathButton from "../buttons/MirrorPathButton.tsx";
 import UndoRedoButton from "../buttons/UndoRedoButton.tsx";
-import { ButtonGroup } from "@blueprintjs/core";
+import { ButtonGroup } from "@mui/material";
 
 export default function TopBar() {
 
@@ -34,14 +33,13 @@ export default function TopBar() {
                     borderBottomRightRadius: 16,
                 }}
             >
-                <ButtonGroup minimal>
+                <ButtonGroup>
                     <DownloadButton />
                     <UploadButton />
                     <MirrorPathButton />
                     <MirrorPathButton vertical />
                     <UndoRedoButton />
                     <UndoRedoButton redo />
-                    <SettingsFieldPresetDropdown />
                     <SettingsButton />
                 </ButtonGroup>
             </div>

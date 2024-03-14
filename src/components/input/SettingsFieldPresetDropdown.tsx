@@ -1,32 +1,12 @@
-import { ItemRenderer, Select } from "@blueprintjs/select";
 import FieldPreset, { FIELD_PRESETS } from "../../types/FieldPreset.ts";
-import { Button, MenuItem } from "@blueprintjs/core";
 import { useSetSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
+import { Button, ListItemText, Menu, MenuItem, Typography } from "@mui/material";
 
-const filterFieldPreset = (query: string, fieldPreset: FieldPreset) => {
-    return fieldPreset.name.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
-        fieldPreset.type.toLowerCase().indexOf(query.toLowerCase()) >= 0;
-}
-
-const renderFieldPreset: ItemRenderer<FieldPreset> = (fieldPreset, { handleClick, modifiers }) => {
-    if (!modifiers.matchesPredicate)
-        return null;
-
-    return (
-        <MenuItem
-            active={modifiers.active}
-            key={fieldPreset.name}
-            onClick={handleClick}
-            text={fieldPreset.name}
-            label={fieldPreset.type}
-        />
-    );
-
-}
 
 export default function SettingsFieldPresetDropdown() {
     const setSettings = useSetSettings();
+    const [isMenuOpen, setMenuOpen] = React.useState(false);
 
     const onPresetSelect = React.useCallback((fieldPreset: FieldPreset) => {
         setSettings({
@@ -36,17 +16,48 @@ export default function SettingsFieldPresetDropdown() {
     }, [setSettings]);
 
     return (
-        <Select
-            items={FIELD_PRESETS}
-            itemPredicate={filterFieldPreset}
-            itemRenderer={renderFieldPreset}
-            onItemSelect={onPresetSelect}
-        >
+        <div>
             <Button
-                small
-                text={"Field Presets"}
-                rightIcon={"caret-down"}
-            />
-        </Select>
+                id={"field-preset-button"}
+                aria-controls={isMenuOpen ? "field-preset-menu" : undefined}
+                aria-haspopup={"true"}
+                aria-expanded={isMenuOpen ? "true" : undefined}
+
+                variant={"text"}
+                color={"secondary"}
+                onClick={() => setMenuOpen(true)}
+            >
+                Field Preset
+            </Button>
+            <Menu
+                id={"field-preset-menu"}
+                open={isMenuOpen}
+                onClose={() => setMenuOpen(false)}
+                MenuListProps={{
+                    "aria-labelledby": "field-preset-button"
+                }}
+            >
+                {FIELD_PRESETS.map((fieldPreset) => (
+                    <MenuItem
+                        key={fieldPreset.name}
+                        dense
+                        onClick={() => {
+                            onPresetSelect(fieldPreset);
+                            setMenuOpen(false);
+                        }}
+                    >
+                        <ListItemText>
+                            {fieldPreset.name}
+                        </ListItemText>
+                        <Typography
+                            variant={"body2"}
+                            color={"textSecondary"}
+                        >
+                            {fieldPreset.type}
+                        </Typography>
+                    </MenuItem>
+                ))}
+            </Menu>
+        </div>
     );
 }

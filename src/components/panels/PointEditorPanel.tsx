@@ -1,4 +1,3 @@
-import { Button, ButtonGroup, Icon } from "@blueprintjs/core";
 import useSelectedPoint from "../../hooks/Point/useSelectPoint.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
@@ -8,12 +7,17 @@ import useDeletePoint from "../../hooks/Point/useDeletePoint.ts";
 import usePrevPathPointValue from "../../hooks/Point/usePrevPathPoint.ts";
 import useNextPathPointValue from "../../hooks/Point/useNextPathPoint.ts";
 import React from "react";
+import { IconButton } from "@mui/material";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import TrashIcon from "@mui/icons-material/Delete";
 
 export default function PointEditorPanel() {
     const [selectedPointID, setSelectedPointID] = useSelectedPoint();
     const prevPoint = usePrevPathPointValue(selectedPointID ?? DEFAULT_GUID);
     const nextPoint = useNextPathPointValue(selectedPointID ?? DEFAULT_GUID);
     const [point] = usePathPoint(selectedPointID ?? DEFAULT_GUID);
+    //const pointState = useState()
     const deletePoint = useDeletePoint();
 
     // Select next/prev point
@@ -27,64 +31,48 @@ export default function PointEditorPanel() {
     }, [setSelectedPointID, prevPoint]);
 
     // Format X,Y
-    const x = point?.x.toFixed(2);
-    const y = point?.y.toFixed(2);
-    const r = (180 / Math.PI * (point?.r ?? 0)).toFixed(2);
+    //const x = point?.x.toFixed(2);
+    //const y = point?.y.toFixed(2);
+    //const r = (180 / Math.PI * (point?.r ?? 0)).toFixed(2);
 
     if (!selectedPointID || !point)
         return null;
     return (
-        <>
-
-            <ButtonGroup fill style={{ marginTop: 10 }}>
-                <Button
-                    icon={"double-chevron-left"}
-                    minimal
-                    onClick={selectPrevPoint}
-                    disabled={!prevPoint}
-                />
-                <div>
-                    <h3 style={{ margin: 0, marginTop: 5, textAlign: "center" }}>
-                        <Icon
-                            icon={"area-of-interest"}
-                            style={{
-                                marginRight: 7,
-                                marginBottom: 2
-                            }}
-                        />
-                        Point
-                    </h3>
-                    <p className={"bp5-text-muted"} style={{ margin: 0 }}>
-                        {x}in {y}in {r}°
-                    </p>
-                </div>
-                <Button
-                    icon={"double-chevron-right"}
-                    minimal
-                    onClick={selectNextPoint}
-                    disabled={!nextPoint}
-                />
-            </ButtonGroup>
-
-            <h4
-                style={{
-                    marginBottom: 4
-                }}
+        <div
+            style={{
+                borderRadius: 16,
+                margin: 10,
+                padding: 16,
+                backgroundColor: "#00000077",
+                pointerEvents: "auto",
+                textAlign: "center",
+            }}
+        >
+            <IconButton
+                onClick={selectPrevPoint}
+                disabled={!prevPoint}
+                style={{ float: "left" }}
             >
-                Options
-            </h4>
+                <KeyboardDoubleArrowLeftIcon />
+            </IconButton>
+            <IconButton
+                onClick={selectNextPoint}
+                disabled={!nextPoint}
+                style={{ float: "right" }}
+            >
+                <KeyboardDoubleArrowRightIcon />
+            </IconButton>
             <PointBooleanInput
-                label={"Change Direction"}
+                label={"Reverse"}
                 setting={"isReversed"}
             />
             <EventsEditorPanel />
-            <Button
-                fill
-                icon={"trash"}
-                text={"Delete Point"}
-                intent={"danger"}
+            <IconButton
+                color={"error"}
                 onClick={() => deletePoint(selectedPointID)}
-            />
-        </>
+            >
+                <TrashIcon />
+            </IconButton>
+        </div>
     )
 }
