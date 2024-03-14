@@ -21,6 +21,9 @@ export default function ScrollablePointList() {
                     alignText={Alignment.LEFT}
                     active={selectedPointID === point.id}
                     intent={point.state?.isReversed ? "danger" : "success"}
+                    style={{
+                        maxHeight: 100
+                    }}
                     rightIcon={(
                         <span className={Classes.TEXT_MUTED}>
                             {point.events?.map((event) => event.name).join(", ")}

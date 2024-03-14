@@ -6,6 +6,7 @@ import { KonvaEventObject } from "konva/lib/Node";
 import React from "react";
 import { useSetSelectedPoint } from "../../hooks/Point/useSelectPoint.ts";
 import { normalizeRadians } from "../../utils/toDegrees.ts";
+import useSavePathHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 interface RotateHandleRendererProps {
     id: GUID;
@@ -21,6 +22,7 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
     const { pixelsPerInch, snapRotation } = useSettingsValue();
     const [point, setPoint] = usePathPoint(props.id);
     const setSelectedPointID = useSetSelectedPoint();
+    const savePathHistory = useSavePathHistory();
 
     // Calculate handle origin
     const pointOrgin = React.useMemo(() => {
@@ -62,7 +64,13 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
 
         // Select this point
         setSelectedPointID(props.id);
-    }, [point, pixelsPerInch, pointOrgin, props.isExit, setPoint, setSelectedPointID, props.id]);
+
+        e.cancelBubble = true;
+    }, [point, pixelsPerInch, pointOrgin, props.isExit, setPoint, setSelectedPointID, props.id, snapRotation]);
+    const onDragEnd = React.useCallback((e: KonvaEventObject<DragEvent>) => {
+        onDragMove(e);
+        savePathHistory();
+    }, [onDragMove, savePathHistory]);
 
     return (
         <>
@@ -75,7 +83,7 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
                 fill={"transparent"}
                 draggable
                 onDragMove={onDragMove}
-                onDragEnd={onDragMove}
+                onDragEnd={onDragEnd}
             />
             <Line
                 points={[

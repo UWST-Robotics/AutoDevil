@@ -2,7 +2,6 @@ import MainCanvas from "./components/canvas/MainCanvas.tsx";
 import TopBar from "./components/navigation/TopBar.tsx";
 import BottomBar from "./components/navigation/BottomBar.tsx";
 import GlobalHooks from "./components/GlobalHooks.tsx";
-import LeftSideBar from "./components/navigation/LeftSideBar.tsx";
 import RightSideBar from "./components/navigation/RightSideBar.tsx";
 
 function App() {
@@ -22,7 +21,6 @@ function App() {
             >
                 <TopBar />
                 <BottomBar />
-                <LeftSideBar />
                 <RightSideBar />
             </div>
         </>

@@ -1,9 +1,7 @@
-import { Button, ButtonGroup } from "@blueprintjs/core";
-import useIsAnimating from "../../hooks/Canvas/useIsAnimating.ts";
 import ScopeSlider from "../input/ScopeSlider.tsx";
+import AnimateButton from "../buttons/AnimateButton.tsx";
 
 export default function BottomBar() {
-    const [isAnimating, setIsAnimating] = useIsAnimating();
 
     return (
         <div
@@ -14,38 +12,25 @@ export default function BottomBar() {
                 width: "100%",
                 display: "flex",
                 justifyContent: "center",
-                flexDirection: "column",
-                pointerEvents: "none",
-                padding: 10
+                alignItems: "center",
+                pointerEvents: "none"
             }}
         >
-            <div style={{
-                maxWidth: 400,
-                margin: "auto",
-            }}>
-                <ButtonGroup
-                    large
-                    fill
-                    style={{
-                        pointerEvents: "auto",
-                    }}
-                >
-                    <Button
-                        icon={"play"}
-                        intent={"success"}
-                        onClick={() => setIsAnimating(true)}
-                        disabled={isAnimating}
-                    />
-                    <Button
-                        icon={"stop"}
-                        intent={"danger"}
-                        onClick={() => setIsAnimating(false)}
-                        disabled={!isAnimating}
-                    />
-                </ButtonGroup>
-                <div style={{
-                    pointerEvents: "auto"
-                }}>
+            <div
+                style={{
+                    display: "flex",
+                    pointerEvents: "auto",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: 10,
+                    backgroundColor: "#00000077",
+                    borderTopLeftRadius: 16,
+                    borderTopRightRadius: 16,
+                }}
+            >
+                <AnimateButton />
+                <div style={{ maxWidth: 500, marginLeft: 20, marginRight: 20 }}>
                     <ScopeSlider />
                 </div>
             </div>

@@ -31,6 +31,7 @@ export default function MainCanvas() {
 
             x={camera.x}
             y={camera.y}
+
             onMouseDown={camera.onMouseDown}
             onMouseUp={camera.onMouseUp}
             onDragEnd={camera.onDragEnd}
@@ -38,10 +39,10 @@ export default function MainCanvas() {
             onWheel={camera.onScroll}
         >
             <Layer
-                x={windowWidth / 2}
-                y={windowHeight / 2}
                 scaleX={windowScale * camera.scale}
                 scaleY={windowScale * camera.scale}
+                x={windowWidth / 2}
+                y={windowHeight / 2}
             >
                 <FieldImageRenderer />
                 <PathRenderer />

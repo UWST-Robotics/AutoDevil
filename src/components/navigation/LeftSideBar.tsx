@@ -4,7 +4,7 @@ export default function LeftSideBar() {
     return (
         <div
             style={{
-                width: 250,
+                width: 150,
                 height: "100%",
                 backgroundColor: "#252A31",
                 position: "fixed",

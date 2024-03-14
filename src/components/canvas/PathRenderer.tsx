@@ -9,6 +9,7 @@ import { KonvaEventObject } from "konva/lib/Node";
 import useWindowScaleValue from "../../hooks/Canvas/useWindowScale.ts";
 import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
 import useScopeIndices from "../../hooks/Scope/useScopeIndices.ts";
+import useSavePathHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 const PATH_COLOR = "#ddd";
 const PATH_WIDTH = 1; // in
@@ -22,6 +23,7 @@ export default function PathRenderer() {
     const windowScale = useWindowScaleValue();
     const pathSpline = usePathSpline();
     const addPoint = useAddPoint();
+    const savePathHistory = useSavePathHistory();
     const cursorListener = useCursorListener("pointer");
 
     // Click events
@@ -36,7 +38,8 @@ export default function PathRenderer() {
             r,
         });
         e.cancelBubble = true;
-    }, [addPoint, pathSpline, pixelsPerInch, windowScale]);
+        savePathHistory();
+    }, [addPoint, pathSpline, pixelsPerInch, windowScale, savePathHistory]);
 
     return (
         <>

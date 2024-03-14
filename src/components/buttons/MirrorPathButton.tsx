@@ -2,6 +2,7 @@ import { useRawPath } from "../../hooks/Path/useRawPath.ts";
 import { Button } from "@blueprintjs/core";
 import React from "react";
 import { normalizeRadians } from "../../utils/toDegrees.ts";
+import useSavePathHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 export interface MirrorPathButtonProps {
     vertical?: boolean;
@@ -9,6 +10,7 @@ export interface MirrorPathButtonProps {
 
 export default function MirrorPathButton(props: MirrorPathButtonProps) {
     const [path, setPath] = useRawPath();
+    const savePathHistory = useSavePathHistory();
 
     const { vertical } = props;
 
@@ -23,7 +25,8 @@ export default function MirrorPathButton(props: MirrorPathButtonProps) {
             ...path,
             points: newPoints,
         });
-    }, [path, setPath, vertical]);
+        savePathHistory();
+    }, [path, setPath, vertical, savePathHistory]);
 
     return (
         <Button
