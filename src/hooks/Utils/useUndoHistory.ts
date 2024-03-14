@@ -2,10 +2,12 @@ import { atom, useAtom, useSetAtom } from "jotai";
 import PathPlan from "../../types/PathPlan.ts";
 import { DEFAULT_PATH, rawPathAtom } from "../Path/useRawPath.ts";
 
+const MAX_HISTORY = 30;
+
 const pathHistoryAtom = atom<PathPlan[]>([DEFAULT_PATH]);
 const pathHistoryIndexAtom = atom(0);
 
-const undoAtom = atom((get) => {
+export const undoAtom = atom((get) => {
         const index = get(pathHistoryIndexAtom);
         return index > 0;
     },
@@ -19,7 +21,7 @@ const undoAtom = atom((get) => {
     }
 );
 
-const redoAtom = atom((get) => {
+export const redoAtom = atom((get) => {
         const index = get(pathHistoryIndexAtom);
         const history = get(pathHistoryAtom);
         return index < history.length - 1;
@@ -34,12 +36,24 @@ const redoAtom = atom((get) => {
     }
 );
 
-const saveHistoryAtom = atom(null, (get, set) => {
+export const saveHistoryAtom = atom(null, (get, set) => {
     const history = get(pathHistoryAtom);
     const index = get(pathHistoryIndexAtom);
     const path = get(rawPathAtom);
-    set(pathHistoryAtom, [...history.slice(0, index + 1), path]);
-    set(pathHistoryIndexAtom, index + 1);
+
+
+    // Slice off the redo history
+    const newHistory = [...history.slice(0, index + 1), path];
+
+    // Trim the history to the max length
+    if (newHistory.length > MAX_HISTORY)
+        newHistory.shift();
+
+    // Save the new history
+    set(pathHistoryAtom, newHistory);
+
+    // Set the new index
+    set(pathHistoryIndexAtom, newHistory.length - 1);
 });
 
 export function useUndoPath() {

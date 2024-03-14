@@ -7,26 +7,26 @@ export default interface FieldPreset {
 
 export const FIELD_PRESETS: FieldPreset[] = [
     {
-        name: "VEX Over Under (2024)",
-        type: "Empty",
+        name: "Empty Field",
+        type: "2024",
         fieldImage: "/fields/VEX-Over-Under_Empty.png",
         pixelsPerInch: 6.6,
     },
     {
-        name: "VEX Over Under (2024)",
-        type: "Match",
+        name: "VRC Match",
+        type: "2024",
         fieldImage: "/fields/VEX-Over-Under_Match.png",
         pixelsPerInch: 6.6,
     },
     {
-        name: "VEX Over Under (2024)",
-        type: "Skills",
+        name: "VRC Skills",
+        type: "2024",
         fieldImage: "/fields/VEX-Over-Under_Skills.png",
         pixelsPerInch: 6.6,
     },
     {
-        name: "VEX Over Under (2024)",
-        type: "VEX-U",
+        name: "VEX-U Match",
+        type: "2024",
         fieldImage: "/fields/VEX-Over-Under_VexU.png",
         pixelsPerInch: 6.6,
     }

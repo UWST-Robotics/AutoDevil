@@ -1,12 +1,12 @@
 import PathSettings from "../../types/Settings.tsx";
 import { useSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
-import { TextField } from "@mui/material";
+import { InputAdornment, ListItem, TextField } from "@mui/material";
 
 export interface SettingsNumericInputProps {
     label: string;
-    info?: string;
     setting: keyof PathSettings;
+    info?: string;
 }
 
 export default function SettingsNumericInput(props: SettingsNumericInputProps) {
@@ -20,19 +20,25 @@ export default function SettingsNumericInput(props: SettingsNumericInputProps) {
     }, [props.setting, settings, setSettings]);
 
     return (
-        <TextField
-            id={props.setting}
-            label={props.label}
-            variant={"outlined"}
-            type={"number"}
-            InputLabelProps={{
-                shrink: true,
-            }}
-            defaultValue={settings[props.setting] as number}
-            onChange={onChange}
-            style={{
-                margin: 5
-            }}
-        />
+        <ListItem disablePadding>
+            <TextField
+                id={props.setting}
+                label={props.label}
+                variant={"standard"}
+                type={"number"}
+                fullWidth
+                defaultValue={settings[props.setting] as number}
+                onChange={onChange}
+                InputProps={{
+                    endAdornment: (<InputAdornment position="end">{props.info}</InputAdornment>)
+                }}
+                InputLabelProps={{
+                    shrink: true
+                }}
+                style={{
+                    margin: 5
+                }}
+            />
+        </ListItem>
     );
 }

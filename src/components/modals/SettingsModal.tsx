@@ -1,7 +1,8 @@
 import SettingsNumericInput from "../input/SettingsNumericInput.tsx";
 import SettingsBooleanInput from "../input/SettingsBooleanInput.tsx";
+import { Box, Fade, List, Modal } from "@mui/material";
 import SettingsImageUpload from "../input/SettingsImageUpload.tsx";
-import { Box, Fade, Modal } from "@mui/material";
+import SettingsSplineInput from "../input/SettingsSplineInput.tsx";
 
 const modalStyle = {
     position: 'absolute',
@@ -29,18 +30,22 @@ export default function SettingsModal(props: SettingsModalProps) {
         >
             <Fade in={props.isOpen}>
                 <Box sx={modalStyle}>
-                    <h2 id="settings-modal-title">
+                    <h2
+                        id="settings-modal-title"
+                        style={{ marginTop: 0 }}
+                    >
                         Settings
                     </h2>
-
-                    <SettingsImageUpload label={"Field Image"} setting={"fieldImage"} />
-                    <SettingsNumericInput label={"Pixels Per Inch"} setting={"pixelsPerInch"} />
-                    <SettingsNumericInput label={"Robot Width"} info={"(in)"} setting={"robotWidth"} />
-                    <SettingsNumericInput label={"Robot Height"} info={"(in)"} setting={"robotHeight"} />
-                    <SettingsBooleanInput label={"Holonomic Mode"} setting={"isHolonomic"} />
-                    <SettingsBooleanInput label={"Spline Mode"} setting={"isSpline"} />
-                    <SettingsBooleanInput label={"Snap Rotation"} setting={"snapRotation"} />
-                    <SettingsBooleanInput label={"Snap Position"} setting={"snapPosition"} />
+                    <List>
+                        <SettingsImageUpload label={"Field Image"} setting={"fieldImage"} />
+                        <SettingsNumericInput label={"Field Resolution"} info={"ppi"} setting={"pixelsPerInch"} />
+                        <SettingsNumericInput label={"Robot Width"} info={"in"} setting={"robotWidth"} />
+                        <SettingsNumericInput label={"Robot Height"} info={"in"} setting={"robotHeight"} />
+                        <SettingsSplineInput />
+                        <SettingsBooleanInput label={"Holonomic"} setting={"isHolonomic"} />
+                        <SettingsBooleanInput label={"Snap Rotation"} setting={"snapRotation"} />
+                        <SettingsBooleanInput label={"Snap Position"} setting={"snapPosition"} />
+                    </List>
                 </Box>
             </Fade>
         </Modal>

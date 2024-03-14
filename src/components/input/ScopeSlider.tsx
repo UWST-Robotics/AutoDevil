@@ -12,7 +12,7 @@ export default function ScopeSlider() {
             return;
         setScope({
             start: newValue[0],
-            end: newValue[1]
+            end: newValue[newValue.length - 1]
         });
     }, [setScope]);
 
@@ -27,7 +27,7 @@ export default function ScopeSlider() {
             max={1}
             step={1 / (path.points.length - 1)}
             onChange={onChange}
-            style={{ width: "100%" }}
+            style={{ minWidth: 400, marginLeft: 16, marginRight: 16 }}
         />
     )
 }

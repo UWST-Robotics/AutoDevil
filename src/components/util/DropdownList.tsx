@@ -1,5 +1,5 @@
 import React from "react";
-import { Collapse, List, ListItemButton, ListItemText } from "@mui/material";
+import { Collapse, Divider, List, ListItemButton, ListItemText } from "@mui/material";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 export interface DropdownElement<T> {
@@ -29,13 +29,13 @@ export default function DropdownList<T>(props: DropdownListProps<T>) {
                 <div key={element.id + "-" + index}>
                     <ListItemButton
                         disabled={element.isDisabled}
+                        selected={element.id == props.selectedID}
                         onClick={() => props.onSelectID(element.id == props.selectedID ? undefined : element.id)}
                         dense
                     >
                         <ListItemText>
                             {element.name}
                         </ListItemText>
-
                         <ExpandLessIcon
                             style={{
                                 transform: props.selectedID == element.id ? "rotate(180deg)" : "rotate(0deg)",
@@ -46,6 +46,7 @@ export default function DropdownList<T>(props: DropdownListProps<T>) {
                     <Collapse in={props.selectedID == element.id && !element.isDisabled}>
                         {props.children}
                         {props.renderElement && props.renderElement(element)}
+                        <Divider orientation={"horizontal"} />
                     </Collapse>
                 </div>
             ))}

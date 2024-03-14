@@ -3,7 +3,7 @@ import DownloadButton from "../buttons/DownloadButton.tsx";
 import UploadButton from "../buttons/UploadButton.tsx";
 import MirrorPathButton from "../buttons/MirrorPathButton.tsx";
 import UndoRedoButton from "../buttons/UndoRedoButton.tsx";
-import { ButtonGroup } from "@mui/material";
+import { ButtonGroup, Divider } from "@mui/material";
 
 export default function TopBar() {
 
@@ -36,10 +36,13 @@ export default function TopBar() {
                 <ButtonGroup>
                     <DownloadButton />
                     <UploadButton />
+                    <Divider orientation="vertical" variant="middle" flexItem />
                     <MirrorPathButton />
                     <MirrorPathButton vertical />
+                    <Divider orientation="vertical" variant="middle" flexItem />
                     <UndoRedoButton />
                     <UndoRedoButton redo />
+                    <Divider orientation="vertical" variant="middle" flexItem />
                     <SettingsButton />
                 </ButtonGroup>
             </div>

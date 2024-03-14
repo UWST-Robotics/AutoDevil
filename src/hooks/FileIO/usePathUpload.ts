@@ -1,5 +1,6 @@
 import { atom, useSetAtom } from "jotai";
 import { pathDecoderAtom } from "./usePathDecoder.ts";
+import { saveHistoryAtom } from "../Utils/useUndoHistory.ts";
 
 export interface PathUploadPayload {
     // TODO: Add payload
@@ -18,6 +19,7 @@ export const pathUploadAtom = atom(null, (_, set, _payload?: PathUploadPayload) 
         reader.onload = () => {
             const fileContent = reader.result as string;
             set(pathDecoderAtom, fileContent);
+            set(saveHistoryAtom);
         };
         reader.readAsText(file);
     }

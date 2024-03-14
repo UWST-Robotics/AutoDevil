@@ -12,7 +12,7 @@ export default function RightSideBar() {
                 justifyContent: "center",
                 alignItems: "center",
                 pointerEvents: "none",
-                width: 250
+                width: 400
             }}
         >
             <PointEditorPanel />

@@ -4,19 +4,49 @@ import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
 import React from "react";
 import makeAlphanumeric from "../../utils/makeAlphanumeric.ts";
-import { Button, ButtonGroup, TextField } from "@mui/material";
-import CheckmarkIcon from "@mui/icons-material/Check";
-import TrashIcon from "@mui/icons-material/Delete";
+import { Autocomplete, IconButton, ListItem, TextField } from "@mui/material";
+import useRawPathValue from "../../hooks/Path/useRawPath.ts";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 interface EventEditorPanelProps {
     eventID: GUID;
-    onClose: () => void;
 }
 
 export default function EventEditorPanel(props: EventEditorPanelProps) {
     const selectedPointID = useSelectedPointValue();
     const [point, setPoint] = usePathPoint(selectedPointID ?? DEFAULT_GUID);
     const event = point?.events?.find(e => e.id === props.eventID);
+    const rawPath = useRawPathValue();
+
+    const eventNames = React.useMemo(() => {
+        const names = new Set<string>();
+        rawPath?.points.forEach(p => {
+            p.events?.forEach(e => {
+                names.add(e.name);
+            });
+        });
+        return Array.from(names);
+    }, [rawPath]);
+
+    const onAutoCompleteChange = React.useCallback((_: any, value: string | null) => {
+        if (!point || !event || !point.events)
+            return;
+
+        // Apply to Event
+        const eventIndex = point.events.findIndex(e => e.id === props.eventID);
+        point.events[eventIndex] = {
+            ...event,
+            name: value ?? ""
+        };
+
+        const newPoint = {
+            ...point,
+            events: [
+                ...point.events
+            ]
+        };
+        setPoint(newPoint);
+    }, [point, setPoint, props.eventID, event]);
 
     const onNameChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         if (!point || !event || !point.events)
@@ -72,41 +102,42 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
             ]
         };
         setPoint(newPoint);
-        props.onClose();
-    }, [point, setPoint, props.onClose, props.eventID, event]);
+    }, [point, setPoint, props.eventID, event]);
 
     return (
-        <div style={{ marginLeft: 10, marginRight: 10 }}>
-            <TextField
+        <ListItem disablePadding>
+            <Autocomplete
                 fullWidth
-                value={event?.name}
-                onChange={onNameChange}
+                options={eventNames}
                 size={"small"}
-                label={"Name"}
-                style={{ margin: 4 }}
+                autoHighlight
+                value={event?.name}
+                onChange={onAutoCompleteChange}
+                disableClearable
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        fullWidth
+                        onChange={onNameChange}
+                        label={"Name"}
+                        variant={"standard"}
+                    />
+                )}
             />
             <TextField
-                fullWidth
                 value={event?.params}
                 onChange={onParamsChange}
                 size={"small"}
                 label={"Parameters"}
                 style={{ margin: 4 }}
+                variant={"standard"}
             />
-            <ButtonGroup fullWidth style={{ margin: 4 }}>
-                <Button
-                    color={"success"}
-                    onClick={props.onClose}
-                >
-                    <CheckmarkIcon />
-                </Button>
-                <Button
-                    color={"error"}
-                    onClick={onDelete}
-                >
-                    <TrashIcon />
-                </Button>
-            </ButtonGroup>
-        </div>
+            <IconButton
+                onClick={onDelete}
+                size={"small"}
+            >
+                <RemoveIcon />
+            </IconButton>
+        </ListItem>
     )
 }

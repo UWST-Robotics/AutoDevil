@@ -28,8 +28,8 @@ export default function PathRenderer() {
 
     // Click events
     const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>, index: number) => {
-        const x = (e.evt.offsetX - window.innerWidth / 2) / pixelsPerInch / windowScale;
-        const y = (e.evt.offsetY - window.innerHeight / 2) / pixelsPerInch / windowScale;
+        const x = pathSpline.at(index + 0.5)?.x ?? 0;
+        const y = pathSpline.at(index + 0.5)?.y ?? 0;
         const r = pathSpline.angleAt(index + 0.5) ?? 0;
         addPoint({
             index: index + 1,

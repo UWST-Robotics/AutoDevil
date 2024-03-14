@@ -45,9 +45,17 @@ export default function AnimationRenderer() {
 
     // Animate
     React.useEffect(() => {
-        if (!isAnimating)
+        if (!isAnimating) {
+            // Default Position
+            const { x, y, rotation } = points[0];
+            groupRef.current?.x(x);
+            groupRef.current?.y(y);
+            groupRef.current?.rotation(rotation);
+
             return () => {
             };
+        }
+        
         // Animation loop
         let t = 0;
         const animate = (frame: IFrame | undefined) => {
@@ -68,12 +76,11 @@ export default function AnimationRenderer() {
         return () => anim.stop();
     }, [isAnimating, points]);
 
-    if (!isAnimating)
-        return null;
     return (
         <Group
             listening={false}
             ref={groupRef}
+            opacity={isAnimating ? 1 : 0}
         >
             <RobotRenderer />
         </Group>
