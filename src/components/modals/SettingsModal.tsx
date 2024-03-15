@@ -1,6 +1,6 @@
 import SettingsNumericInput from "../input/SettingsNumericInput.tsx";
 import SettingsBooleanInput from "../input/SettingsBooleanInput.tsx";
-import { Box, Fade, List, Modal } from "@mui/material";
+import { Box, Divider, Fade, List, Modal, Typography } from "@mui/material";
 import SettingsImageUpload from "../input/SettingsImageUpload.tsx";
 import SettingsSplineInput from "../input/SettingsSplineInput.tsx";
 
@@ -46,6 +46,13 @@ export default function SettingsModal(props: SettingsModalProps) {
                         <SettingsBooleanInput label={"Snap Rotation"} setting={"snapRotation"} />
                         <SettingsBooleanInput label={"Snap Position"} setting={"snapPosition"} />
                     </List>
+                    <Divider orientation={"horizontal"} style={{ marginBottom: 4 }} />
+                    <Typography
+                        variant={"caption"}
+                        color={"text.secondary"}
+                    >
+                        AutoDevil &middot; Version 0.1.0
+                    </Typography>
                 </Box>
             </Fade>
         </Modal>
