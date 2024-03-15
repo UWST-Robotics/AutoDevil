@@ -1,7 +1,7 @@
 import { Group, Line } from "react-konva";
 import useRawPathValue from "../../hooks/Path/useRawPath.ts";
 import React from "react";
-import useSettingsValue from "../../hooks/useSettings.ts";
+import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import PointRenderer from "./PointRenderer.tsx";
 import usePathSpline from "../../hooks/Path/usePathSpline.ts";
 import useAddPoint from "../../hooks/Point/useAddPoint.ts";
@@ -9,10 +9,11 @@ import { KonvaEventObject } from "konva/lib/Node";
 import useWindowScaleValue from "../../hooks/Canvas/useWindowScale.ts";
 import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
 import useScopeIndices from "../../hooks/Scope/useScopeIndices.ts";
+import useSavePathHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 const PATH_COLOR = "#ddd";
 const PATH_WIDTH = 1; // in
-const PATH_DASH = [1, 3]; // in
+const PATH_DASH = [2, 4]; // in
 const SPLINE_INTERVAL = 0.05; // %
 
 export default function PathRenderer() {
@@ -22,12 +23,13 @@ export default function PathRenderer() {
     const windowScale = useWindowScaleValue();
     const pathSpline = usePathSpline();
     const addPoint = useAddPoint();
+    const savePathHistory = useSavePathHistory();
     const cursorListener = useCursorListener("pointer");
 
     // Click events
     const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>, index: number) => {
-        const x = (e.evt.offsetX - window.innerWidth / 2) / pixelsPerInch / windowScale;
-        const y = (e.evt.offsetY - window.innerHeight / 2) / pixelsPerInch / windowScale;
+        const x = pathSpline.at(index + 0.5)?.x ?? 0;
+        const y = pathSpline.at(index + 0.5)?.y ?? 0;
         const r = pathSpline.angleAt(index + 0.5) ?? 0;
         addPoint({
             index: index + 1,
@@ -36,7 +38,8 @@ export default function PathRenderer() {
             r,
         });
         e.cancelBubble = true;
-    }, [addPoint, pathSpline, pixelsPerInch, windowScale]);
+        savePathHistory();
+    }, [addPoint, pathSpline, pixelsPerInch, windowScale, savePathHistory]);
 
     return (
         <>

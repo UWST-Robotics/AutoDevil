@@ -1,5 +1,5 @@
 import RobotRenderer from "./RobotRenderer.tsx";
-import useSettingsValue from "../../hooks/useSettings.ts";
+import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import React from "react";
 import { Group } from "react-konva";
 import GUID from "../../types/GUID.ts";
@@ -13,13 +13,16 @@ import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
 import useNextPathPointValue from "../../hooks/Point/useNextPathPoint.ts";
 import { usePrevPathPoint } from "../../hooks/Point/usePrevPathPoint.ts";
 import PathPoint from "../../types/PathPoint.ts";
+import useSavePathHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 interface PointRendererProps {
     id: GUID;
 }
 
+const SNAP_DISTANCE = 2; // in
+
 export default function PointRenderer(props: PointRendererProps) {
-    const { pixelsPerInch, isSpline } = useSettingsValue();
+    const { pixelsPerInch, isSpline, snapPosition } = useSettingsValue();
     const cursorListener = useCursorListener("pointer");
     const [isHovered, setIsHovered] = React.useState(false);
     const [selectedPointID, setSelectedPointID] = useSelectedPoint();
@@ -27,7 +30,9 @@ export default function PointRenderer(props: PointRendererProps) {
     const nextPoint = useNextPathPointValue(props.id);
     const [prevPoint, setPrevPoint] = usePrevPathPoint(props.id);
     const { isStart, isEnd } = usePathEnds(props.id);
+    const savePathHistory = useSavePathHistory();
 
+    // Check if selected
     const isSelected = React.useMemo(() => selectedPointID === props.id, [selectedPointID, props.id]);
 
     // Mouse events
@@ -64,12 +69,21 @@ export default function PointRenderer(props: PointRendererProps) {
         if (!point)
             return;
 
+        // Calculate new position
+        let x = e.target.x() / pixelsPerInch;
+        let y = e.target.y() / pixelsPerInch;
+
+        // Snap to grid
+        if (snapPosition) {
+            x = Math.round(x / SNAP_DISTANCE) * SNAP_DISTANCE;
+            y = Math.round(y / SNAP_DISTANCE) * SNAP_DISTANCE;
+
+            e.target.x(x * pixelsPerInch);
+            e.target.y(y * pixelsPerInch);
+        }
+
         // Calculate angle between this and next point
-        const currentPoint = {
-            ...point,
-            x: e.target.x() / pixelsPerInch,
-            y: e.target.y() / pixelsPerInch
-        };
+        const currentPoint = { ...point, x, y };
         const angle = calcAngle(currentPoint, nextPoint ?? currentPoint);
 
         setPoint({
@@ -89,7 +103,13 @@ export default function PointRenderer(props: PointRendererProps) {
         }
 
         setSelectedPointID(props.id);
-    }, [point, pixelsPerInch, setPoint, setSelectedPointID, props.id, nextPoint, isEnd, isSpline, prevPoint, setPrevPoint, calcAngle]);
+        e.cancelBubble = true;
+    }, [point, pixelsPerInch, setPoint, setSelectedPointID, props.id, nextPoint, isEnd, isSpline, prevPoint, setPrevPoint, calcAngle, snapPosition]);
+    const onDragEnd = React.useCallback((e: KonvaEventObject<DragEvent>) => {
+        onDrag(e);
+        savePathHistory();
+    }, [onDrag, savePathHistory]);
+
 
     // Color
     const color = React.useMemo(() => {
@@ -115,14 +135,14 @@ export default function PointRenderer(props: PointRendererProps) {
                 onMouseEnter={onMouseOver}
                 onMouseLeave={onMouseOut}
                 onDragMove={onDrag}
-                onDragEnd={onDrag}
+                onDragEnd={onDragEnd}
                 draggable
                 isListening={true}
             >
                 <RobotRenderer
                     color={color}
                 />
-                {!isEnd || isSpline && (
+                {(!isEnd && isSpline) && (
                     <PointAnchorRenderer
                         id={point.id}
                         isExit={true}

@@ -1,4 +1,4 @@
-import useKeybinds from "../hooks/useKeybinds.ts";
+import useKeybinds from "../hooks/Utils/useKeybinds.ts";
 
 export default function GlobalHooks() {
     useKeybinds();

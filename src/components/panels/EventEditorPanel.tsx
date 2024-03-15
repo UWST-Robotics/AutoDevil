@@ -1,35 +1,43 @@
 import GUID from "../../types/GUID";
-import { Button, MenuItem, TextArea } from "@blueprintjs/core";
 import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
 import React from "react";
-import { Suggest } from "@blueprintjs/select";
-import useRawPathValue from "../../hooks/Path/useRawPath.ts";
 import makeAlphanumeric from "../../utils/makeAlphanumeric.ts";
+import { Autocomplete, IconButton, ListItem, TextField } from "@mui/material";
+import useRawPathValue from "../../hooks/Path/useRawPath.ts";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 interface EventEditorPanelProps {
     eventID: GUID;
-    onClose: () => void;
 }
 
 export default function EventEditorPanel(props: EventEditorPanelProps) {
-    const path = useRawPathValue();
     const selectedPointID = useSelectedPointValue();
     const [point, setPoint] = usePathPoint(selectedPointID ?? DEFAULT_GUID);
     const event = point?.events?.find(e => e.id === props.eventID);
+    const rawPath = useRawPathValue();
 
-    const eventList = React.useMemo(() => {
-        if (!path || !point || !point.events)
-            return [];
-        return path.points.map(p => p.events?.map(e => e.name)).flat().filter((v, i, a) => a.indexOf(v) === i && v !== undefined) as string[];
-    }, [path, point]);
+    const eventNames = React.useMemo(() => {
+        const names = new Set<string>();
+        rawPath?.points.forEach(p => {
+            p.events?.forEach(e => {
+                names.add(e.name);
+            });
+        });
+        return Array.from(names);
+    }, [rawPath]);
 
-    const onNameChange = React.useCallback((name: string) => {
+    const onAutoCompleteChange = React.useCallback((_: any, value: string | null) => {
         if (!point || !event || !point.events)
             return;
+
+        // Apply to Event
         const eventIndex = point.events.findIndex(e => e.id === props.eventID);
-        point.events[eventIndex] = { ...event, name: makeAlphanumeric(name, "_-") };
+        point.events[eventIndex] = {
+            ...event,
+            name: value ?? ""
+        };
 
         const newPoint = {
             ...point,
@@ -38,7 +46,27 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
             ]
         };
         setPoint(newPoint);
-    }, [point, setPoint]);
+    }, [point, setPoint, props.eventID, event]);
+
+    const onNameChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!point || !event || !point.events)
+            return;
+
+        // Apply to Event
+        const eventIndex = point.events.findIndex(e => e.id === props.eventID);
+        point.events[eventIndex] = {
+            ...event,
+            name: makeAlphanumeric(e.target.value, "\\._-")
+        };
+
+        const newPoint = {
+            ...point,
+            events: [
+                ...point.events
+            ]
+        };
+        setPoint(newPoint);
+    }, [point, setPoint, props.eventID, event]);
 
     const onParamsChange = React.useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
         if (!point?.events || !event)
@@ -48,7 +76,7 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
         const eventIndex = point.events.findIndex(e => e.id === props.eventID);
         point.events[eventIndex] = {
             ...event,
-            params: makeAlphanumeric(e.target.value, "_,=-")
+            params: makeAlphanumeric(e.target.value, " \\._-")
         };
 
         // Apply to Point
@@ -59,7 +87,7 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
             ]
         };
         setPoint(newPoint);
-    }, [point, setPoint]);
+    }, [point, setPoint, props.eventID, event]);
 
     const onDelete = React.useCallback(() => {
         if (!point || !event || !point.events)
@@ -74,47 +102,42 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
             ]
         };
         setPoint(newPoint);
-        props.onClose();
-    }, [point, setPoint, props.onClose]);
+    }, [point, setPoint, props.eventID, event]);
 
     return (
-        <div style={{ padding: 20 }}>
-            <Suggest
-                query={event?.name ?? ""}
-                fill
-                items={eventList}
-                inputValueRenderer={(item) => item}
-                itemPredicate={(query, item) => item.toLowerCase().indexOf(query.toLowerCase()) >= 0}
-                itemRenderer={(item, { handleClick, modifiers }) => (
-                    <MenuItem
-                        key={item}
-                        text={item}
-                        active={modifiers.active}
-                        onClick={handleClick}
+        <ListItem disablePadding>
+            <Autocomplete
+                fullWidth
+                options={eventNames}
+                size={"small"}
+                autoHighlight
+                value={event?.name}
+                onChange={onAutoCompleteChange}
+                disableClearable
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        fullWidth
+                        onChange={onNameChange}
+                        label={"Name"}
+                        variant={"standard"}
                     />
                 )}
-                onQueryChange={onNameChange}
-                onItemSelect={onNameChange}
-                selectedItem={event?.name ?? ""}
             />
-            <TextArea
-                fill
+            <TextField
                 value={event?.params}
                 onChange={onParamsChange}
-                placeholder={"Parameters"}
+                size={"small"}
+                label={"Parameters"}
+                style={{ margin: 4 }}
+                variant={"standard"}
             />
-            <Button
-                icon={"tick"}
-                intent={"success"}
-                onClick={props.onClose}
-                style={{ margin: 2 }}
-            />
-            <Button
-                icon={"trash"}
-                intent={"danger"}
+            <IconButton
                 onClick={onDelete}
-                style={{ margin: 2 }}
-            />
-        </div>
+                size={"small"}
+            >
+                <RemoveIcon />
+            </IconButton>
+        </ListItem>
     )
 }

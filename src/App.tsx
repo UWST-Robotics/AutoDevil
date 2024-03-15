@@ -2,11 +2,18 @@ import MainCanvas from "./components/canvas/MainCanvas.tsx";
 import TopBar from "./components/navigation/TopBar.tsx";
 import BottomBar from "./components/navigation/BottomBar.tsx";
 import GlobalHooks from "./components/GlobalHooks.tsx";
-import SideBar from "./components/navigation/SideBar.tsx";
+import RightSideBar from "./components/navigation/RightSideBar.tsx";
+import { createTheme, ThemeProvider } from "@mui/material";
+
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+});
 
 function App() {
     return (
-        <>
+        <ThemeProvider theme={darkTheme}>
             <GlobalHooks />
             <MainCanvas />
             <div
@@ -21,9 +28,9 @@ function App() {
             >
                 <TopBar />
                 <BottomBar />
-                <SideBar />
+                <RightSideBar />
             </div>
-        </>
+        </ThemeProvider>
     )
 }
 

@@ -1,10 +1,12 @@
 import GUID from "../../types/GUID.ts";
 import { Circle, Line } from "react-konva";
-import useSettingsValue from "../../hooks/useSettings.ts";
+import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
 import React from "react";
 import { useSetSelectedPoint } from "../../hooks/Point/useSelectPoint.ts";
+import { normalizeRadians } from "../../utils/toDegrees.ts";
+import useSavePathHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 interface RotateHandleRendererProps {
     id: GUID;
@@ -14,12 +16,15 @@ interface RotateHandleRendererProps {
 
 const HANDLE_RADIUS = 1; // in
 const HANDLE_LINE_WIDTH = 0.5; // in
+const SNAP_ANGLE = Math.PI / 16; // rad
 
 export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
-    const { pixelsPerInch } = useSettingsValue();
+    const { pixelsPerInch, snapRotation } = useSettingsValue();
     const [point, setPoint] = usePathPoint(props.id);
     const setSelectedPointID = useSetSelectedPoint();
+    const savePathHistory = useSavePathHistory();
 
+    // Calculate handle origin
     const pointOrgin = React.useMemo(() => {
         return {
             x: props.isExit ? (point?.exitDelta ?? 0) * pixelsPerInch : -(point?.enterDelta ?? 0) * pixelsPerInch,
@@ -36,10 +41,18 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
         const deltaAngle = Math.atan2(e.target.y(), e.target.x()) + (props.isExit ? 0 : Math.PI);
         const deltaDistance = Math.sqrt(e.target.x() ** 2 + e.target.y() ** 2);
 
+        // Calculate angle
+        let r = normalizeRadians(point.r + deltaAngle);
+        if (snapRotation) {
+            const snap = Math.round(r / SNAP_ANGLE) * SNAP_ANGLE;
+            if (Math.abs(snap - r) < SNAP_ANGLE / 2)
+                r = snap;
+        }
+
         // Update point
         setPoint({
             ...point,
-            r: (point.r + deltaAngle) % (Math.PI * 2),
+            r,
             exitDelta: props.isExit ? deltaDistance / pixelsPerInch : point.exitDelta,
             enterDelta: !props.isExit ? deltaDistance / pixelsPerInch : point.enterDelta,
         });
@@ -51,7 +64,13 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
 
         // Select this point
         setSelectedPointID(props.id);
-    }, [point, pixelsPerInch, pointOrgin, props.isExit, setPoint, setSelectedPointID, props.id]);
+
+        e.cancelBubble = true;
+    }, [point, pixelsPerInch, pointOrgin, props.isExit, setPoint, setSelectedPointID, props.id, snapRotation]);
+    const onDragEnd = React.useCallback((e: KonvaEventObject<DragEvent>) => {
+        onDragMove(e);
+        savePathHistory();
+    }, [onDragMove, savePathHistory]);
 
     return (
         <>
@@ -64,7 +83,7 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
                 fill={"transparent"}
                 draggable
                 onDragMove={onDragMove}
-                onDragEnd={onDragMove}
+                onDragEnd={onDragEnd}
             />
             <Line
                 points={[

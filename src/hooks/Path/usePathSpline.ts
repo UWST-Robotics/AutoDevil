@@ -2,7 +2,7 @@ import React from "react";
 import cubicLerpPoints, { lerpPoints } from "../../utils/cubicLerp.ts";
 import { normalizeRadians } from "../../utils/toDegrees.ts";
 import usePathValue from "./usePath.ts";
-import useSettingsValue from "../useSettings.ts";
+import useSettingsValue from "../Utils/useSettings.ts";
 
 const DEFAULT_DELTA_T = 0.01; // Time segment to sample
 

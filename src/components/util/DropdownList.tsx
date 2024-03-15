@@ -1,12 +1,10 @@
-import { Collapse, Icon, IconName, Intent, Menu } from "@blueprintjs/core";
-import { MenuItem2 } from "@blueprintjs/popover2";
 import React from "react";
+import { Collapse, Divider, List, ListItemButton, ListItemText } from "@mui/material";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 export interface DropdownElement<T> {
     id: T;
     name: string;
-    icon?: IconName;
-    intent?: Intent;
     isDisabled?: boolean;
 }
 
@@ -21,7 +19,7 @@ export interface DropdownListProps<T> {
 
 export default function DropdownList<T>(props: DropdownListProps<T>) {
     return (
-        <Menu
+        <List
             style={{
                 backgroundColor: "revert",
                 paddingTop: 0
@@ -29,30 +27,29 @@ export default function DropdownList<T>(props: DropdownListProps<T>) {
         >
             {props.elements?.map((element, index) => (
                 <div key={element.id + "-" + index}>
-                    <MenuItem2
-                        icon={element.icon}
-                        text={element.name}
-                        labelElement={(
-                            <Icon
-                                icon="chevron-up"
-                                style={{
-                                    transform: props.selectedID == element.id ? "rotate(180deg)" : "rotate(0deg)",
-                                    transition: "transform 0.2s ease-in-out"
-                                }}
-                            />
-                        )}
-                        onClick={() => props.onSelectID(element.id == props.selectedID ? undefined : element.id)}
-                        active={props.selectedID == element.id}
-                        intent={element.intent}
+                    <ListItemButton
                         disabled={element.isDisabled}
-                    />
-
-                    <Collapse isOpen={props.selectedID == element.id && !element.isDisabled}>
+                        selected={element.id == props.selectedID}
+                        onClick={() => props.onSelectID(element.id == props.selectedID ? undefined : element.id)}
+                        dense
+                    >
+                        <ListItemText>
+                            {element.name}
+                        </ListItemText>
+                        <ExpandLessIcon
+                            style={{
+                                transform: props.selectedID == element.id ? "rotate(180deg)" : "rotate(0deg)",
+                                transition: "transform 0.2s ease-in-out"
+                            }}
+                        />
+                    </ListItemButton>
+                    <Collapse in={props.selectedID == element.id && !element.isDisabled}>
                         {props.children}
                         {props.renderElement && props.renderElement(element)}
+                        <Divider orientation={"horizontal"} />
                     </Collapse>
                 </div>
             ))}
-        </Menu>
+        </List>
     );
 }

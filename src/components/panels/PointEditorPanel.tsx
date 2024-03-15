@@ -1,89 +1,96 @@
-import { Button, ButtonGroup, Card, Icon } from "@blueprintjs/core";
 import useSelectedPoint from "../../hooks/Point/useSelectPoint.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
-import PointBooleanInput from "../input/PointBooleanInput.tsx";
-import EventsEditorPanel from "./EventsEditorPanel.tsx";
 import useDeletePoint from "../../hooks/Point/useDeletePoint.ts";
 import usePrevPathPointValue from "../../hooks/Point/usePrevPathPoint.ts";
 import useNextPathPointValue from "../../hooks/Point/useNextPathPoint.ts";
 import React from "react";
+import { Box, ButtonGroup, IconButton, Tooltip } from "@mui/material";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import TrashIcon from "@mui/icons-material/Delete";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
+import EventsEditorPanel from "./EventsEditorPanel.tsx";
+import AddEventButton from "../buttons/AddEventButton.tsx";
+import PointTransformInputs from "../input/PointTransformInputs.tsx";
 
 export default function PointEditorPanel() {
     const [selectedPointID, setSelectedPointID] = useSelectedPoint();
     const prevPoint = usePrevPathPointValue(selectedPointID ?? DEFAULT_GUID);
     const nextPoint = useNextPathPointValue(selectedPointID ?? DEFAULT_GUID);
-    const [point] = usePathPoint(selectedPointID ?? DEFAULT_GUID);
+    const [point, setPoint] = usePathPoint(selectedPointID ?? DEFAULT_GUID);
     const deletePoint = useDeletePoint();
 
+    // Select next/prev point
     const selectNextPoint = React.useCallback(() => {
         if (nextPoint)
             setSelectedPointID(nextPoint.id);
     }, [setSelectedPointID, nextPoint])
-
     const selectPrevPoint = React.useCallback(() => {
         if (prevPoint)
             setSelectedPointID(prevPoint.id);
     }, [setSelectedPointID, prevPoint]);
 
+    const onReverseChange = React.useCallback(() => {
+        if (!point)
+            return;
+        setPoint({ ...point, isReversed: !point.isReversed });
+    }, [point, setPoint]);
+
     if (!selectedPointID || !point)
         return null;
     return (
-        <Card
-            elevation={2}
+        <div
             style={{
-                width: 300,
-                paddingTop: 0,
-                paddingBottom: 10,
-                pointerEvents: "auto"
+                borderRadius: 16,
+                margin: 10,
+                padding: 15,
+                backgroundColor: "#00000077",
+                pointerEvents: "auto",
+                textAlign: "center",
+                width: "100%"
             }}
         >
-
-            <ButtonGroup fill style={{ marginTop: 10 }}>
-                <Button
-                    icon={"double-chevron-left"}
-                    minimal
-                    onClick={selectPrevPoint}
-                    disabled={!prevPoint}
-                />
-
-                <h3 style={{ margin: 5 }}>
-                    <Icon
-                        icon={"area-of-interest"}
-                        style={{
-                            marginRight: 7,
-                            marginBottom: 2
-                        }}
-                    />
-                    Point
-                </h3>
-                <Button
-                    icon={"double-chevron-right"}
-                    minimal
-                    onClick={selectNextPoint}
-                    disabled={!nextPoint}
-                />
-            </ButtonGroup>
-
-            <h4
+            <Box
                 style={{
-                    marginBottom: 4
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
                 }}
             >
-                Options
-            </h4>
-            <PointBooleanInput
-                label={"Change Direction"}
-                setting={"isReversed"}
-            />
+                <IconButton
+                    onClick={selectPrevPoint}
+                    disabled={!prevPoint}
+                    style={{ float: "left" }}
+                >
+                    <KeyboardDoubleArrowLeftIcon />
+                </IconButton>
+                <PointTransformInputs />
+                <IconButton
+                    onClick={selectNextPoint}
+                    disabled={!nextPoint}
+                    style={{ float: "right" }}
+                >
+                    <KeyboardDoubleArrowRightIcon />
+                </IconButton>
+            </Box>
             <EventsEditorPanel />
-            <Button
-                fill
-                icon={"trash"}
-                text={"Delete Point"}
-                intent={"danger"}
-                onClick={() => deletePoint(selectedPointID)}
-            />
-        </Card>
+            <ButtonGroup>
+                <Tooltip title={point.isReversed ? "Reversed" : "Forward"}>
+                    <IconButton
+                        onClick={onReverseChange}
+                        color={point.isReversed ? "error" : "success"}
+                    >
+                        <SwapVertIcon />
+                    </IconButton>
+                </Tooltip>
+                <AddEventButton />
+                <IconButton
+                    onClick={() => deletePoint(selectedPointID)}
+                >
+                    <TrashIcon />
+                </IconButton>
+            </ButtonGroup>
+        </div>
     )
 }

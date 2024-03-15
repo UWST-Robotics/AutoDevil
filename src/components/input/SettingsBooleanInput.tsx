@@ -1,26 +1,42 @@
-import { Switch } from "@blueprintjs/core";
-import PathSettings from "../../types/Settings.tsx";
-import { useSettings } from "../../hooks/useSettings.ts";
+import Settings from "../../types/Settings.tsx";
+import { useSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
+import { Checkbox, ListItem, ListItemButton, ListItemText } from "@mui/material";
 
 export interface SettingsBooleanInputProps {
     label: string;
-    defaultValue?: boolean;
-    setting: keyof PathSettings;
+    setting: keyof Settings;
 }
 
 export default function SettingsBooleanInput(props: SettingsBooleanInputProps) {
     const [settings, setSettings] = useSettings();
 
-    const onChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setSettings({ ...settings, [props.setting]: e.target.checked });
+    const onClick = React.useCallback(() => {
+        const value = settings[props.setting] as boolean;
+        setSettings({ ...settings, [props.setting]: !value });
     }, [props.setting, settings, setSettings]);
 
     return (
-        <Switch
-            label={props.label}
-            checked={(settings[props.setting] ?? props.defaultValue ?? false) as boolean}
-            onChange={onChange}
-        />
+        <ListItem
+            dense
+            disablePadding
+            secondaryAction={
+                <Checkbox
+                    edge={"end"}
+                    checked={settings[props.setting] as boolean}
+                    onClick={onClick}
+                    aria-labelledby={"settings-" + props.setting}
+                />
+            }
+        >
+            <ListItemButton
+                onClick={onClick}
+            >
+                <ListItemText
+                    id={"settings-" + props.setting}
+                    primary={props.label}
+                />
+            </ListItemButton>
+        </ListItem>
     );
 }

@@ -1,7 +1,9 @@
-import { ButtonGroup } from "@blueprintjs/core";
 import SettingsButton from "../buttons/SettingsButton.tsx";
 import DownloadButton from "../buttons/DownloadButton.tsx";
 import UploadButton from "../buttons/UploadButton.tsx";
+import MirrorPathButton from "../buttons/MirrorPathButton.tsx";
+import UndoRedoButton from "../buttons/UndoRedoButton.tsx";
+import { ButtonGroup, Divider } from "@mui/material";
 
 export default function TopBar() {
 
@@ -14,19 +16,36 @@ export default function TopBar() {
                 width: "100%",
                 display: "flex",
                 justifyContent: "center",
-                padding: 10,
+                alignItems: "center",
                 pointerEvents: "none"
             }}
         >
-            <ButtonGroup
+            <div
                 style={{
-                    pointerEvents: "auto"
+                    display: "flex",
+                    pointerEvents: "auto",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: 10,
+                    backgroundColor: "#00000077",
+                    borderBottomLeftRadius: 16,
+                    borderBottomRightRadius: 16,
                 }}
             >
-                <DownloadButton />
-                <UploadButton />
-                <SettingsButton />
-            </ButtonGroup>
+                <ButtonGroup>
+                    <DownloadButton />
+                    <UploadButton />
+                    <Divider orientation="vertical" variant="middle" flexItem />
+                    <MirrorPathButton />
+                    <MirrorPathButton vertical />
+                    <Divider orientation="vertical" variant="middle" flexItem />
+                    <UndoRedoButton />
+                    <UndoRedoButton redo />
+                    <Divider orientation="vertical" variant="middle" flexItem />
+                    <SettingsButton />
+                </ButtonGroup>
+            </div>
         </div>
     )
 }
