@@ -45,7 +45,7 @@ export default function AnimationRenderer() {
 
     // Animate
     React.useEffect(() => {
-        if (!isAnimating) {
+        if (!isAnimating && points.length > 0) {
             // Default Position
             const { x, y, rotation } = points[0];
             groupRef.current?.x(x);
@@ -55,7 +55,7 @@ export default function AnimationRenderer() {
             return () => {
             };
         }
-        
+
         // Animation loop
         let t = 0;
         const animate = (frame: IFrame | undefined) => {

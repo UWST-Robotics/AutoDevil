@@ -5,19 +5,20 @@ import useDeletePoint from "../../hooks/Point/useDeletePoint.ts";
 import usePrevPathPointValue from "../../hooks/Point/usePrevPathPoint.ts";
 import useNextPathPointValue from "../../hooks/Point/useNextPathPoint.ts";
 import React from "react";
-import { ButtonGroup, IconButton } from "@mui/material";
+import { Box, ButtonGroup, IconButton, Tooltip } from "@mui/material";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import TrashIcon from "@mui/icons-material/Delete";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import EventsEditorPanel from "./EventsEditorPanel.tsx";
+import AddEventButton from "../buttons/AddEventButton.tsx";
+import PointTransformInputs from "../input/PointTransformInputs.tsx";
 
 export default function PointEditorPanel() {
     const [selectedPointID, setSelectedPointID] = useSelectedPoint();
     const prevPoint = usePrevPathPointValue(selectedPointID ?? DEFAULT_GUID);
     const nextPoint = useNextPathPointValue(selectedPointID ?? DEFAULT_GUID);
     const [point, setPoint] = usePathPoint(selectedPointID ?? DEFAULT_GUID);
-    //const pointState = useState()
     const deletePoint = useDeletePoint();
 
     // Select next/prev point
@@ -36,11 +37,6 @@ export default function PointEditorPanel() {
         setPoint({ ...point, isReversed: !point.isReversed });
     }, [point, setPoint]);
 
-    // Format X,Y
-    //const x = point?.x.toFixed(2);
-    //const y = point?.y.toFixed(2);
-    //const r = (180 / Math.PI * (point?.r ?? 0)).toFixed(2);
-
     if (!selectedPointID || !point)
         return null;
     return (
@@ -52,9 +48,16 @@ export default function PointEditorPanel() {
                 backgroundColor: "#00000077",
                 pointerEvents: "auto",
                 textAlign: "center",
+                width: "100%"
             }}
         >
-            <ButtonGroup>
+            <Box
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                }}
+            >
                 <IconButton
                     onClick={selectPrevPoint}
                     disabled={!prevPoint}
@@ -62,17 +65,7 @@ export default function PointEditorPanel() {
                 >
                     <KeyboardDoubleArrowLeftIcon />
                 </IconButton>
-                <IconButton
-                    onClick={onReverseChange}
-                    color={point.isReversed ? "error" : "success"}
-                >
-                    <SwapVertIcon />
-                </IconButton>
-                <IconButton
-                    onClick={() => deletePoint(selectedPointID)}
-                >
-                    <TrashIcon />
-                </IconButton>
+                <PointTransformInputs />
                 <IconButton
                     onClick={selectNextPoint}
                     disabled={!nextPoint}
@@ -80,8 +73,24 @@ export default function PointEditorPanel() {
                 >
                     <KeyboardDoubleArrowRightIcon />
                 </IconButton>
-            </ButtonGroup>
+            </Box>
             <EventsEditorPanel />
+            <ButtonGroup>
+                <Tooltip title={point.isReversed ? "Reversed" : "Forward"}>
+                    <IconButton
+                        onClick={onReverseChange}
+                        color={point.isReversed ? "error" : "success"}
+                    >
+                        <SwapVertIcon />
+                    </IconButton>
+                </Tooltip>
+                <AddEventButton />
+                <IconButton
+                    onClick={() => deletePoint(selectedPointID)}
+                >
+                    <TrashIcon />
+                </IconButton>
+            </ButtonGroup>
         </div>
     )
 }

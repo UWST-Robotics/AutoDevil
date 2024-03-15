@@ -1,6 +1,6 @@
 import { useSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
-import { ListItem, ListItemText, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Box, ListItem, ListItemText, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 
 export default function SettingsSplineInput() {
@@ -11,18 +11,35 @@ export default function SettingsSplineInput() {
     }, [settings, setSettings]);
 
     return (
-        <ListItem disablePadding>
-            <ListItemText primary={"Path Mode"} style={{ marginLeft: 10 }} />
-            <ToggleButtonGroup
-                color={"primary"}
-                value={settings.isSpline ? "spline" : "linear"}
-                exclusive
-                onChange={onChange}
-                size={"small"}
+        <ListItem
+            dense
+            disablePadding
+            secondaryAction={
+                <ToggleButtonGroup
+                    color={"primary"}
+                    value={settings.isSpline ? "spline" : "linear"}
+                    exclusive
+                    onChange={onChange}
+                    size={"small"}
+                    aria-labelledby={"settings-spline"}
+                >
+                    <ToggleButton value={"spline"} color={"primary"}>Spline</ToggleButton>
+                    <ToggleButton value={"linear"} color={"secondary"}>Linear</ToggleButton>
+                </ToggleButtonGroup>
+            }
+        >
+            <Box
+                style={{
+                    paddingLeft: 16,
+                    paddingTop: 8,
+                    paddingBottom: 8
+                }}
             >
-                <ToggleButton value={"spline"}>Spline</ToggleButton>
-                <ToggleButton value={"linear"}>Linear</ToggleButton>
-            </ToggleButtonGroup>
+                <ListItemText
+                    id={"settings-spline"}
+                    primary={"Path Mode"}
+                />
+            </Box>
         </ListItem>
     );
 }

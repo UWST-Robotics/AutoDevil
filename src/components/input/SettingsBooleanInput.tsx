@@ -1,7 +1,7 @@
 import Settings from "../../types/Settings.tsx";
 import { useSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
-import { Checkbox, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Checkbox, ListItem, ListItemButton, ListItemText } from "@mui/material";
 
 export interface SettingsBooleanInputProps {
     label: string;
@@ -17,20 +17,25 @@ export default function SettingsBooleanInput(props: SettingsBooleanInputProps) {
     }, [props.setting, settings, setSettings]);
 
     return (
-        <ListItem disablePadding>
+        <ListItem
+            dense
+            disablePadding
+            secondaryAction={
+                <Checkbox
+                    edge={"end"}
+                    checked={settings[props.setting] as boolean}
+                    onClick={onClick}
+                    aria-labelledby={"settings-" + props.setting}
+                />
+            }
+        >
             <ListItemButton
                 onClick={onClick}
-                dense
             >
-                <ListItemIcon>
-                    <Checkbox
-                        edge={"start"}
-                        checked={settings[props.setting] as boolean}
-                        tabIndex={-1}
-                        disableRipple
-                    />
-                </ListItemIcon>
-                <ListItemText primary={props.label} />
+                <ListItemText
+                    id={"settings-" + props.setting}
+                    primary={props.label}
+                />
             </ListItemButton>
         </ListItem>
     );

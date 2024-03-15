@@ -5,14 +5,14 @@ export default function RightSideBar() {
         <div
             style={{
                 position: "absolute",
-                top: 0,
-                right: 0,
+                top: 20,
+                right: 40,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
                 pointerEvents: "none",
-                width: 400
+                width: 300,
             }}
         >
             <PointEditorPanel />
