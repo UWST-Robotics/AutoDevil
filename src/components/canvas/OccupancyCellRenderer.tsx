@@ -1,8 +1,9 @@
-import useOccupancy from "../../hooks/Occupancy/useOccupancy.ts";
+import { useOccupancyValue } from "../../hooks/Occupancy/useOccupancy.ts";
 import { Rect } from "react-konva";
 import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import React from "react";
 import { KonvaEventObject } from "konva/lib/Node";
+import Konva from "konva";
 
 export interface OccupancyCellRendererProps {
     x: number;
@@ -13,12 +14,20 @@ export interface OccupancyCellRendererProps {
 }
 
 export default function OccupancyCellRenderer(props: OccupancyCellRendererProps) {
+    const rectRef = React.useRef<Konva.Rect>(null);
     const { pixelsPerInch, occupancyInchesPerCell } = useSettingsValue();
-    const [occupancy, setOccupancy] = useOccupancy();
+    const occupancy = useOccupancyValue();
 
     // Calculated from values
     const pixelsPerCell = occupancyInchesPerCell * pixelsPerInch;
     const { x, y, isOccupied, isErasing, setIsErasing } = props;
+
+    const updateView = React.useCallback(() => {
+        if (!rectRef.current)
+            return;
+
+        rectRef.current.setAttr("opacity", occupancy[x][y] ? 1 : 0);
+    }, [occupancy, x, y, rectRef]);
 
     /*
         Mouse Events
@@ -29,8 +38,8 @@ export default function OccupancyCellRenderer(props: OccupancyCellRendererProps)
 
         // Update Occupancy At Position
         occupancy[x][y] = !isErasing;
-        setOccupancy(occupancy);
-    }, [occupancy, setOccupancy, isErasing, x, y]);
+        updateView();
+    }, [updateView, occupancy, isErasing, x, y]);
 
     const onMouseDown = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
         if (e.evt.buttons !== 1)
@@ -39,12 +48,10 @@ export default function OccupancyCellRenderer(props: OccupancyCellRendererProps)
         // Set Erasing Mode Based on First Interaction
         setIsErasing(occupancy[x][y]);
 
-        // Cloning the object fixes a memory bug where
-        // the first index is not registered in the undo/redo history
-        const newOccupancy = occupancy.map(r => r.map(c => c));
-        newOccupancy[x][y] = !newOccupancy[x][y];
-        setOccupancy(newOccupancy);
-    }, [occupancy, setOccupancy, x, y]);
+        // Update Occupancy without forcing re-render
+        occupancy[x][y] = !occupancy[x][y];
+        updateView();
+    }, [updateView, occupancy, setIsErasing, x, y]);
 
     return (
         <Rect
@@ -52,9 +59,11 @@ export default function OccupancyCellRenderer(props: OccupancyCellRendererProps)
             y={y * pixelsPerCell}
             width={pixelsPerCell}
             height={pixelsPerCell}
-            fill={isOccupied ? "rgba(255, 0, 0, 0.3)" : "rgba(0, 0, 0, 0)"}
+            opacity={isOccupied ? 1 : 0}
+            fill={"rgba(255, 0, 0, 0.3)"}
             onMouseMove={onMouseMove}
             onMouseDown={onMouseDown}
+            ref={rectRef}
         />
     );
 }

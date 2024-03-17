@@ -1,4 +1,4 @@
-import { useOccupancyValue } from "../../hooks/Occupancy/useOccupancy.ts";
+import useOccupancy from "../../hooks/Occupancy/useOccupancy.ts";
 import { Group } from "react-konva";
 import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import React from "react";
@@ -13,7 +13,7 @@ export default function OccupancyRenderer() {
         fieldWidth,
         fieldHeight
     } = useSettingsValue();
-    const occupancy = useOccupancyValue();
+    const [occupancy, setOccupancy] = useOccupancy();
     const offsetX = (fieldWidth * pixelsPerInch) / 2;
     const offsetY = (fieldHeight * pixelsPerInch) / 2;
     const [isDrawing, setIsDrawing] = React.useState(false);
@@ -28,17 +28,20 @@ export default function OccupancyRenderer() {
         // Toggle Drawing
         if (e.evt.buttons === 1)
             setIsDrawing(true);
-        
+
     }, [setIsDrawing]);
 
     const onMouseUp = React.useCallback(() => {
 
         // Save File History
-        if (isDrawing)
+        if (isDrawing) {
+            const newOccupancy = occupancy.map(r => r.map(v => v));
+            setOccupancy(newOccupancy);
             saveFileHistory();
+        }
         setIsDrawing(false);
 
-    }, [isDrawing, setIsDrawing, saveFileHistory]);
+    }, [occupancy, setOccupancy, isDrawing, setIsDrawing, saveFileHistory]);
 
     if (!showOccupancyGrid)
         return null;
