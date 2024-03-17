@@ -1,17 +1,18 @@
 import { atom, useSetAtom } from "jotai";
 import { rawAutoDataAtom } from "../Utils/useAutoData.ts";
-import AutoData from "../../types/AutoData.ts";
 import generateGUID from "../../utils/generateGUID.ts";
 import { settingsAtom } from "../Utils/useSettings.ts";
 
 export const pathDecoderAtom = atom(null, (get, set, fileContent: string) => {
 
-    // Decode File Content
+    // Divide File Content
     const lines = fileContent.split("\n");
-    const path: AutoData = {
-        points: [],
-        occupancyGrid: [],
-    };
+
+
+    // Reset Path
+    const path = get(rawAutoDataAtom);
+    path.points = [];
+
     lines.forEach((line) => {
         if (line.startsWith("PATH")) {
             if (line.startsWith("PATH 1"))
@@ -49,7 +50,7 @@ export const pathDecoderAtom = atom(null, (get, set, fileContent: string) => {
     });
 
     // Set File
-    set(rawAutoDataAtom, path);
+    set(rawAutoDataAtom, { ...path });
 
     // Switch to Path Tab
     const settings = get(settingsAtom);

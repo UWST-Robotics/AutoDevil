@@ -19,7 +19,6 @@ export default function ScopeSlider() {
 
     return (
         <Slider
-            aria-label={"Scope"}
             getAriaValueText={(value) => `${value * 100}%`}
             valueLabelDisplay={"off"}
             value={[scope.start, scope.end]}

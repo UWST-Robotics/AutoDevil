@@ -56,12 +56,6 @@ export default function SettingsModal(props: SettingsModalProps) {
                             labelOff={"Linear"}
                             setting={"isSpline"}
                         />
-                        <SettingsSwitchInput
-                            label={"View Mode"}
-                            labelOn={"Occupancy Grid"}
-                            labelOff={"Path"}
-                            setting={"showOccupancyGrid"}
-                        />
                         <SettingsBooleanInput label={"Holonomic"} setting={"isHolonomic"} />
                         <SettingsBooleanInput label={"Snap Rotation"} setting={"snapRotation"} />
                         <SettingsBooleanInput label={"Snap Position"} setting={"snapPosition"} />
