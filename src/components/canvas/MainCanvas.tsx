@@ -1,7 +1,6 @@
 import { Layer, Stage } from "react-konva";
 import GridRenderer from "./GridRenderer.tsx";
 import useWindowSize from "../../hooks/Canvas/useWindowSize.ts";
-import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import FieldImageRenderer from "./FieldImageRenderer.tsx";
 import useWindowScaleValue from "../../hooks/Canvas/useWindowScale.ts";
 import PathRenderer from "./PathRenderer.tsx";
@@ -9,9 +8,9 @@ import AnimationRenderer from "./AnimationRenderer.tsx";
 import React from "react";
 import { useSetSelectedPoint } from "../../hooks/Point/useSelectPoint.ts";
 import useCameraControl from "../../hooks/Canvas/useCameraControl.ts";
+import OccupancyRenderer from "./OccupancyRenderer.tsx";
 
 export default function MainCanvas() {
-    const { pixelsPerInch } = useSettingsValue();
     const windowScale = useWindowScaleValue();
     const [windowWidth, windowHeight] = useWindowSize();
     const setSelectedPoint = useSetSelectedPoint();
@@ -46,13 +45,14 @@ export default function MainCanvas() {
             >
                 <FieldImageRenderer />
                 <PathRenderer />
+                <OccupancyRenderer />
                 <AnimationRenderer />
                 <GridRenderer
-                    cellSize={pixelsPerInch * 12}
+                    cellSize={12}
                     color={"#333"}
                 />
                 <GridRenderer
-                    cellSize={pixelsPerInch * 24}
+                    cellSize={24}
                     color={"#444"}
                 />
             </Layer>

@@ -1,8 +1,12 @@
 import ScopeSlider from "../input/ScopeSlider.tsx";
 import AnimateButton from "../buttons/AnimateButton.tsx";
+import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 
 export default function BottomBar() {
+    const { showOccupancyGrid } = useSettingsValue();
 
+    if (showOccupancyGrid)
+        return null;
     return (
         <div
             style={{

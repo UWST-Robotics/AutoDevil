@@ -1,14 +1,14 @@
-import usePathDownload from "../../hooks/FileIO/usePathDownload.ts";
+import useFileDownload from "../../hooks/FileIO/useFileDownload.ts";
 import { IconButton } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save';
 
 export default function DownloadButton() {
-    const downloadPath = usePathDownload();
+    const download = useFileDownload();
 
     return (
         <IconButton
             aria-label={"Download Path"}
-            onClick={downloadPath}
+            onClick={download}
         >
             <SaveIcon />
         </IconButton>

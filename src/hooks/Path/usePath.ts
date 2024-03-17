@@ -1,11 +1,11 @@
 import { atom, useAtomValue } from "jotai";
-import { rawPathAtom } from "./useRawPath.ts";
-import PathPlan from "../../types/PathPlan.ts";
+import { rawAutoDataAtom } from "../Utils/useAutoData.ts";
+import AutoData from "../../types/AutoData.ts";
 import { normalizeRadians } from "../../utils/toDegrees.ts";
 
-export const pathAtom = atom<PathPlan>((get) => {
-    const rawPath = get(rawPathAtom);
-    const path = { ...rawPath };
+export const pathAtom = atom<AutoData>((get) => {
+    const rawData = get(rawAutoDataAtom);
+    const path = { ...rawData };
 
     let isReversed = false;
     const reverseArr: boolean[] = [];
@@ -15,7 +15,7 @@ export const pathAtom = atom<PathPlan>((get) => {
         reverseArr.push(isReversed);
     });
 
-    path.points = rawPath.points.map((p, i) => ({
+    path.points = rawData.points.map((p, i) => ({
         ...p,
         state: {
             isReversed: reverseArr[i],

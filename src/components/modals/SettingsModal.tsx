@@ -2,7 +2,8 @@ import SettingsNumericInput from "../input/SettingsNumericInput.tsx";
 import SettingsBooleanInput from "../input/SettingsBooleanInput.tsx";
 import { Box, Divider, Fade, List, Modal, Typography } from "@mui/material";
 import SettingsImageUpload from "../input/SettingsImageUpload.tsx";
-import SettingsSplineInput from "../input/SettingsSplineInput.tsx";
+import SettingsSwitchInput from "../input/SettingsSwitchInput.tsx";
+import InputGroup from "../input/InputGroup.tsx";
 
 const modalStyle = {
     position: 'absolute',
@@ -38,10 +39,29 @@ export default function SettingsModal(props: SettingsModalProps) {
                     </h2>
                     <List>
                         <SettingsImageUpload label={"Field Image"} setting={"fieldImage"} />
-                        <SettingsNumericInput label={"Field Resolution"} info={"ppi"} setting={"pixelsPerInch"} />
-                        <SettingsNumericInput label={"Robot Width"} info={"in"} setting={"robotWidth"} />
-                        <SettingsNumericInput label={"Robot Height"} info={"in"} setting={"robotHeight"} />
-                        <SettingsSplineInput />
+                        <InputGroup>
+                            <SettingsNumericInput label={"Field Width"} info={"in"} setting={"fieldWidth"} />
+                            <SettingsNumericInput label={"Field Height"} info={"in"} setting={"fieldHeight"} />
+                        </InputGroup>
+                        <SettingsNumericInput label={"Field Image Resolution"} info={"ppi"} setting={"pixelsPerInch"} />
+                        <InputGroup>
+                            <SettingsNumericInput label={"Robot Width"} info={"in"} setting={"robotWidth"} />
+                            <SettingsNumericInput label={"Robot Height"} info={"in"} setting={"robotHeight"} />
+                        </InputGroup>
+                        <SettingsNumericInput label={"Occupancy Resolution"} info={"in/cell"}
+                                              setting={"occupancyInchesPerCell"} />
+                        <SettingsSwitchInput
+                            label={"Path Type"}
+                            labelOn={"Spline"}
+                            labelOff={"Linear"}
+                            setting={"isSpline"}
+                        />
+                        <SettingsSwitchInput
+                            label={"View Mode"}
+                            labelOn={"Occupancy Grid"}
+                            labelOff={"Path"}
+                            setting={"showOccupancyGrid"}
+                        />
                         <SettingsBooleanInput label={"Holonomic"} setting={"isHolonomic"} />
                         <SettingsBooleanInput label={"Snap Rotation"} setting={"snapRotation"} />
                         <SettingsBooleanInput label={"Snap Position"} setting={"snapPosition"} />

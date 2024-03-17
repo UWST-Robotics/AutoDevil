@@ -1,37 +1,32 @@
-import { useAutoData } from "../../hooks/Utils/useAutoData.ts";
 import React from "react";
-import { normalizeRadians } from "../../utils/toDegrees.ts";
 import useSaveUndoHistory from "../../hooks/Utils/useUndoHistory.ts";
 import { IconButton } from "@mui/material";
 import FlipIcon from '@mui/icons-material/Flip';
 import useSettingsValue from "../../hooks/Utils/useSettings.ts";
+import useOccupancy from "../../hooks/Occupancy/useOccupancy.ts";
 
-export interface MirrorPathButtonProps {
+export interface MirrorOccupancyButtonProps {
     vertical?: boolean;
 }
 
-export default function MirrorPathButton(props: MirrorPathButtonProps) {
+export default function MirrorOccupancyButton(props: MirrorOccupancyButtonProps) {
     const { showOccupancyGrid } = useSettingsValue();
-    const [path, setPath] = useAutoData();
-    const savePathHistory = useSaveUndoHistory();
+    const [occupancy, setOccupancy] = useOccupancy();
+    const saveFileHistory = useSaveUndoHistory();
 
     const { vertical } = props;
 
     const onClick = React.useCallback(() => {
-        const newPoints = path.points.map((p) => ({
-            ...p,
-            x: vertical ? p.x : -p.x,
-            y: vertical ? -p.y : p.y,
-            r: normalizeRadians(vertical ? -p.r : Math.PI - p.r)
+        const newOccupancy = occupancy.map((r, x) => r.map((_, y) => {
+            if (vertical)
+                return occupancy[x][occupancy[0].length - y - 1];
+            return occupancy[occupancy.length - x - 1][y];
         }));
-        setPath({
-            ...path,
-            points: newPoints,
-        });
-        savePathHistory();
-    }, [path, setPath, vertical, savePathHistory]);
+        setOccupancy(newOccupancy);
+        saveFileHistory();
+    }, [occupancy, setOccupancy, vertical, saveFileHistory]);
 
-    if (showOccupancyGrid)
+    if (!showOccupancyGrid)
         return null;
     return (
         <IconButton
