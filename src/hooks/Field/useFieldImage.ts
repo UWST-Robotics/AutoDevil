@@ -18,7 +18,7 @@ export const fieldImageAtom = atom(async (get) => {
     return image;
 });
 
-export const syncFieldImageAtom = unwrap(fieldImageAtom);
+export const syncFieldImageAtom = unwrap(fieldImageAtom, p => p);
 
 export default function useFieldImage() {
     return useAtomValue(syncFieldImageAtom);

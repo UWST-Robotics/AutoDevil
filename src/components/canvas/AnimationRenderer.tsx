@@ -18,7 +18,7 @@ export default function AnimationRenderer() {
     const [isAnimating] = useIsAnimating();
     const spline = usePathSpline();
     const scopeIndices = useScopeIndices();
-    const { pixelsPerInch, isHolonomic } = useSettingsValue();
+    const { showOccupancyGrid, pixelsPerInch, isHolonomic } = useSettingsValue();
 
     // Calculate points
     const points = React.useMemo(() => {
@@ -76,6 +76,8 @@ export default function AnimationRenderer() {
         return () => anim.stop();
     }, [isAnimating, points]);
 
+    if (showOccupancyGrid)
+        return null;
     return (
         <Group
             listening={false}

@@ -4,13 +4,13 @@ import PathEvent from "../../types/PathEvent.ts";
 import generateGUID, { DEFAULT_GUID } from "../../utils/generateGUID.ts";
 import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
-import useSavePathHistory from "../../hooks/Utils/useUndoHistory.ts";
+import useSaveUndoHistory from "../../hooks/Utils/useUndoHistory.ts";
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 export default function AddEventButton() {
     const selectedPointID = useSelectedPointValue();
     const [point, setPoint] = usePathPoint(selectedPointID ?? DEFAULT_GUID);
-    const savePathHistory = useSavePathHistory();
+    const savePathHistory = useSaveUndoHistory();
 
     const onClick = React.useCallback(() => {
         if (!point)

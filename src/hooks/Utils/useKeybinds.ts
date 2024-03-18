@@ -1,14 +1,14 @@
 import useDeletePoint from "../Point/useDeletePoint.ts";
 import { useSelectedPointValue } from "../Point/useSelectPoint.ts";
-import { useRedoPath, useUndoPath } from "./useUndoHistory.ts";
+import { useRedoChanges, useUndoChanges } from "./useUndoHistory.ts";
 import React from "react";
 
 export default function useKeybinds() {
     const deletePoint = useDeletePoint();
     const selectedPointID = useSelectedPointValue();
-    const [, undo] = useUndoPath();
-    const [, redo] = useRedoPath();
-    
+    const [, undo] = useUndoChanges();
+    const [, redo] = useRedoChanges();
+
     const onKeyDown = React.useCallback((e: KeyboardEvent) => {
         if (e.key === "Delete" && selectedPointID)
             deletePoint(selectedPointID);

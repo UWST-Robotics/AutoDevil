@@ -1,1 +1,20 @@
-{"name":"AutoDevil","short_name":"AutoDevil","icons":[{"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}],"theme_color":"#ffffff","background_color":"#ffffff","display":"standalone"}
+{
+  "name": "AutoDevil",
+  "short_name": "AutoDevil",
+  "description": "Autonomous path planning UI for VEX/FIRST Robotics",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#1C2127",
+  "background_color": "#1C2127",
+  "display": "standalone"
+}

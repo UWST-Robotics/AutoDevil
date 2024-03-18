@@ -1,11 +1,16 @@
 import PointEditorPanel from "../panels/PointEditorPanel.tsx";
+import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 
 export default function RightSideBar() {
+    const { showOccupancyGrid } = useSettingsValue();
+
+    if (showOccupancyGrid)
+        return null;
     return (
         <div
             style={{
                 position: "absolute",
-                top: 20,
+                top: 50,
                 right: 40,
                 display: "flex",
                 flexDirection: "column",

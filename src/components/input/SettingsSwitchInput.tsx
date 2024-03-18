@@ -1,13 +1,23 @@
 import { useSettings } from "../../hooks/Utils/useSettings.ts";
 import React from "react";
 import { Box, ListItem, ListItemText, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import Settings from "../../types/Settings.ts";
 
+export interface SettingsSwitchInputProps {
+    label: string;
+    labelOn: string;
+    labelOff: string;
+    setting: keyof Settings;
+}
 
-export default function SettingsSplineInput() {
+export default function SettingsSwitchInput(props: SettingsSwitchInputProps) {
     const [settings, setSettings] = useSettings();
 
     const onChange = React.useCallback((_: React.MouseEvent<HTMLElement>, value: string | null) => {
-        setSettings({ ...settings, isSpline: value === "spline" });
+        setSettings({
+            ...settings,
+            [props.setting]: value === "true"
+        });
     }, [settings, setSettings]);
 
     return (
@@ -17,14 +27,14 @@ export default function SettingsSplineInput() {
             secondaryAction={
                 <ToggleButtonGroup
                     color={"primary"}
-                    value={settings.isSpline ? "spline" : "linear"}
+                    value={(settings[props.setting] as boolean) ? "true" : "false"}
                     exclusive
                     onChange={onChange}
                     size={"small"}
-                    aria-labelledby={"settings-spline"}
+                    aria-labelledby={"settings-" + props.setting}
                 >
-                    <ToggleButton value={"spline"} color={"primary"}>Spline</ToggleButton>
-                    <ToggleButton value={"linear"} color={"secondary"}>Linear</ToggleButton>
+                    <ToggleButton value={"false"} color={"primary"}>{props.labelOff}</ToggleButton>
+                    <ToggleButton value={"true"} color={"secondary"}>{props.labelOn}</ToggleButton>
                 </ToggleButtonGroup>
             }
         >
@@ -36,8 +46,8 @@ export default function SettingsSplineInput() {
                 }}
             >
                 <ListItemText
-                    id={"settings-spline"}
-                    primary={"Path Mode"}
+                    id={"settings-" + props.setting}
+                    primary={props.label}
                 />
             </Box>
         </ListItem>

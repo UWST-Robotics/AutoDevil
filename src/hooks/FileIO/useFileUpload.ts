@@ -1,12 +1,13 @@
 import { atom, useSetAtom } from "jotai";
 import { pathDecoderAtom } from "./usePathDecoder.ts";
 import { saveHistoryAtom } from "../Utils/useUndoHistory.ts";
+import { occupancyDecoderAtom } from "./useOccupancyDecoder.ts";
 
-export interface PathUploadPayload {
+export interface UploadPayload {
     // TODO: Add payload
 }
 
-export const pathUploadAtom = atom(null, (_, set, _payload?: PathUploadPayload) => {
+export const fileUploadAtom = atom(null, (_, set, _payload?: UploadPayload) => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = ".txt";
@@ -18,7 +19,12 @@ export const pathUploadAtom = atom(null, (_, set, _payload?: PathUploadPayload) 
         const reader = new FileReader();
         reader.onload = () => {
             const fileContent = reader.result as string;
-            set(pathDecoderAtom, fileContent);
+            if (fileContent.startsWith("PATH"))
+                set(pathDecoderAtom, fileContent);
+            else if (fileContent.startsWith("OCCUPANCY"))
+                set(occupancyDecoderAtom, fileContent);
+            else
+                console.warn(`Unknown file type: ${fileContent}`);
             set(saveHistoryAtom);
         };
         reader.readAsText(file);
@@ -26,6 +32,6 @@ export const pathUploadAtom = atom(null, (_, set, _payload?: PathUploadPayload) 
     input.click();
 });
 
-export default function usePathUpload() {
-    return useSetAtom(pathUploadAtom);
+export default function useFileUpload() {
+    return useSetAtom(fileUploadAtom);
 }

@@ -1,4 +1,4 @@
-import { useRedoPath, useUndoPath } from "../../hooks/Utils/useUndoHistory.ts";
+import { useRedoChanges, useUndoChanges } from "../../hooks/Utils/useUndoHistory.ts";
 import { IconButton } from "@mui/material";
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
@@ -8,8 +8,8 @@ export interface UndoRedoButtonProps {
 }
 
 export default function UndoRedoButton(props: UndoRedoButtonProps) {
-    const [canUndo, undoPath] = useUndoPath();
-    const [canRedo, redoPath] = useRedoPath();
+    const [canUndo, undoPath] = useUndoChanges();
+    const [canRedo, redoPath] = useRedoChanges();
 
     return (
         <IconButton

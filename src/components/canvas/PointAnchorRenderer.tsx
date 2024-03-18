@@ -6,7 +6,7 @@ import { KonvaEventObject } from "konva/lib/Node";
 import React from "react";
 import { useSetSelectedPoint } from "../../hooks/Point/useSelectPoint.ts";
 import { normalizeRadians } from "../../utils/toDegrees.ts";
-import useSavePathHistory from "../../hooks/Utils/useUndoHistory.ts";
+import useSaveUndoHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 interface RotateHandleRendererProps {
     id: GUID;
@@ -22,7 +22,7 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
     const { pixelsPerInch, snapRotation } = useSettingsValue();
     const [point, setPoint] = usePathPoint(props.id);
     const setSelectedPointID = useSetSelectedPoint();
-    const savePathHistory = useSavePathHistory();
+    const savePathHistory = useSaveUndoHistory();
 
     // Calculate handle origin
     const pointOrgin = React.useMemo(() => {

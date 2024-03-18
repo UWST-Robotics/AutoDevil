@@ -4,7 +4,7 @@ import { normalizeRadians } from "../../utils/toDegrees.ts";
 import usePathValue from "./usePath.ts";
 import useSettingsValue from "../Utils/useSettings.ts";
 
-const DEFAULT_DELTA_T = 0.01; // Time segment to sample
+const DEFAULT_DELTA_T = 0.001; // Time segment to sample
 
 export default function usePathSpline(deltaT?: number) {
     const { isSpline } = useSettingsValue();
@@ -40,11 +40,18 @@ export default function usePathSpline(deltaT?: number) {
 
     // Angle
     const angleAt = React.useCallback((t: number) => {
-        const p1 = pointAt(t);
-        const p2 = pointAt(t + actualDT);
+        let p1 = pointAt(t);
+        let p2 = pointAt(t + actualDT);
+
+        // Attempt to get previous point
+        if (!p1 || !p2) {
+            p1 = pointAt(t - actualDT);
+            p2 = pointAt(t);
+        }
+
         if (!p1 || !p2)
             return undefined;
-        return normalizeRadians(Math.atan2(p2.y - p1.y, p2.x - p1.x) + (p1.state?.isReversed ? Math.PI : 0));
+        return normalizeRadians(Math.atan2(p2.y - p1.y, p2.x - p1.x) + (p2.state?.isReversed ? Math.PI : 0));
     }, [pointAt, actualDT]);
 
     // Velocity

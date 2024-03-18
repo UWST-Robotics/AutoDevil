@@ -13,7 +13,7 @@ import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
 import useNextPathPointValue from "../../hooks/Point/useNextPathPoint.ts";
 import { usePrevPathPoint } from "../../hooks/Point/usePrevPathPoint.ts";
 import PathPoint from "../../types/PathPoint.ts";
-import useSavePathHistory from "../../hooks/Utils/useUndoHistory.ts";
+import useSaveUndoHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 interface PointRendererProps {
     id: GUID;
@@ -30,7 +30,7 @@ export default function PointRenderer(props: PointRendererProps) {
     const nextPoint = useNextPathPointValue(props.id);
     const [prevPoint, setPrevPoint] = usePrevPathPoint(props.id);
     const { isStart, isEnd } = usePathEnds(props.id);
-    const savePathHistory = useSavePathHistory();
+    const savePathHistory = useSaveUndoHistory();
 
     // Check if selected
     const isSelected = React.useMemo(() => selectedPointID === props.id, [selectedPointID, props.id]);

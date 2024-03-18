@@ -1,15 +1,14 @@
 import { Group, Line } from "react-konva";
-import useRawPathValue from "../../hooks/Path/useRawPath.ts";
+import useRawAutoDataValue from "../../hooks/Utils/useAutoData.ts";
 import React from "react";
 import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import PointRenderer from "./PointRenderer.tsx";
 import usePathSpline from "../../hooks/Path/usePathSpline.ts";
 import useAddPoint from "../../hooks/Point/useAddPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
-import useWindowScaleValue from "../../hooks/Canvas/useWindowScale.ts";
 import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
 import useScopeIndices from "../../hooks/Scope/useScopeIndices.ts";
-import useSavePathHistory from "../../hooks/Utils/useUndoHistory.ts";
+import useSaveUndoHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 const PATH_COLOR = "#ddd";
 const PATH_WIDTH = 1; // in
@@ -18,12 +17,11 @@ const SPLINE_INTERVAL = 0.05; // %
 
 export default function PathRenderer() {
     const scopeIndices = useScopeIndices();
-    const pathPlan = useRawPathValue();
-    const { pixelsPerInch } = useSettingsValue();
-    const windowScale = useWindowScaleValue();
+    const pathPlan = useRawAutoDataValue();
+    const { pixelsPerInch, showOccupancyGrid } = useSettingsValue();
     const pathSpline = usePathSpline();
     const addPoint = useAddPoint();
-    const savePathHistory = useSavePathHistory();
+    const savePathHistory = useSaveUndoHistory();
     const cursorListener = useCursorListener("pointer");
 
     // Click events
@@ -39,8 +37,10 @@ export default function PathRenderer() {
         });
         e.cancelBubble = true;
         savePathHistory();
-    }, [addPoint, pathSpline, pixelsPerInch, windowScale, savePathHistory]);
+    }, [addPoint, pathSpline, savePathHistory]);
 
+    if (showOccupancyGrid)
+        return null;
     return (
         <>
             {Array.from({ length: pathSpline.length }).map((_, index) => {

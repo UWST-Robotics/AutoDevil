@@ -5,7 +5,7 @@ import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
 import React from "react";
 import makeAlphanumeric from "../../utils/makeAlphanumeric.ts";
 import { Autocomplete, IconButton, ListItem, TextField } from "@mui/material";
-import useRawPathValue from "../../hooks/Path/useRawPath.ts";
+import useRawAutoDataValue from "../../hooks/Utils/useAutoData.ts";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 interface EventEditorPanelProps {
@@ -16,7 +16,7 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
     const selectedPointID = useSelectedPointValue();
     const [point, setPoint] = usePathPoint(selectedPointID ?? DEFAULT_GUID);
     const event = point?.events?.find(e => e.id === props.eventID);
-    const rawPath = useRawPathValue();
+    const rawPath = useRawAutoDataValue();
 
     const eventNames = React.useMemo(() => {
         const names = new Set<string>();
