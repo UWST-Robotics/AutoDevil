@@ -3,12 +3,14 @@ import { rawAutoDataAtom } from "../Utils/useAutoData.ts";
 import { settingsAtom } from "../Utils/useSettings.ts";
 import OccupancyGrid from "../../types/OccupancyGrid.ts";
 
+const MIN_CELL_SIZE = 4;
+
 export const occupancyAtom = atom((get) => {
         const { occupancyGrid } = get(rawAutoDataAtom);
         const { occupancyInchesPerCell, fieldWidth, fieldHeight } = get(settingsAtom);
 
         // Get Correct Cell Size
-        const cellSize = occupancyInchesPerCell || 6;
+        const cellSize = Math.max(MIN_CELL_SIZE, occupancyInchesPerCell || 6);
         const cellsX = Math.ceil(fieldWidth / cellSize);
         const cellsY = Math.ceil(fieldHeight / cellSize);
 

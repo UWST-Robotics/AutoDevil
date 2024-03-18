@@ -37,7 +37,7 @@ export default function useCameraControl() {
         stage.y(camera.y);
         layer.scaleX(camera.scale * windowScale);
         layer.scaleY(camera.scale * windowScale);
-    }, []);
+    }, [windowScale]);
 
     const onScroll = React.useCallback((e: KonvaEventObject<WheelEvent>) => {
         e.evt.preventDefault();

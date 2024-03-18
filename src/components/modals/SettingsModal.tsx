@@ -65,7 +65,7 @@ export default function SettingsModal(props: SettingsModalProps) {
                         variant={"caption"}
                         color={"text.secondary"}
                     >
-                        AutoDevil &middot; Version 0.1.0
+                        AutoDevil &middot; Version {APP_VERSION}
                     </Typography>
                 </Box>
             </Fade>
