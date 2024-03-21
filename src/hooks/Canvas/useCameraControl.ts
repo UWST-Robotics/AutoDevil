@@ -2,14 +2,12 @@ import React from "react";
 import { KonvaEventObject } from "konva/lib/Node";
 import Konva from "konva";
 import Camera from "../../types/Camera.ts";
-import useWindowScaleValue from "./useWindowScale.ts";
 import useWindowSize from "./useWindowSize.ts";
 
 const ZOOM_SPEED = 1.002;
 const DEFAULT_CAMERA: Camera = { x: 0, y: 0, scale: 1 };
 
 export default function useCameraControl() {
-    const windowScale = useWindowScaleValue();
     const [windowWidth, windowHeight] = useWindowSize();
     const stageRef = React.useRef<Konva.Stage>(null);
     const layerRef = React.useRef<Konva.Layer>(null);
@@ -23,9 +21,9 @@ export default function useCameraControl() {
         return {
             x: stage.x(),
             y: stage.y(),
-            scale: layer.scaleX() / windowScale,
+            scale: layer.scaleX(),
         };
-    }, [windowScale]);
+    }, []);
 
     const setCamera = React.useCallback((camera: { x: number, y: number, scale: number }) => {
         const stage = stageRef.current;
@@ -35,23 +33,22 @@ export default function useCameraControl() {
 
         stage.x(camera.x);
         stage.y(camera.y);
-        layer.scaleX(camera.scale * windowScale);
-        layer.scaleY(camera.scale * windowScale);
-    }, [windowScale]);
+        layer.scaleX(camera.scale);
+        layer.scaleY(camera.scale);
+    }, []);
 
-    const onScroll = React.useCallback((e: KonvaEventObject<WheelEvent>) => {
-        e.evt.preventDefault();
+    const zoom = React.useCallback((delta: number, mouseX?: number, mouseY?: number) => {
 
         // Get current camera
         const camera = getCamera();
 
         // Calculate new scale
-        const newScale = camera.scale * Math.pow(ZOOM_SPEED, -e.evt.deltaY);
+        const newScale = camera.scale * Math.pow(ZOOM_SPEED, -delta);
         const zoomDelta = newScale / camera.scale;
 
         // Calculate Mouse Offset
-        const mouseOffsetX = e.evt.offsetX - windowWidth / 2;
-        const mouseOffsetY = e.evt.offsetY - windowHeight / 2;
+        const mouseOffsetX = mouseX ? (mouseX - windowWidth / 2) : 0;
+        const mouseOffsetY = mouseY ? (mouseY - windowHeight / 2) : 0;
 
         // Calculate new position
         const newX = camera.x - (mouseOffsetX - camera.x) * (zoomDelta - 1);
@@ -59,6 +56,12 @@ export default function useCameraControl() {
 
         // Set new camera
         setCamera({ x: newX, y: newY, scale: newScale });
+
+    }, [getCamera, setCamera, windowWidth, windowHeight]);
+
+    const onScroll = React.useCallback((e: KonvaEventObject<WheelEvent>) => {
+        e.evt.preventDefault();
+        zoom(e.evt.deltaY, e.evt.clientX, e.evt.clientY);
     }, [getCamera, setCamera, windowWidth, windowHeight]);
 
     const onMouseDown = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
@@ -80,6 +83,17 @@ export default function useCameraControl() {
         e.evt.preventDefault();
     }, []);
 
+    const onKeyDown = React.useCallback((e: KeyboardEvent) => {
+        if (e.ctrlKey && e.key === "=") {
+            e.preventDefault();
+            zoom(-100);
+        }
+        if (e.ctrlKey && e.key === "-") {
+            e.preventDefault();
+            zoom(100);
+        }
+    }, [zoom]);
+
     React.useEffect(() => {
         Konva.dragButtons = [0, 1, 2];
         Konva.hitOnDragEnabled = true;
@@ -94,14 +108,16 @@ export default function useCameraControl() {
         stage.on("mousedown", onMouseDown);
         stage.on("mouseup", onMouseUp);
         stage.on("contextmenu", onContextMenu);
+        window.addEventListener("keydown", onKeyDown);
 
         return () => {
             stage.off("wheel", onScroll);
             stage.off("mousedown", onMouseDown);
             stage.off("mouseup", onMouseUp);
             stage.off("contextmenu", onContextMenu);
+            window.removeEventListener("keydown", onKeyDown);
         };
-    }, [onScroll, onMouseDown, onMouseUp, onContextMenu]);
+    }, [onScroll, onMouseDown, onMouseUp, onContextMenu, onKeyDown]);
 
     return {
         stageRef,

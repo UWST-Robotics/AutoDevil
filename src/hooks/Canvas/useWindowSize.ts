@@ -11,9 +11,7 @@ export default function useWindowSize(): [number, number] {
 
     React.useEffect(() => {
         window.addEventListener("resize", onResize);
-        return () => {
-            window.removeEventListener("resize", onResize);
-        };
+        return () => window.removeEventListener("resize", onResize);
     }, [onResize]);
 
     return [canvasWidth, canvasHeight];

@@ -1,5 +1,4 @@
 import { Shape } from "react-konva";
-import useWindowScaleValue from "../../hooks/Canvas/useWindowScale.ts";
 import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 
 interface CanvasGridProps {
@@ -9,7 +8,6 @@ interface CanvasGridProps {
 
 export default function GridRenderer(props: CanvasGridProps) {
     const { fieldWidth, fieldHeight, pixelsPerInch } = useSettingsValue();
-    const windowScale = useWindowScaleValue();
 
     return (
         <Shape
@@ -28,7 +26,7 @@ export default function GridRenderer(props: CanvasGridProps) {
             fill={props.color}
             stroke={props.color}
             opacity={0.7}
-            strokeWidth={0.5 / windowScale}
+            strokeWidth={0.5}
             isListening={false}
         />
     );
