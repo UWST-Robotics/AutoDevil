@@ -13,7 +13,7 @@ import useSaveUndoHistory from "../../hooks/Utils/useUndoHistory.ts";
 const PATH_COLOR = "#ddd";
 const PATH_WIDTH = 1; // in
 const PATH_DASH = [2, 4]; // in
-const SPLINE_INTERVAL = 0.05; // %
+const SPLINE_INTERVAL = 0.1; // %
 
 export default function PathRenderer() {
     const scopeIndices = useScopeIndices();
@@ -22,7 +22,7 @@ export default function PathRenderer() {
     const pathSpline = usePathSpline();
     const addPoint = useAddPoint();
     const savePathHistory = useSaveUndoHistory();
-    const cursorListener = useCursorListener("pointer");
+    const [onMouseOver, onMouseOut] = useCursorListener("pointer");
 
     // Click events
     const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>, index: number) => {
@@ -60,7 +60,7 @@ export default function PathRenderer() {
                 }).flat();
 
                 return (
-                    <Group key={index + "line"}>
+                    <Group key={index + "-line"}>
                         <Line
                             points={points}
                             stroke={PATH_COLOR}
@@ -69,15 +69,17 @@ export default function PathRenderer() {
                             lineCap={"round"}
                             lineJoin={"round"}
                             listening={false}
+                            perfectDrawEnabled={false}
                         />
                         <Line
                             points={points}
                             stroke={"transparent"}
                             strokeWidth={PATH_WIDTH * pixelsPerInch * 4}
                             onClick={(e) => onClick(e, index)}
-                            onMouseEnter={cursorListener.onMouseOver}
-                            onMouseLeave={cursorListener.onMouseOut}
+                            onMouseEnter={onMouseOver}
+                            onMouseLeave={onMouseOut}
                             listening={true}
+                            perfectDrawEnabled={false}
                         />
                     </Group>
                 );
@@ -87,7 +89,7 @@ export default function PathRenderer() {
                     return null;
                 return (
                     <PointRenderer
-                        key={index + "point"}
+                        key={point.id}
                         id={point.id}
                     />
                 )

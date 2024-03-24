@@ -26,6 +26,7 @@ export default function RobotRenderer(props: RobotRendererProps) {
                 fill={"#00000000"}
                 stroke={color ?? "#fff"}
                 strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch}
+                perfectDrawEnabled={false}
             />
             <Line
                 points={[
@@ -36,6 +37,7 @@ export default function RobotRenderer(props: RobotRendererProps) {
                 ]}
                 stroke={color ?? "#fff"}
                 strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch * 3}
+                perfectDrawEnabled={false}
             />
         </>
     )

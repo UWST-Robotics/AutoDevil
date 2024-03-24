@@ -26,7 +26,8 @@ export default function GridRenderer(props: CanvasGridProps) {
             fill={props.color}
             stroke={props.color}
             opacity={0.7}
-            strokeWidth={0.5}
+            strokeWidth={1}
+            perfectDrawEnabled={false}
             isListening={false}
         />
     );

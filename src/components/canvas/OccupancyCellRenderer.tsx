@@ -64,6 +64,7 @@ export default function OccupancyCellRenderer(props: OccupancyCellRendererProps)
             onMouseMove={onMouseMove}
             onMouseDown={onMouseDown}
             ref={rectRef}
+            perfectDrawEnabled={false}
         />
     );
 }

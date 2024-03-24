@@ -24,7 +24,6 @@ export default function MainCanvas() {
             width={windowWidth}
             height={windowHeight}
             onClick={onClick}
-            perfectDrawEnabled={false}
             ref={stageRef}
         >
             <Layer
