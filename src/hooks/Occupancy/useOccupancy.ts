@@ -3,7 +3,7 @@ import { rawAutoDataAtom } from "../Utils/useAutoData.ts";
 import { settingsAtom } from "../Utils/useSettings.ts";
 import OccupancyGrid from "../../types/OccupancyGrid.ts";
 
-const MIN_CELL_SIZE = 4;
+const MIN_CELL_SIZE = 3;
 
 export const occupancyAtom = atom((get) => {
         const { occupancyGrid } = get(rawAutoDataAtom);
