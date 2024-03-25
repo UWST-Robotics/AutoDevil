@@ -117,7 +117,7 @@ export default function PointRenderer(props: PointRendererProps) {
     // Color
     const color = React.useMemo(() => {
         if (isSelected)
-            return "#fa2";
+            return "#4181d0";
         if (isStart)
             return "#2f2";
         if (isEnd)
@@ -132,7 +132,7 @@ export default function PointRenderer(props: PointRendererProps) {
             x={point.x * pixelsPerInch}
             y={point.y * pixelsPerInch}
             rotation={toDegrees(point.state?.gyro ?? 0)}
-            opacity={isHovered || isSelected ? 1 : 0.5}
+            opacity={isSelected ? 1 : isHovered ? 0.5 : 0.25}
             onClick={onClick}
             onMouseEnter={onMouseOver}
             onMouseLeave={onMouseOut}
@@ -144,6 +144,7 @@ export default function PointRenderer(props: PointRendererProps) {
         >
             <RobotRenderer
                 color={color}
+                isSelected={isSelected}
             />
             {(!isEnd && isSpline) && (
                 <PointAnchorRenderer

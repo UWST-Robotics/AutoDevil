@@ -11,9 +11,9 @@ import useScopeIndices from "../../hooks/Scope/useScopeIndices.ts";
 import useSaveUndoHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 const PATH_COLOR = "#ddd";
-const PATH_WIDTH = 1; // in
-const PATH_DASH = [2, 4]; // in
-const SPLINE_INTERVAL = 0.1; // %
+const PATH_WIDTH = 0.4; // in
+const PATH_CLICK_WIDTH = 4; // in
+const SPLINE_INTERVAL = 0.05; // %
 
 export default function PathRenderer() {
     const scopeIndices = useScopeIndices();
@@ -72,7 +72,7 @@ export default function PathRenderer() {
                     return null;
 
                 // Spline Points
-                const points = Array.from({ length: 1 / SPLINE_INTERVAL }).map((_, i) => {
+                const points = Array.from({ length: 1 / SPLINE_INTERVAL + 1 }).map((_, i) => {
                     const point = pathSpline.at(index + i * SPLINE_INTERVAL);
                     if (!point)
                         return [];
@@ -88,7 +88,6 @@ export default function PathRenderer() {
                             points={points}
                             stroke={PATH_COLOR}
                             strokeWidth={PATH_WIDTH * pixelsPerInch}
-                            dash={PATH_DASH.map((dash) => dash * pixelsPerInch)}
                             lineCap={"round"}
                             lineJoin={"round"}
                             listening={false}
@@ -97,7 +96,7 @@ export default function PathRenderer() {
                         <Line
                             points={points}
                             stroke={"transparent"}
-                            strokeWidth={PATH_WIDTH * pixelsPerInch * 4}
+                            strokeWidth={PATH_CLICK_WIDTH * pixelsPerInch}
                             onClick={(e) => onClick(e, index)}
                             onMouseEnter={onMouseOver}
                             onMouseLeave={onMouseOut}

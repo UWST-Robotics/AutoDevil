@@ -9,8 +9,9 @@ import Konva from "konva";
 import { IFrame } from "konva/lib/types";
 import useScopeIndices from "../../hooks/Scope/useScopeIndices.ts";
 
-const ANIMATION_INTERVAL = 1000 / 30; // ms
-const POINT_INTERVAL = ANIMATION_INTERVAL / 1000; // s
+const ANIMATION_STEP = 0.001; // %
+const MIN_DELTA_PX = 15; // px
+const MAX_ITERATIONS = 10; // iterations
 
 // Animate Spline with React Sprint
 export default function AnimationRenderer() {
@@ -19,35 +20,27 @@ export default function AnimationRenderer() {
     const spline = usePathSpline();
     const scopeIndices = useScopeIndices();
     const { showOccupancyGrid, pixelsPerInch, isHolonomic } = useSettingsValue();
+    const minDelta = React.useMemo(() => Math.pow(MIN_DELTA_PX / pixelsPerInch, 2), [pixelsPerInch]);
+    const t = React.useRef(0);
 
-    // Calculate points
-    const points = React.useMemo(() => {
-        const pointArr = [];
-        for (let t = 0; t < spline.length; t += POINT_INTERVAL) {
-
-            // Skip if out of scope
-            if (t < scopeIndices.start || t >= scopeIndices.end)
-                continue;
-
-            // Add point
-            const point = spline.at(t);
-            const angle = isHolonomic ?
-                toDegrees(point?.state?.gyro ?? 0) :
-                toDegrees(spline.angleAt(t) ?? 0);
-            pointArr.push({
-                x: (point?.x ?? 0) * pixelsPerInch,
-                y: (point?.y ?? 0) * pixelsPerInch,
-                rotation: angle,
-            });
-        }
-        return pointArr;
-    }, [spline, pixelsPerInch, isHolonomic, scopeIndices]);
+    // Get Point
+    const getPoint = React.useCallback((t: number) => {
+        const point = spline.at(t);
+        const angle = isHolonomic ?
+            toDegrees(point?.state?.gyro ?? 0) :
+            toDegrees(spline.angleAt(t) ?? 0);
+        return {
+            x: (point?.x ?? 0) * pixelsPerInch,
+            y: (point?.y ?? 0) * pixelsPerInch,
+            rotation: angle,
+        };
+    }, [spline, pixelsPerInch, isHolonomic]);
 
     // Animate
     React.useEffect(() => {
-        if (!isAnimating && points.length > 0) {
+        if (!isAnimating) {
             // Default Position
-            const { x, y, rotation } = points[0];
+            const { x, y, rotation } = getPoint(0);
             groupRef.current?.x(x);
             groupRef.current?.y(y);
             groupRef.current?.rotation(rotation);
@@ -57,24 +50,44 @@ export default function AnimationRenderer() {
         }
 
         // Animation loop
-        let t = 0;
-        const animate = (frame: IFrame | undefined) => {
-            if (!groupRef.current || points.length <= 0)
+        const animate = (_: IFrame | undefined) => {
+            if (!groupRef.current)
                 return;
 
-            // Update position
-            const { x, y, rotation } = points[Math.floor(t / ANIMATION_INTERVAL) % points.length];
+            // Get delta
+            let deltaDistance = 0;
+            let point = getPoint(t.current);
+            let iterations = 0;
+            do {
+                // Check Iterations
+                if (iterations++ > MAX_ITERATIONS)
+                    break;
+
+                // Increment t
+                t.current = (t.current + ANIMATION_STEP) % spline.length;
+                if (t.current < scopeIndices.start || t.current > scopeIndices.end)
+                    t.current = scopeIndices.start;
+
+                // Get Point
+                point = getPoint(t.current);
+
+                // Calculate Delta Distance
+                deltaDistance = Math.pow(point.x - groupRef.current.x(), 2) + Math.pow(point.y - groupRef.current.y(), 2);
+            }
+            while (deltaDistance < minDelta);
+
+            // Update Position
+            const { x, y, rotation } = point;
             groupRef.current.x(x);
             groupRef.current.y(y);
             groupRef.current.rotation(rotation);
-            t += frame?.timeDiff ?? 0;
         };
 
         // Start animation
         const anim = new Konva.Animation(animate, groupRef.current?.getLayer());
         anim.start();
         return () => anim.stop();
-    }, [isAnimating, points]);
+    }, [isAnimating, minDelta, getPoint, spline, scopeIndices, pixelsPerInch]);
 
     if (showOccupancyGrid)
         return null;

@@ -43,7 +43,11 @@ export default function SettingsModal(props: SettingsModalProps) {
                             <SettingsNumericInput label={"Field Width"} info={"in"} setting={"fieldWidth"} />
                             <SettingsNumericInput label={"Field Height"} info={"in"} setting={"fieldHeight"} />
                         </InputGroup>
-                        <SettingsNumericInput label={"Field Image Resolution"} info={"ppi"} setting={"pixelsPerInch"} />
+                        <InputGroup>
+                            <SettingsNumericInput label={"Field Image Resolution"} info={"ppi"}
+                                                  setting={"pixelsPerInch"} />
+                            <SettingsNumericInput label={"Field Opacity"} info={"%"} setting={"fieldOpacity"} />
+                        </InputGroup>
                         <InputGroup>
                             <SettingsNumericInput label={"Robot Width"} info={"in"} setting={"robotWidth"} />
                             <SettingsNumericInput label={"Robot Height"} info={"in"} setting={"robotHeight"} />
