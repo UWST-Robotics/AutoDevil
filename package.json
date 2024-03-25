@@ -3,7 +3,7 @@
 	"description": "A simple web-app for robot path planning",
 	"author": "DEVIL5",
 	"private": true,
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
