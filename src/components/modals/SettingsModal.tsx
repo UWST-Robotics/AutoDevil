@@ -1,9 +1,10 @@
 import SettingsNumericInput from "../input/SettingsNumericInput.tsx";
 import SettingsBooleanInput from "../input/SettingsBooleanInput.tsx";
-import { Box, Divider, Fade, List, Modal, Typography } from "@mui/material";
+import { Box, Divider, Fade, IconButton, List, Modal, Typography } from "@mui/material";
 import SettingsImageUpload from "../input/SettingsImageUpload.tsx";
 import SettingsSwitchInput from "../input/SettingsSwitchInput.tsx";
 import InputGroup from "../input/InputGroup.tsx";
+import CloseIcon from "@mui/icons-material/Close";
 
 const modalStyle = {
     position: 'absolute',
@@ -37,6 +38,13 @@ export default function SettingsModal(props: SettingsModalProps) {
                     >
                         Settings
                     </h2>
+                    <IconButton
+                        aria-label={"Close Settings"}
+                        onClick={props.onClose}
+                        style={{ position: "absolute", top: 20, right: 20 }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
                     <List>
                         <SettingsImageUpload label={"Field Image"} setting={"fieldImage"} />
                         <InputGroup>

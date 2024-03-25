@@ -50,6 +50,10 @@ export default function PointRenderer(props: PointRendererProps) {
         setSelectedPointID(isSelected ? undefined : props.id);
         e.cancelBubble = true;
     }, [setSelectedPointID, isSelected, props.id]);
+    const onTouchStart = React.useCallback((e: KonvaEventObject<TouchEvent>) => {
+        setSelectedPointID(props.id);
+        e.cancelBubble = true;
+    }, [setSelectedPointID, props.id]);
 
     // Angle Calculation
     const calcAngle = React.useCallback((a: PathPoint, b: PathPoint) => {
@@ -139,6 +143,7 @@ export default function PointRenderer(props: PointRendererProps) {
             onDragStart={onDragStart}
             onDragMove={onDrag}
             onDragEnd={onDragEnd}
+            onTouchStart={onTouchStart}
             draggable
             isListening={true}
         >

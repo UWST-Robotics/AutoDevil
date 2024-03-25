@@ -12,6 +12,7 @@ export default function useCameraControl() {
     const stageRef = React.useRef<Konva.Stage>(null);
     const layerRef = React.useRef<Konva.Layer>(null);
 
+    // Utility Functions
     const getCamera = React.useCallback(() => {
         const stage = stageRef.current;
         const layer = layerRef.current;
@@ -24,7 +25,6 @@ export default function useCameraControl() {
             scale: layer.scaleX(),
         };
     }, []);
-
     const setCamera = React.useCallback((camera: { x: number, y: number, scale: number }) => {
         const stage = stageRef.current;
         const layer = layerRef.current;
@@ -36,7 +36,6 @@ export default function useCameraControl() {
         layer.scaleX(camera.scale);
         layer.scaleY(camera.scale);
     }, []);
-
     const zoom = React.useCallback((delta: number, mouseX?: number, mouseY?: number) => {
 
         // Get current camera
@@ -59,11 +58,13 @@ export default function useCameraControl() {
 
     }, [getCamera, setCamera, windowWidth, windowHeight]);
 
+    // Zoom
     const onScroll = React.useCallback((e: KonvaEventObject<WheelEvent>) => {
         e.evt.preventDefault();
         zoom(e.evt.deltaY, e.evt.clientX, e.evt.clientY);
-    }, [getCamera, setCamera, windowWidth, windowHeight]);
+    }, [zoom]);
 
+    // Start/Stop Pan
     const onMouseDown = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
         if (e.evt.button === 2) {
             e.target.stopDrag();
@@ -71,7 +72,6 @@ export default function useCameraControl() {
             e.evt.preventDefault();
         }
     }, []);
-
     const onMouseUp = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
         if (e.evt.button === 2) {
             e.target.getStage()?.stopDrag();
@@ -79,10 +79,23 @@ export default function useCameraControl() {
         }
     }, []);
 
+    // Touch Events
+    const onTouchStart = React.useCallback((e: KonvaEventObject<TouchEvent>) => {
+        e.target.stopDrag();
+        e.target.getStage()?.startDrag();
+        e.evt.preventDefault();
+    }, []);
+    const onTouchEnd = React.useCallback((e: KonvaEventObject<TouchEvent>) => {
+        e.target.getStage()?.stopDrag();
+        e.evt.preventDefault();
+    }, []);
+
+    // Prevent Right Click
     const onContextMenu = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
         e.evt.preventDefault();
     }, []);
 
+    // Keybinds
     const onKeyDown = React.useCallback((e: KeyboardEvent) => {
         if (e.ctrlKey && e.key === "=") {
             e.preventDefault();
@@ -108,6 +121,8 @@ export default function useCameraControl() {
         stage.on("mousedown", onMouseDown);
         stage.on("mouseup", onMouseUp);
         stage.on("contextmenu", onContextMenu);
+        stage.on("touchstart", onTouchStart);
+        stage.on("touchend", onTouchEnd);
         window.addEventListener("keydown", onKeyDown);
 
         return () => {
@@ -115,6 +130,8 @@ export default function useCameraControl() {
             stage.off("mousedown", onMouseDown);
             stage.off("mouseup", onMouseUp);
             stage.off("contextmenu", onContextMenu);
+            stage.off("touchstart", onTouchStart);
+            stage.off("touchend", onTouchEnd);
             window.removeEventListener("keydown", onKeyDown);
         };
     }, [onScroll, onMouseDown, onMouseUp, onContextMenu, onKeyDown]);

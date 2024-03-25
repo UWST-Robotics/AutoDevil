@@ -24,15 +24,7 @@ export default function PathRenderer() {
     const savePathHistory = useSaveUndoHistory();
     const [onMouseOver, onMouseOut] = useCursorListener("pointer");
 
-    // Click events
-    const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>, index: number) => {
-
-        // Get Mouse Position
-        const canvasMouse = e.currentTarget.getRelativePointerPosition();
-        if (!canvasMouse)
-            return;
-        const mouseX = canvasMouse.x / pixelsPerInch;
-        const mouseY = canvasMouse.y / pixelsPerInch;
+    const addPointAtMouse = React.useCallback((mouseX: number, mouseY: number, index: number) => {
 
         // Calculate the closest time to the click
         let deltaT = 0;
@@ -58,9 +50,37 @@ export default function PathRenderer() {
         });
         savePathHistory();
 
+    }, [addPoint, pathSpline, savePathHistory]);
+
+    // Click events
+    const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>, index: number) => {
+
+        // Get Mouse Position
+        const canvasMouse = e.currentTarget.getRelativePointerPosition();
+        if (!canvasMouse)
+            return;
+
+        // Add the point
+        addPointAtMouse(canvasMouse.x / pixelsPerInch, canvasMouse.y / pixelsPerInch, index);
+
         // Prevent the event from bubbling
         e.cancelBubble = true;
-    }, [addPoint, pathSpline, pixelsPerInch, savePathHistory]);
+    }, [addPointAtMouse, pixelsPerInch]);
+
+    // Touch events
+    const onTouch = React.useCallback((e: KonvaEventObject<TouchEvent>, index: number) => {
+
+        // Get Touch Position
+        const canvasTouch = e.currentTarget.getRelativePointerPosition();
+        if (!canvasTouch)
+            return;
+
+        // Add the point
+        addPointAtMouse(canvasTouch.x / pixelsPerInch, canvasTouch.y / pixelsPerInch, index);
+
+        // Prevent the event from bubbling
+        e.cancelBubble = true;
+    }, [addPointAtMouse, pixelsPerInch]);
 
     if (showOccupancyGrid)
         return null;
@@ -98,6 +118,7 @@ export default function PathRenderer() {
                             stroke={"transparent"}
                             strokeWidth={PATH_CLICK_WIDTH * pixelsPerInch}
                             onClick={(e) => onClick(e, index)}
+                            onTouchStart={(e) => onTouch(e, index)}
                             onMouseEnter={onMouseOver}
                             onMouseLeave={onMouseOut}
                             listening={true}

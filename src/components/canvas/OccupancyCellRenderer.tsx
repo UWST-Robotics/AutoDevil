@@ -62,13 +62,23 @@ export default function OccupancyCellRenderer(props: OccupancyCellRendererProps)
             return;
         updateCell(!isErasing);
     }, [updateCell, isErasing]);
-
     const onMouseDown = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
         if (e.evt.buttons !== 1)
             return;
         setIsErasing(occupancy[x][y]);
         updateCell(!occupancy[x][y]);
     }, [updateCell, setIsErasing, occupancy, x, y]);
+
+    /*
+        Touch Events
+     */
+    const onTouchStart = React.useCallback((_: KonvaEventObject<TouchEvent>) => {
+        setIsErasing(occupancy[x][y]);
+        updateCell(!occupancy[x][y]);
+    }, [updateCell, setIsErasing, occupancy, x, y]);
+    const onTouchMove = React.useCallback((_: KonvaEventObject<TouchEvent>) => {
+        updateCell(!isErasing);
+    }, [updateCell, isErasing]);
 
     return (
         <Rect
@@ -80,6 +90,8 @@ export default function OccupancyCellRenderer(props: OccupancyCellRendererProps)
             fill={"rgba(255, 0, 0, 0.3)"}
             onMouseMove={onMouseMove}
             onMouseDown={onMouseDown}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
             ref={rectRef}
             perfectDrawEnabled={false}
         />
