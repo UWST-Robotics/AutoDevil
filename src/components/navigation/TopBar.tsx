@@ -6,6 +6,8 @@ import UndoRedoButton from "../buttons/UndoRedoButton.tsx";
 import { ButtonGroup, Divider } from "@mui/material";
 import SwitchModeButton from "../buttons/SwitchModeButton.tsx";
 import MirrorOccupancyButton from "../buttons/MirrorOccupancyButton.tsx";
+import RotatePathButton from "../buttons/RotatePathButton.tsx";
+import RotateOccupancyButton from "../buttons/RotateOccupancyButton.tsx";
 
 export default function TopBar() {
 
@@ -43,6 +45,11 @@ export default function TopBar() {
                     <MirrorPathButton vertical />
                     <MirrorOccupancyButton />
                     <MirrorOccupancyButton vertical />
+                    <Divider orientation="vertical" variant="middle" flexItem />
+                    <RotatePathButton />
+                    <RotatePathButton clockwise />
+                    <RotateOccupancyButton />
+                    <RotateOccupancyButton clockwise />
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <UndoRedoButton />
                     <UndoRedoButton redo />
