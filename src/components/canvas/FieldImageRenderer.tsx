@@ -1,40 +1,24 @@
-import React from "react";
 import { Image } from "react-konva";
-import { useSetWindowScale } from "../../hooks/Canvas/useWindowScale.ts";
-import useWindowSize from "../../hooks/Canvas/useWindowSize.ts";
 import useFieldImage from "../../hooks/Field/useFieldImage.ts";
-
-// Minimum padding around image
-const IMAGE_PADDING = 110;
+import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 
 export default function FieldImageRenderer() {
-    const [windowWidth, windowHeight] = useWindowSize();
-    const setWindowScale = useSetWindowScale();
     const fieldImage = useFieldImage();
+    const { fieldOpacity } = useSettingsValue();
 
-    // Set window scale
-    React.useEffect(() => {
-        if (fieldImage) {
-            const scale = Math.min(
-                (windowWidth - IMAGE_PADDING) / fieldImage.width,
-                (windowHeight - IMAGE_PADDING) / fieldImage.height
-            );
-            setWindowScale(scale);
-        }
-    }, [fieldImage, windowWidth, windowHeight, setWindowScale]);
+    if (!fieldImage)
+        return null;
 
     return (
-        <>
-            {fieldImage && (
-                <Image
-                    image={fieldImage}
-                    x={-fieldImage.width / 2}
-                    y={-fieldImage.height / 2}
-                    width={fieldImage.width}
-                    height={fieldImage.height}
-                    isListening={false}
-                />
-            )}
-        </>
+        <Image
+            image={fieldImage}
+            x={-fieldImage.width / 2}
+            y={-fieldImage.height / 2}
+            width={fieldImage.width}
+            height={fieldImage.height}
+            opacity={fieldOpacity}
+            perfectDrawEnabled={false}
+            isListening={false}
+        />
     )
 }

@@ -9,20 +9,21 @@ export default function useKeybinds() {
     const [, undo] = useUndoChanges();
     const [, redo] = useRedoChanges();
 
+    // Handle keydown events
     const onKeyDown = React.useCallback((e: KeyboardEvent) => {
-        if (e.key === "Delete" && selectedPointID)
+        if (e.key === "Delete")
             deletePoint(selectedPointID);
+
         if (e.key === "z" && e.ctrlKey)
             undo();
         if (e.key === "y" && e.ctrlKey)
             redo();
     }, [deletePoint, selectedPointID, undo, redo]);
 
+    // Add event listeners
     React.useEffect(() => {
         window.addEventListener("keydown", onKeyDown);
-        return () => {
-            window.removeEventListener("keydown", onKeyDown);
-        }
+        return () => window.removeEventListener("keydown", onKeyDown);
     }, [onKeyDown]);
 
     return null;

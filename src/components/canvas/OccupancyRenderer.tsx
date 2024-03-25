@@ -24,15 +24,11 @@ export default function OccupancyRenderer() {
         Mouse Events
      */
     const onMouseDown = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
-
         // Toggle Drawing
         if (e.evt.buttons === 1)
             setIsDrawing(true);
-
     }, [setIsDrawing]);
-
     const onMouseUp = React.useCallback(() => {
-
         // Save File History
         if (isDrawing) {
             const newOccupancy = occupancy.map(r => r.map(v => v));
@@ -40,7 +36,24 @@ export default function OccupancyRenderer() {
             saveFileHistory();
         }
         setIsDrawing(false);
+    }, [occupancy, setOccupancy, isDrawing, setIsDrawing, saveFileHistory]);
 
+    /*
+        Touch Events
+     */
+    const onTouchStart = React.useCallback((e: KonvaEventObject<TouchEvent>) => {
+        // Toggle Drawing
+        setIsDrawing(true);
+        e.cancelBubble = true;
+    }, [setIsDrawing]);
+    const onTouchEnd = React.useCallback(() => {
+        // Save File History
+        if (isDrawing) {
+            const newOccupancy = occupancy.map(r => r.map(v => v));
+            setOccupancy(newOccupancy);
+            saveFileHistory();
+        }
+        setIsDrawing(false);
     }, [occupancy, setOccupancy, isDrawing, setIsDrawing, saveFileHistory]);
 
     if (!showOccupancyGrid)
@@ -51,6 +64,8 @@ export default function OccupancyRenderer() {
             y={-offsetY}
             onMouseDown={onMouseDown}
             onMouseUp={onMouseUp}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
         >
             {occupancy.map((row, x) => (
                 row.map((isOccupied, y) => (

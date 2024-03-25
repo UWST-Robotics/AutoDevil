@@ -4,6 +4,7 @@ import { Line, Rect } from "react-konva";
 interface RobotRendererProps {
     color?: string;
     isFlipped?: boolean;
+    isSelected?: boolean;
 }
 
 const ROBOT_LINE_WIDTH = 0.5; // in
@@ -25,7 +26,11 @@ export default function RobotRenderer(props: RobotRendererProps) {
                 offsetY={robotHeight / 2 * pixelsPerInch}
                 fill={"#00000000"}
                 stroke={color ?? "#fff"}
-                strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch}
+                strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch * (props.isSelected ? 1.5 : 1)}
+                perfectDrawEnabled={false}
+                shadowColor={"#000"}
+                shadowBlur={props.isSelected ? 20 : 0}
+                shadowOpacity={0.5}
             />
             <Line
                 points={[
@@ -36,6 +41,7 @@ export default function RobotRenderer(props: RobotRendererProps) {
                 ]}
                 stroke={color ?? "#fff"}
                 strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch * 3}
+                perfectDrawEnabled={false}
             />
         </>
     )

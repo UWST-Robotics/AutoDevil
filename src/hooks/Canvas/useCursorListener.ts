@@ -14,8 +14,8 @@ export default function useCursorListener(cursor: string) {
             stage.container().style.cursor = "default";
     }, []);
 
-    return {
+    return [
         onMouseOver,
         onMouseOut
-    };
+    ];
 }

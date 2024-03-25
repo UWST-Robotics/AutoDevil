@@ -23,7 +23,7 @@ const SNAP_DISTANCE = 2; // in
 
 export default function PointRenderer(props: PointRendererProps) {
     const { pixelsPerInch, isSpline, snapPosition } = useSettingsValue();
-    const cursorListener = useCursorListener("pointer");
+    const [onPointerMouseOver, onPointerMouseOut] = useCursorListener("pointer");
     const [isHovered, setIsHovered] = React.useState(false);
     const [selectedPointID, setSelectedPointID] = useSelectedPoint();
     const [point, setPoint] = usePathPoint(props.id);
@@ -38,18 +38,22 @@ export default function PointRenderer(props: PointRendererProps) {
     // Mouse events
     const onMouseOver = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
         setIsHovered(true);
-        cursorListener.onMouseOver(e);
-    }, [cursorListener]);
+        onPointerMouseOver(e);
+    }, [onPointerMouseOver]);
     const onMouseOut = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
         setIsHovered(false);
-        cursorListener.onMouseOut(e);
-    }, [cursorListener]);
+        onPointerMouseOut(e);
+    }, [onPointerMouseOut]);
 
     // Click events
     const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
         setSelectedPointID(isSelected ? undefined : props.id);
         e.cancelBubble = true;
     }, [setSelectedPointID, isSelected, props.id]);
+    const onTouchStart = React.useCallback((e: KonvaEventObject<TouchEvent>) => {
+        setSelectedPointID(props.id);
+        e.cancelBubble = true;
+    }, [setSelectedPointID, props.id]);
 
     // Angle Calculation
     const calcAngle = React.useCallback((a: PathPoint, b: PathPoint) => {
@@ -65,6 +69,12 @@ export default function PointRenderer(props: PointRendererProps) {
     }, []);
 
     // Drag events
+    const onDragStart = React.useCallback((e: KonvaEventObject<DragEvent>) => {
+        if (!point)
+            return;
+        setSelectedPointID(props.id);
+        e.cancelBubble = true;
+    }, [point, setSelectedPointID, props.id]);
     const onDrag = React.useCallback((e: KonvaEventObject<DragEvent>) => {
         if (!point)
             return;
@@ -84,13 +94,13 @@ export default function PointRenderer(props: PointRendererProps) {
 
         // Calculate angle between this and next point
         const currentPoint = { ...point, x, y };
-        const angle = calcAngle(currentPoint, nextPoint ?? currentPoint);
+        if (!isSpline && !isEnd && nextPoint)
+            currentPoint.r = calcAngle(currentPoint, nextPoint);
 
+        // Update Point
         setPoint({
             ...point,
-            x: currentPoint.x,
-            y: currentPoint.y,
-            r: (isSpline || isEnd) ? point.r : angle
+            ...currentPoint
         });
 
         // Update Previous Point
@@ -101,10 +111,7 @@ export default function PointRenderer(props: PointRendererProps) {
                 r: prevAngle
             });
         }
-
-        setSelectedPointID(props.id);
-        e.cancelBubble = true;
-    }, [point, pixelsPerInch, setPoint, setSelectedPointID, props.id, nextPoint, isEnd, isSpline, prevPoint, setPrevPoint, calcAngle, snapPosition]);
+    }, [point, pixelsPerInch, setPoint, nextPoint, isEnd, isSpline, prevPoint, setPrevPoint, calcAngle, snapPosition]);
     const onDragEnd = React.useCallback((e: KonvaEventObject<DragEvent>) => {
         onDrag(e);
         savePathHistory();
@@ -114,7 +121,7 @@ export default function PointRenderer(props: PointRendererProps) {
     // Color
     const color = React.useMemo(() => {
         if (isSelected)
-            return "#fa2";
+            return "#4181d0";
         if (isStart)
             return "#2f2";
         if (isEnd)
@@ -125,38 +132,39 @@ export default function PointRenderer(props: PointRendererProps) {
     if (!point)
         return;
     return (
-        <>
-            <Group
-                x={point.x * pixelsPerInch}
-                y={point.y * pixelsPerInch}
-                rotation={toDegrees(point.state?.gyro ?? 0)}
-                opacity={isHovered || isSelected ? 1 : 0.5}
-                onClick={onClick}
-                onMouseEnter={onMouseOver}
-                onMouseLeave={onMouseOut}
-                onDragMove={onDrag}
-                onDragEnd={onDragEnd}
-                draggable
-                isListening={true}
-            >
-                <RobotRenderer
+        <Group
+            x={point.x * pixelsPerInch}
+            y={point.y * pixelsPerInch}
+            rotation={toDegrees(point.state?.gyro ?? 0)}
+            opacity={isSelected ? 1 : isHovered ? 0.5 : 0.25}
+            onClick={onClick}
+            onMouseEnter={onMouseOver}
+            onMouseLeave={onMouseOut}
+            onDragStart={onDragStart}
+            onDragMove={onDrag}
+            onDragEnd={onDragEnd}
+            onTouchStart={onTouchStart}
+            draggable
+            isListening={true}
+        >
+            <RobotRenderer
+                color={color}
+                isSelected={isSelected}
+            />
+            {(!isEnd && isSpline) && (
+                <PointAnchorRenderer
+                    id={point.id}
+                    isExit={true}
                     color={color}
                 />
-                {(!isEnd && isSpline) && (
-                    <PointAnchorRenderer
-                        id={point.id}
-                        isExit={true}
-                        color={color}
-                    />
-                )}
-                {(!isStart && (isSpline || isEnd)) && (
-                    <PointAnchorRenderer
-                        id={point.id}
-                        isExit={false}
-                        color={color}
-                    />
-                )}
-            </Group>
-        </>
+            )}
+            {(!isStart && (isSpline || isEnd)) && (
+                <PointAnchorRenderer
+                    id={point.id}
+                    isExit={false}
+                    color={color}
+                />
+            )}
+        </Group>
     )
 }

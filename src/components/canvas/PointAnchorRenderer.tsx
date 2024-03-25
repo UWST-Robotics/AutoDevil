@@ -1,5 +1,5 @@
 import GUID from "../../types/GUID.ts";
-import { Circle, Line } from "react-konva";
+import { Circle, Group, Line } from "react-konva";
 import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { KonvaEventObject } from "konva/lib/Node";
@@ -73,7 +73,7 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
     }, [onDragMove, savePathHistory]);
 
     return (
-        <>
+        <Group>
             <Circle
                 x={pointOrgin.x}
                 y={pointOrgin.y}
@@ -84,6 +84,7 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
                 draggable
                 onDragMove={onDragMove}
                 onDragEnd={onDragEnd}
+                perfectDrawEnabled={false}
             />
             <Line
                 points={[
@@ -95,7 +96,8 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
                 stroke={props.color ?? "#fff"}
                 strokeWidth={HANDLE_LINE_WIDTH * pixelsPerInch}
                 listening={false}
+                perfectDrawEnabled={false}
             />
-        </>
+        </Group>
     );
 }

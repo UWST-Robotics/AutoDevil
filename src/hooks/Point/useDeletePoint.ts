@@ -5,7 +5,10 @@ import { selectedPointAtom } from "./useSelectPoint.ts";
 
 export const deletePointAtom = atom(
     null,
-    (get, set, pointId: GUID) => {
+    (get, set, pointId: GUID | undefined) => {
+        if (!pointId)
+            return;
+        
         const path = get(rawAutoDataAtom);
         if (path.points.length <= 2)
             return;

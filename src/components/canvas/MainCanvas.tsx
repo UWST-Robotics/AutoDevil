@@ -8,6 +8,7 @@ import React from "react";
 import { useSetSelectedPoint } from "../../hooks/Point/useSelectPoint.ts";
 import useCameraControl from "../../hooks/Canvas/useCameraControl.ts";
 import OccupancyRenderer from "./OccupancyRenderer.tsx";
+import WatermarkRenderer from "./WatermarkRenderer.tsx";
 
 export default function MainCanvas() {
     const [windowWidth, windowHeight] = useWindowSize();
@@ -24,7 +25,6 @@ export default function MainCanvas() {
             width={windowWidth}
             height={windowHeight}
             onClick={onClick}
-            perfectDrawEnabled={false}
             ref={stageRef}
         >
             <Layer
@@ -32,6 +32,7 @@ export default function MainCanvas() {
                 y={windowHeight / 2}
                 ref={layerRef}
             >
+                <WatermarkRenderer />
                 <FieldImageRenderer />
                 <PathRenderer />
                 <OccupancyRenderer />

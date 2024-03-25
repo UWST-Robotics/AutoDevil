@@ -11,8 +11,8 @@ import useScopeIndices from "../../hooks/Scope/useScopeIndices.ts";
 import useSaveUndoHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 const PATH_COLOR = "#ddd";
-const PATH_WIDTH = 1; // in
-const PATH_DASH = [2, 4]; // in
+const PATH_WIDTH = 0.4; // in
+const PATH_CLICK_WIDTH = 4; // in
 const SPLINE_INTERVAL = 0.05; // %
 
 export default function PathRenderer() {
@@ -22,22 +22,65 @@ export default function PathRenderer() {
     const pathSpline = usePathSpline();
     const addPoint = useAddPoint();
     const savePathHistory = useSaveUndoHistory();
-    const cursorListener = useCursorListener("pointer");
+    const [onMouseOver, onMouseOut] = useCursorListener("pointer");
+
+    const addPointAtMouse = React.useCallback((mouseX: number, mouseY: number, index: number) => {
+
+        // Calculate the closest time to the click
+        let deltaT = 0;
+        let minDistance = Infinity;
+        for (let i = 0; i < 1; i += SPLINE_INTERVAL) {
+            const point = pathSpline.at(index + i);
+            if (!point)
+                continue;
+            const dist = Math.hypot(point.x - mouseX, point.y - mouseY);
+            if (dist < minDistance) {
+                deltaT = i;
+                minDistance = dist;
+            }
+        }
+
+        // Add the point
+        const newPoint = pathSpline.at(index + deltaT);
+        addPoint({
+            index: index + 1,
+            x: newPoint?.x ?? mouseX,
+            y: newPoint?.y ?? mouseY,
+            r: pathSpline.angleAt(index + deltaT) ?? 0
+        });
+        savePathHistory();
+
+    }, [addPoint, pathSpline, savePathHistory]);
 
     // Click events
     const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>, index: number) => {
-        const x = pathSpline.at(index + 0.5)?.x ?? 0;
-        const y = pathSpline.at(index + 0.5)?.y ?? 0;
-        const r = pathSpline.angleAt(index + 0.5) ?? 0;
-        addPoint({
-            index: index + 1,
-            x,
-            y,
-            r,
-        });
+
+        // Get Mouse Position
+        const canvasMouse = e.currentTarget.getRelativePointerPosition();
+        if (!canvasMouse)
+            return;
+
+        // Add the point
+        addPointAtMouse(canvasMouse.x / pixelsPerInch, canvasMouse.y / pixelsPerInch, index);
+
+        // Prevent the event from bubbling
         e.cancelBubble = true;
-        savePathHistory();
-    }, [addPoint, pathSpline, savePathHistory]);
+    }, [addPointAtMouse, pixelsPerInch]);
+
+    // Touch events
+    const onTouch = React.useCallback((e: KonvaEventObject<TouchEvent>, index: number) => {
+
+        // Get Touch Position
+        const canvasTouch = e.currentTarget.getRelativePointerPosition();
+        if (!canvasTouch)
+            return;
+
+        // Add the point
+        addPointAtMouse(canvasTouch.x / pixelsPerInch, canvasTouch.y / pixelsPerInch, index);
+
+        // Prevent the event from bubbling
+        e.cancelBubble = true;
+    }, [addPointAtMouse, pixelsPerInch]);
 
     if (showOccupancyGrid)
         return null;
@@ -49,7 +92,7 @@ export default function PathRenderer() {
                     return null;
 
                 // Spline Points
-                const points = Array.from({ length: 1 / SPLINE_INTERVAL }).map((_, i) => {
+                const points = Array.from({ length: 1 / SPLINE_INTERVAL + 1 }).map((_, i) => {
                     const point = pathSpline.at(index + i * SPLINE_INTERVAL);
                     if (!point)
                         return [];
@@ -60,24 +103,26 @@ export default function PathRenderer() {
                 }).flat();
 
                 return (
-                    <Group key={index + "line"}>
+                    <Group key={index + "-line"}>
                         <Line
                             points={points}
                             stroke={PATH_COLOR}
                             strokeWidth={PATH_WIDTH * pixelsPerInch}
-                            dash={PATH_DASH.map((dash) => dash * pixelsPerInch)}
                             lineCap={"round"}
                             lineJoin={"round"}
                             listening={false}
+                            perfectDrawEnabled={false}
                         />
                         <Line
                             points={points}
                             stroke={"transparent"}
-                            strokeWidth={PATH_WIDTH * pixelsPerInch * 4}
+                            strokeWidth={PATH_CLICK_WIDTH * pixelsPerInch}
                             onClick={(e) => onClick(e, index)}
-                            onMouseEnter={cursorListener.onMouseOver}
-                            onMouseLeave={cursorListener.onMouseOut}
+                            onTouchStart={(e) => onTouch(e, index)}
+                            onMouseEnter={onMouseOver}
+                            onMouseLeave={onMouseOut}
                             listening={true}
+                            perfectDrawEnabled={false}
                         />
                     </Group>
                 );
@@ -87,7 +132,7 @@ export default function PathRenderer() {
                     return null;
                 return (
                     <PointRenderer
-                        key={index + "point"}
+                        key={point.id}
                         id={point.id}
                     />
                 )
