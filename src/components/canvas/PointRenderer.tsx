@@ -90,8 +90,8 @@ export default function PointRenderer(props: PointRendererProps) {
 
         // Calculate angle between this and next point
         const currentPoint = { ...point, x, y };
-        if (isSpline || isEnd)
-            currentPoint.r = calcAngle(currentPoint, nextPoint ?? currentPoint);
+        if (!isSpline && !isEnd && nextPoint)
+            currentPoint.r = calcAngle(currentPoint, nextPoint);
 
         // Update Point
         setPoint({

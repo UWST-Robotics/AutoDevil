@@ -26,18 +26,41 @@ export default function PathRenderer() {
 
     // Click events
     const onClick = React.useCallback((e: KonvaEventObject<MouseEvent>, index: number) => {
-        const x = pathSpline.at(index + 0.5)?.x ?? 0;
-        const y = pathSpline.at(index + 0.5)?.y ?? 0;
-        const r = pathSpline.angleAt(index + 0.5) ?? 0;
+
+        // Get Mouse Position
+        const canvasMouse = e.currentTarget.getRelativePointerPosition();
+        if (!canvasMouse)
+            return;
+        const mouseX = canvasMouse.x / pixelsPerInch;
+        const mouseY = canvasMouse.y / pixelsPerInch;
+
+        // Calculate the closest time to the click
+        let deltaT = 0;
+        let minDistance = Infinity;
+        for (let i = 0; i < 1; i += SPLINE_INTERVAL) {
+            const point = pathSpline.at(index + i);
+            if (!point)
+                continue;
+            const dist = Math.hypot(point.x - mouseX, point.y - mouseY);
+            if (dist < minDistance) {
+                deltaT = i;
+                minDistance = dist;
+            }
+        }
+
+        // Add the point
+        const newPoint = pathSpline.at(index + deltaT);
         addPoint({
             index: index + 1,
-            x,
-            y,
-            r,
+            x: newPoint?.x ?? mouseX,
+            y: newPoint?.y ?? mouseY,
+            r: pathSpline.angleAt(index + deltaT) ?? 0
         });
-        e.cancelBubble = true;
         savePathHistory();
-    }, [addPoint, pathSpline, savePathHistory]);
+
+        // Prevent the event from bubbling
+        e.cancelBubble = true;
+    }, [addPoint, pathSpline, pixelsPerInch, savePathHistory]);
 
     if (showOccupancyGrid)
         return null;
