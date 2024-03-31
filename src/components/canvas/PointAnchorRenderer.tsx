@@ -19,7 +19,7 @@ const HANDLE_LINE_WIDTH = 0.5; // in
 const SNAP_ANGLE = Math.PI / 16; // rad
 
 export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
-    const { pixelsPerInch, snapRotation } = useSettingsValue();
+    const { pixelsPerInch, snapRotation, normalizeRotation } = useSettingsValue();
     const [point, setPoint] = usePathPoint(props.id);
     const setSelectedPointID = useSetSelectedPoint();
     const savePathHistory = useSaveUndoHistory();
@@ -41,8 +41,13 @@ export default function PointAnchorRenderer(props: RotateHandleRendererProps) {
         const deltaAngle = Math.atan2(e.target.y(), e.target.x()) + (props.isExit ? 0 : Math.PI);
         const deltaDistance = Math.sqrt(e.target.x() ** 2 + e.target.y() ** 2);
 
+        // From 0 - 2PI to -PI - PI
+        const normalizedDeltaAngle = normalizeRadians(deltaAngle + Math.PI / 2) - Math.PI / 2;
+
         // Calculate angle
-        let r = normalizeRadians(point.r + deltaAngle);
+        let r = point.r + normalizedDeltaAngle;
+        if (normalizeRotation)
+            r = normalizeRadians(r);
         if (snapRotation) {
             const snap = Math.round(r / SNAP_ANGLE) * SNAP_ANGLE;
             if (Math.abs(snap - r) < SNAP_ANGLE / 2)

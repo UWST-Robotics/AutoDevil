@@ -5,10 +5,12 @@ import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
 import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
 import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
 import PointTransformInput from "./PointTransformInput.tsx";
+import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 
 export default function PointTransformInputs() {
     const selectedPointID = useSelectedPointValue()
     const [point, setPoint] = usePathPoint(selectedPointID ?? DEFAULT_GUID);
+    const { normalizeRotation } = useSettingsValue();
 
     const onXChange = React.useCallback((value: number) => {
         if (!point)
@@ -25,7 +27,14 @@ export default function PointTransformInputs() {
     const onAngleChange = React.useCallback((value: number) => {
         if (!point)
             return;
-        setPoint({ ...point, r: normalizeRadians(toRadians(value)) });
+
+        // Process Angle
+        let radians = toRadians(value);
+        if (normalizeRotation)
+            radians = normalizeRadians(radians);
+
+        // Update Point
+        setPoint({ ...point, r: radians });
     }, [point, setPoint]);
 
     return (
