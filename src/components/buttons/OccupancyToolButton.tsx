@@ -4,6 +4,7 @@ import { IconButton } from "@mui/material";
 import React from "react";
 import BrushIcon from "@mui/icons-material/Brush";
 import FillIcon from "@mui/icons-material/FormatColorFill";
+import PanToolIcon from "@mui/icons-material/PanTool";
 
 export interface OccupancyToolProps {
     tool: OccupancyTool;
@@ -29,6 +30,9 @@ export default function OccupancyToolButton(props: OccupancyToolProps) {
             )}
             {targetTool === "Fill" && (
                 <FillIcon />
+            )}
+            {targetTool === "Pan" && (
+                <PanToolIcon />
             )}
         </IconButton>
     );

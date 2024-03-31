@@ -3,14 +3,21 @@ import { KonvaEventObject } from "konva/lib/Node";
 import Konva from "konva";
 import Camera from "../../types/Camera.ts";
 import useWindowSize from "./useWindowSize.ts";
+import { useOccupancyToolValue } from "../Occupancy/useOccupancyTool.ts";
+import useSettingsValue from "../Utils/useSettings.ts";
 
 const ZOOM_SPEED = 1.002;
 const DEFAULT_CAMERA: Camera = { x: 0, y: 0, scale: 1 };
 
 export default function useCameraControl() {
+    const { showOccupancyGrid } = useSettingsValue();
+    const occupancyTool = useOccupancyToolValue();
     const [windowWidth, windowHeight] = useWindowSize();
     const stageRef = React.useRef<Konva.Stage>(null);
     const layerRef = React.useRef<Konva.Layer>(null);
+
+    // Occupancy Pan
+    const isPanning = showOccupancyGrid && occupancyTool === "Pan";
 
     // Utility Functions
     const getCamera = React.useCallback(() => {
@@ -66,18 +73,18 @@ export default function useCameraControl() {
 
     // Start/Stop Pan
     const onMouseDown = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
-        if (e.evt.button === 2) {
+        if (e.evt.button === 2 || isPanning) {
             e.target.stopDrag();
             e.target.getStage()?.startDrag();
             e.evt.preventDefault();
         }
-    }, []);
+    }, [isPanning]);
     const onMouseUp = React.useCallback((e: KonvaEventObject<MouseEvent>) => {
-        if (e.evt.button === 2) {
+        if (e.evt.button === 2 || isPanning) {
             e.target.getStage()?.stopDrag();
             e.evt.preventDefault();
         }
-    }, []);
+    }, [isPanning]);
 
     // Touch Events
     const onTouchStart = React.useCallback((e: KonvaEventObject<TouchEvent>) => {
