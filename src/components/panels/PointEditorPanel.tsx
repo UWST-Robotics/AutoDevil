@@ -5,7 +5,7 @@ import useDeletePoint from "../../hooks/Point/useDeletePoint.ts";
 import usePrevPathPointValue from "../../hooks/Point/usePrevPathPoint.ts";
 import useNextPathPointValue from "../../hooks/Point/useNextPathPoint.ts";
 import React from "react";
-import { Box, ButtonGroup, IconButton, Tooltip } from "@mui/material";
+import { Box, ButtonGroup, Divider, IconButton, Tooltip } from "@mui/material";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import TrashIcon from "@mui/icons-material/Delete";
@@ -75,9 +75,12 @@ export default function PointEditorPanel() {
                     <KeyboardDoubleArrowRightIcon />
                 </IconButton>
             </Box>
+            <Divider
+                style={{ marginTop: 15 }}
+            />
             <EventsEditorPanel />
             <ButtonGroup>
-                <Tooltip title={point.isReversed ? "Reversed" : "Forward"}>
+                <Tooltip title={"Change Direction"}>
                     <IconButton
                         onClick={onReverseChange}
                         color={point.isReversed ? "error" : "success"}
