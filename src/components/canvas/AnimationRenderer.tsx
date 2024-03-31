@@ -38,16 +38,9 @@ export default function AnimationRenderer() {
 
     // Animate
     React.useEffect(() => {
-        if (!isAnimating) {
-            // Default Position
-            const { x, y, rotation } = getPoint(0);
-            groupRef.current?.x(x);
-            groupRef.current?.y(y);
-            groupRef.current?.rotation(rotation);
-
+        if (!isAnimating)
             return () => {
             };
-        }
 
         // Animation loop
         const animate = (_: IFrame | undefined) => {
@@ -86,7 +79,7 @@ export default function AnimationRenderer() {
         // Start animation
         const anim = new Konva.Animation(animate, groupRef.current?.getLayer());
         anim.start();
-        return () => anim.stop();
+        return () => anim.stop()
     }, [isAnimating, minDelta, getPoint, spline, scopeIndices, pixelsPerInch]);
 
     if (showOccupancyGrid)

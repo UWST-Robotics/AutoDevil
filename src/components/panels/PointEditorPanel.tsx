@@ -31,6 +31,7 @@ export default function PointEditorPanel() {
             setSelectedPointID(prevPoint.id);
     }, [setSelectedPointID, prevPoint]);
 
+    // Reverse point
     const onReverseChange = React.useCallback(() => {
         if (!point)
             return;

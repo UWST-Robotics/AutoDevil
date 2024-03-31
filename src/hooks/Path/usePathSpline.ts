@@ -14,8 +14,11 @@ export default function usePathSpline(deltaT?: number) {
     const pointAt = React.useCallback((t: number) => {
         // Index
         const index = Math.floor(t);
-        if (index < 0 || index >= path.points.length - 1)
-            return undefined;
+        if (index >= path.points.length - 1)
+            return path.points[path.points.length - 1];
+        if (index < 0)
+            return path.points[0];
+        
         // Points
         const p1 = { ...path.points[index] };
         const p2 = { ...path.points[index + 1] };
