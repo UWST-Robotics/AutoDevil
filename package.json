@@ -3,7 +3,7 @@
 	"description": "A simple web-app for robot path planning",
 	"author": "DEVIL5",
 	"private": true,
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
@@ -35,6 +35,6 @@
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-plugin-react-refresh": "^0.4.3",
 		"typescript": "^5.0.2",
-		"vite": "^5.1.6"
+		"vite": "^5.2.10"
 	}
 }
