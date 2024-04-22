@@ -11,19 +11,27 @@ export interface MirrorPathButtonProps {
 }
 
 export default function MirrorPathButton(props: MirrorPathButtonProps) {
-    const { showOccupancyGrid } = useSettingsValue();
+    const { showOccupancyGrid, normalizeRotation } = useSettingsValue();
     const [path, setPath] = useAutoData();
     const savePathHistory = useSaveUndoHistory();
 
     const { vertical } = props;
 
     const onClick = React.useCallback(() => {
-        const newPoints = path.points.map((p) => ({
+        let newPoints = path.points.map((p) => ({
             ...p,
             x: vertical ? p.x : -p.x,
             y: vertical ? -p.y : p.y,
-            r: normalizeRadians(vertical ? -p.r : Math.PI - p.r)
+            r: vertical ? -p.r : Math.PI - p.r
         }));
+
+        if (normalizeRotation) {
+            newPoints = newPoints.map((p) => ({
+                ...p,
+                r: normalizeRadians(p.r)
+            }));
+        }
+
         setPath({
             ...path,
             points: newPoints,

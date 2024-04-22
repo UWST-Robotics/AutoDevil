@@ -10,6 +10,7 @@ interface Settings {
     robotHeight: number;
     isHolonomic: boolean;
     isSpline: boolean;
+    normalizeRotation: boolean;
     snapRotation: boolean;
     snapPosition: boolean;
     showOccupancyGrid: boolean;
@@ -26,6 +27,7 @@ export const DEFAULT_SETTINGS: Settings = {
     robotHeight: 15,
     isHolonomic: false,
     isSpline: true,
+    normalizeRotation: true,
     snapRotation: true,
     snapPosition: false,
     showOccupancyGrid: false,

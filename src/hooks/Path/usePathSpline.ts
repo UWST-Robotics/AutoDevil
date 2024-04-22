@@ -1,13 +1,12 @@
 import React from "react";
 import cubicLerpPoints, { lerpPoints } from "../../utils/cubicLerp.ts";
-import { normalizeRadians } from "../../utils/toDegrees.ts";
 import usePathValue from "./usePath.ts";
 import useSettingsValue from "../Utils/useSettings.ts";
 
 const DEFAULT_DELTA_T = 0.001; // Time segment to sample
 
 export default function usePathSpline(deltaT?: number) {
-    const { isSpline } = useSettingsValue();
+    const { isSpline, normalizeRotation } = useSettingsValue();
     const path = usePathValue();
     const actualDT = deltaT ?? DEFAULT_DELTA_T;
 
@@ -15,14 +14,17 @@ export default function usePathSpline(deltaT?: number) {
     const pointAt = React.useCallback((t: number) => {
         // Index
         const index = Math.floor(t);
-        if (index < 0 || index >= path.points.length - 1)
-            return undefined;
+        if (index >= path.points.length - 1)
+            return path.points[path.points.length - 1];
+        if (index < 0)
+            return path.points[0];
+        
         // Points
         const p1 = { ...path.points[index] };
         const p2 = { ...path.points[index + 1] };
         // Linear Lerp
         if (!isSpline)
-            return lerpPoints(p1, p2, t - index);
+            return lerpPoints(p1, p2, t - index, normalizeRotation);
         // Anchor points
         const a1 = {
             ...p1,
@@ -35,8 +37,8 @@ export default function usePathSpline(deltaT?: number) {
             y: p2.y - p2.enterDelta * Math.sin(p2.r)
         };
         // Cubic Lerp
-        return cubicLerpPoints(p1, a1, a2, p2, t - index);
-    }, [path, isSpline]);
+        return cubicLerpPoints(p1, a1, a2, p2, t - index, normalizeRotation);
+    }, [path, isSpline, normalizeRotation]);
 
     // Angle
     const angleAt = React.useCallback((t: number) => {
@@ -51,7 +53,7 @@ export default function usePathSpline(deltaT?: number) {
 
         if (!p1 || !p2)
             return undefined;
-        return normalizeRadians(Math.atan2(p2.y - p1.y, p2.x - p1.x) + (p2.state?.isReversed ? Math.PI : 0));
+        return Math.atan2(p2.y - p1.y, p2.x - p1.x) + (p2.state?.isReversed ? Math.PI : 0);
     }, [pointAt, actualDT]);
 
     // Velocity
@@ -69,7 +71,7 @@ export default function usePathSpline(deltaT?: number) {
         const a2 = angleAt(t + actualDT);
         if (a1 === undefined || a2 === undefined)
             return undefined;
-        return normalizeRadians(a2 - a1) / actualDT;
+        return (a2 - a1) / actualDT;
     }, [angleAt, actualDT]);
 
     return {

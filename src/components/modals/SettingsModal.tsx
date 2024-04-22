@@ -69,6 +69,7 @@ export default function SettingsModal(props: SettingsModalProps) {
                             setting={"isSpline"}
                         />
                         <SettingsBooleanInput label={"Holonomic"} setting={"isHolonomic"} />
+                        <SettingsBooleanInput label={"Normalize Rotation"} setting={"normalizeRotation"} />
                         <SettingsBooleanInput label={"Snap Rotation"} setting={"snapRotation"} />
                         <SettingsBooleanInput label={"Snap Position"} setting={"snapPosition"} />
                     </List>

@@ -26,7 +26,7 @@ export default function ScopeSlider() {
             max={1}
             step={1 / (path.points.length - 1)}
             onChange={onChange}
-            style={{ minWidth: 300, marginLeft: 16, marginRight: 16 }}
+            style={{ width: 300, marginLeft: 16, marginRight: 16 }}
         />
     )
 }

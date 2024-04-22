@@ -26,6 +26,7 @@ export default function BottomBar() {
                     flexDirection: "row",
                     justifyContent: "center",
                     alignItems: "center",
+                    maxWidth: "100vw",
                     padding: 10,
                     backgroundColor: "#00000077",
                     borderTopLeftRadius: 16,
@@ -35,6 +36,7 @@ export default function BottomBar() {
                 {!showOccupancyGrid && (<AnimateButton />)}
                 {!showOccupancyGrid && (<ScopeSlider />)}
 
+                {showOccupancyGrid && (<OccupancyToolButton tool={"Pan"} />)}
                 {showOccupancyGrid && (<OccupancyToolButton tool={"Draw"} />)}
                 {showOccupancyGrid && (<OccupancyToolButton tool={"Fill"} />)}
             </div>

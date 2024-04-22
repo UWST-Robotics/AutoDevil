@@ -12,19 +12,27 @@ export interface RotatePathButtonProps {
 }
 
 export default function RotatePathButton(props: RotatePathButtonProps) {
-    const { showOccupancyGrid } = useSettingsValue();
+    const { showOccupancyGrid, normalizeRotation } = useSettingsValue();
     const [path, setPath] = useAutoData();
     const savePathHistory = useSaveUndoHistory();
 
     const { clockwise } = props;
 
     const onClick = React.useCallback(() => {
-        const newPoints = path.points.map((p) => ({
+        let newPoints = path.points.map((p) => ({
             ...p,
             x: clockwise ? -p.y : p.y,
             y: clockwise ? p.x : -p.x,
-            r: normalizeRadians(clockwise ? p.r + Math.PI / 2 : p.r - Math.PI / 2)
+            r: clockwise ? p.r + Math.PI / 2 : p.r - Math.PI / 2
         }));
+
+        if (normalizeRotation) {
+            newPoints = newPoints.map((p) => ({
+                ...p,
+                r: normalizeRadians(p.r)
+            }));
+        }
+
         setPath({
             ...path,
             points: newPoints,

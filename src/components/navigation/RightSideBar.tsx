@@ -15,7 +15,7 @@ export default function RightSideBar() {
             <div
                 style={{
                     position: "absolute",
-                    top: 60,
+                    top: 100,
                     right: 40,
                     left: 40,
                     display: "flex",

@@ -91,11 +91,10 @@ export default function PathRenderer() {
                 if (index < scopeIndices.start || index >= scopeIndices.end)
                     return null;
 
+
                 // Spline Points
                 const points = Array.from({ length: 1 / SPLINE_INTERVAL + 1 }).map((_, i) => {
                     const point = pathSpline.at(index + i * SPLINE_INTERVAL);
-                    if (!point)
-                        return [];
                     return [
                         point.x * pixelsPerInch,
                         point.y * pixelsPerInch,
@@ -108,8 +107,6 @@ export default function PathRenderer() {
                             points={points}
                             stroke={PATH_COLOR}
                             strokeWidth={PATH_WIDTH * pixelsPerInch}
-                            lineCap={"round"}
-                            lineJoin={"round"}
                             listening={false}
                             perfectDrawEnabled={false}
                         />

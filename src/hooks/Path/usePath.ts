@@ -1,7 +1,6 @@
 import { atom, useAtomValue } from "jotai";
 import { rawAutoDataAtom } from "../Utils/useAutoData.ts";
 import AutoData from "../../types/AutoData.ts";
-import { normalizeRadians } from "../../utils/toDegrees.ts";
 
 export const pathAtom = atom<AutoData>((get) => {
     const rawData = get(rawAutoDataAtom);
@@ -19,7 +18,7 @@ export const pathAtom = atom<AutoData>((get) => {
         ...p,
         state: {
             isReversed: reverseArr[i],
-            gyro: normalizeRadians(p.r + (reverseArr[i - 1] ? Math.PI : 0)),
+            gyro: p.r + (reverseArr[i - 1] ? Math.PI : 0),
         }
     }));
 

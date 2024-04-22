@@ -3,11 +3,10 @@ import useFieldImage from "../../hooks/Field/useFieldImage.ts";
 import React from "react";
 
 const WATERMARK_WIDTH = 500;
-const WATERMARK_OFFSET_X = 100;
-const WATERMARK_OFFSET_Y = 50;
+const WATERMARK_OFFSET = 200;
 const WATERMARK_SCALE = 1.3;
 const LOGO_SCALE = 0.5;
-const LOGO_URL = "/android-chrome-512x512.png";
+const LOGO_URL = "/AutoDevil-Cropped.png";
 
 export default function WatermarkRenderer() {
     const fieldImage = useFieldImage();
@@ -40,15 +39,15 @@ export default function WatermarkRenderer() {
 
     return (
         <Group
-            opacity={0.3}
+            opacity={0.7}
             scaleX={WATERMARK_SCALE}
             scaleY={WATERMARK_SCALE}
-            x={-fieldImage.width - WATERMARK_OFFSET_X}
-            y={WATERMARK_OFFSET_Y}
+            x={-fieldImage.width / 2 - WATERMARK_OFFSET}
+            y={0}
         >
             <Image
                 image={logoImage}
-                x={logoWidth / 2}
+                x={-logoWidth / 2}
                 y={-logoHeight / 2 - 100}
                 width={logoWidth}
                 height={logoHeight}
@@ -57,33 +56,36 @@ export default function WatermarkRenderer() {
             />
             <Text
                 text={"AutoDevil"}
-                x={0}
+                x={-WATERMARK_WIDTH / 2}
                 y={0}
                 fontSize={48}
                 fontFamily={"Righteous"}
                 width={WATERMARK_WIDTH}
                 fill={"#ffffff"}
                 align={"center"}
+                wrap={"char"}
             />
             <Text
                 text={"Made w/ ❤ by DevilBots"}
-                x={0}
+                x={-WATERMARK_WIDTH / 2}
                 y={48}
                 fontSize={20}
                 fontFamily={"Righteous"}
                 width={WATERMARK_WIDTH}
                 fill={"#0b74b8"}
                 align={"center"}
+                wrap={"char"}
             />
             <Text
                 text={`Auto.DevilBots.org · v${APP_VERSION}`}
-                x={0}
+                x={-WATERMARK_WIDTH / 2}
                 y={72}
                 fontSize={16}
                 fontFamily={"Righteous"}
                 width={WATERMARK_WIDTH}
                 fill={"#bbb"}
                 align={"center"}
+                wrap={"char"}
             />
         </Group>
     )
