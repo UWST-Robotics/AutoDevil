@@ -1,22 +1,14 @@
 /// <reference types="vite/client" />
 /// <reference types="electron-vite/env" />
-declare const electronAPI: {
-    // See src/preload/preload.ts for the full API
-    save: (data: string) => void,
-    saveAs: (data: string) => void,
-    open: () => Promise<string>,
 
-    onSave: (callback: () => void) => void,
-    onSaveAs: (callback: () => void) => void,
-    onOpen: (callback: () => void) => void,
-    onUndo: (callback: () => void) => void,
-    onRedo: (callback: () => void) => void,
-    onRotateCW: (callback: () => void) => void,
-    onRotateCCW: (callback: () => void) => void,
-    onMirrorHorizontal: (callback: () => void) => void,
-    onMirrorVertical: (callback: () => void) => void,
 
-    removeAllListeners: () => void,
+/**
+ * Bridge between the main and renderer processes for Electron API calls.
+ * Type and implementation are defined in the preload script.
+ */
+declare const electronAPI: import("../../preload/preload.ts").default | undefined; // <-- Uses "import" to use d.ts as an ambient module
 
-} | undefined
+/**
+ * Application version string. Imported from package.json during the build process.
+ */
 declare const APP_VERSION: string

@@ -5,6 +5,7 @@ import GlobalHooks from "./components/GlobalHooks.tsx";
 import RightSideBar from "./components/navigation/RightSideBar.tsx";
 import { createTheme, ThemeProvider } from "@mui/material";
 import useElectronListener from "./hooks/Electron/useElectronListener.ts";
+import AboutModal from "./components/modals/AboutModal.tsx";
 
 const darkTheme = createTheme({
     palette: {
@@ -14,11 +15,12 @@ const darkTheme = createTheme({
 
 function App() {
     useElectronListener();
-    
+
     return (
         <ThemeProvider theme={darkTheme}>
             <GlobalHooks />
             <MainCanvas />
+            <AboutModal />
             <div
                 style={{
                     position: "absolute",

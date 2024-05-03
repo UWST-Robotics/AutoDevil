@@ -7,8 +7,10 @@ interface CanvasGridProps {
 }
 
 export default function GridRenderer(props: CanvasGridProps) {
-    const { fieldWidth, fieldHeight, pixelsPerInch } = useSettingsValue();
+    const { fieldWidth, fieldHeight, pixelsPerInch, showGrid } = useSettingsValue();
 
+    if (!showGrid)
+        return null;
     return (
         <Shape
             sceneFunc={(ctx, shape) => {

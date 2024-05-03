@@ -4,6 +4,8 @@ import React from "react";
 import { useRedoChanges, useUndoChanges } from "../Utils/useUndoHistory.ts";
 import useMirrorPath from "../Path/useMirrorPath.ts";
 import useRotatePath from "../Path/useRotatePath.ts";
+import { useSetShowAbout } from "../Utils/useAboutModal.ts";
+import { useSettings } from "../Utils/useSettings.ts";
 
 /**
  * This hook listens for events from the main process and triggers the appropriate file upload/download functions.
@@ -16,7 +18,8 @@ export default function useElectronListener() {
     const [, redo] = useRedoChanges();
     const mirrorPath = useMirrorPath();
     const rotatePath = useRotatePath();
-
+    const setAboutVisible = useSetShowAbout();
+    const [settings, setSettings] = useSettings();
 
     React.useEffect(() => {
         electronAPI?.onOpen(uploadFile);
@@ -28,7 +31,11 @@ export default function useElectronListener() {
         electronAPI?.onMirrorVertical(() => mirrorPath(true));
         electronAPI?.onRotateCW(() => rotatePath(true));
         electronAPI?.onRotateCCW(() => rotatePath(false));
+        electronAPI?.onAbout(() => setAboutVisible(true));
+        electronAPI?.onToggleGrid(() => setSettings({ ...settings, showGrid: !settings.showGrid }));
+        electronAPI?.onToggleSnap(() => setSettings({ ...settings, snapPosition: !settings.snapPosition }));
+        electronAPI?.onToggleSnapRotation(() => setSettings({ ...settings, snapRotation: !settings.snapRotation }));
 
         return electronAPI?.removeAllListeners;
-    }, [downloadFile, uploadFile, undo, redo, mirrorPath, rotatePath]);
+    }, [downloadFile, uploadFile, undo, redo, mirrorPath, rotatePath, setAboutVisible, settings, setSettings]);
 }

@@ -1,12 +1,13 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
-contextBridge.exposeInMainWorld('electronAPI', {
-    // File API
+const electronAPI = {
+
+    // Renderer >> Electron Functions
     save: (data: string) => ipcRenderer.send('save', data),
     saveAs: (data: string) => ipcRenderer.send('saveAs', data),
     open: () => ipcRenderer.invoke('open'),
 
-    // Menu Callbacks
+    // Electron >> Renderer Listeners
     onSave: (callback: () => void) => ipcRenderer.on('onSave', callback),
     onSaveAs: (callback: () => void) => ipcRenderer.on('onSaveAs', callback),
     onOpen: (callback: () => void) => ipcRenderer.on('onOpen', callback),
@@ -16,7 +17,15 @@ contextBridge.exposeInMainWorld('electronAPI', {
     onRotateCCW: (callback: () => void) => ipcRenderer.on('onRotateCCW', callback),
     onMirrorHorizontal: (callback: () => void) => ipcRenderer.on('onMirrorHorizontal', callback),
     onMirrorVertical: (callback: () => void) => ipcRenderer.on('onMirrorVertical', callback),
+    onAbout: (callback: () => void) => ipcRenderer.on('onAbout', callback),
+    onZoomIn: (callback: () => void) => ipcRenderer.on('onZoomIn', callback),
+    onZoomOut: (callback: () => void) => ipcRenderer.on('onZoomOut', callback),
+    onResetZoom: (callback: () => void) => ipcRenderer.on('onResetZoom', callback),
+    onToggleGrid: (callback: () => void) => ipcRenderer.on('onToggleGrid', callback),
+    onToggleSnap: (callback: () => void) => ipcRenderer.on('onToggleSnap', callback),
+    onToggleSnapRotation: (callback: () => void) => ipcRenderer.on('onToggleSnapRotation', callback),
 
+    // Remove Listeners (For React Unmounting)
     removeAllListeners: () => {
         ipcRenderer.removeAllListeners('onSave');
         ipcRenderer.removeAllListeners('onSaveAs');
@@ -27,5 +36,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
         ipcRenderer.removeAllListeners('onRotateCCW');
         ipcRenderer.removeAllListeners('onMirrorHorizontal');
         ipcRenderer.removeAllListeners('onMirrorVertical');
+        ipcRenderer.removeAllListeners('onAbout');
     }
-});
+
+};
+contextBridge.exposeInMainWorld('electronAPI', electronAPI);
+
+type ElectronAPI = typeof electronAPI;
+export default ElectronAPI;
