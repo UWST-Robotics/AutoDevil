@@ -1,6 +1,6 @@
 import { atom, useAtomValue } from "jotai";
-import { settingsAtom } from "../Utils/useSettings.ts";
 import { unwrap } from "jotai/utils";
+import { settingsAtom } from "../Utils/useSettings.ts";
 
 export const fieldImageAtom = atom(async (get) => {
 
@@ -10,9 +10,9 @@ export const fieldImageAtom = atom(async (get) => {
     image.src = settings.fieldImage;
 
     // Wait for image to load
-    await new Promise((resolve, reject) => {
+    await new Promise((resolve) => {
         image.onload = resolve;
-        image.onerror = reject;
+        image.onerror = (e) => console.error('Failed to load image', e);
     });
 
     return image;

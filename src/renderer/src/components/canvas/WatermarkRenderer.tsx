@@ -1,6 +1,6 @@
+import React from "react";
 import { Group, Image, Text } from 'react-konva';
 import useFieldImage from "../../hooks/Field/useFieldImage.ts";
-import React from "react";
 
 const WATERMARK_WIDTH = 500;
 const WATERMARK_OFFSET = 200;
