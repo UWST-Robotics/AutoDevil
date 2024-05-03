@@ -18,9 +18,6 @@ const electronAPI = {
     onMirrorHorizontal: (callback: () => void) => ipcRenderer.on('onMirrorHorizontal', callback),
     onMirrorVertical: (callback: () => void) => ipcRenderer.on('onMirrorVertical', callback),
     onAbout: (callback: () => void) => ipcRenderer.on('onAbout', callback),
-    onZoomIn: (callback: () => void) => ipcRenderer.on('onZoomIn', callback),
-    onZoomOut: (callback: () => void) => ipcRenderer.on('onZoomOut', callback),
-    onResetZoom: (callback: () => void) => ipcRenderer.on('onResetZoom', callback),
     onToggleGrid: (callback: () => void) => ipcRenderer.on('onToggleGrid', callback),
     onToggleSnap: (callback: () => void) => ipcRenderer.on('onToggleSnap', callback),
     onToggleSnapRotation: (callback: () => void) => ipcRenderer.on('onToggleSnapRotation', callback),
@@ -37,8 +34,10 @@ const electronAPI = {
         ipcRenderer.removeAllListeners('onMirrorHorizontal');
         ipcRenderer.removeAllListeners('onMirrorVertical');
         ipcRenderer.removeAllListeners('onAbout');
+        ipcRenderer.removeAllListeners('onToggleGrid');
+        ipcRenderer.removeAllListeners('onToggleSnap');
+        ipcRenderer.removeAllListeners('onToggleSnapRotation');
     }
-
 };
 contextBridge.exposeInMainWorld('electronAPI', electronAPI);
 
