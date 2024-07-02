@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain, Menu } from 'electron'
 import * as Path from "path";
 import assignEvents from "./eventHandler.ts";
+import icon from '../../build/icon.png'
 
 const isMac = process.platform === 'darwin'
 let mainWindow: BrowserWindow | undefined
@@ -11,9 +12,10 @@ function createWindow() {
         width: 800,
         height: 600,
         useContentSize: true,
-        icon: 'src/renderer/public/android-chrome-192x192.png',
+        autoHideMenuBar: true,
+        icon: icon,
         webPreferences: {
-            preload: Path.join(app.getAppPath(), 'out/preload/preload.js'),
+            preload: Path.join(__dirname, '../preload/preload.js')
         }
     })
 
@@ -127,9 +129,16 @@ function createWindow() {
     ])
     Menu.setApplicationMenu(menu)
 
-    // Load local Vite instance
-    mainWindow.loadURL('http://localhost:3000')
-    mainWindow.webContents.openDevTools()
+    // Load Renderer
+    if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
+        // Developer Mode
+        mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+        mainWindow.webContents.openDevTools()
+    } else {
+        // Production Mode
+        mainWindow.loadFile(Path.join(__dirname, '../renderer/index.html'))
+        mainWindow.webContents.openDevTools()
+    }
 
     // Emitted when the window is closed
     mainWindow.on('closed', () => {
@@ -138,6 +147,9 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+    // Set the App User Model ID to prevent Windows from grouping the app with other Electron apps
+    app.setAppUserModelId("org.devilbots.AutoDevil")
+
     // Register the handlers for the dialog events
     assignEvents(ipcMain)
 

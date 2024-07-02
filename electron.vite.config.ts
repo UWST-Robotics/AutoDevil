@@ -12,6 +12,7 @@ export default defineConfig({
         publicDir: 'public',
         build: {
             lib: {
+                name: 'AutoDevil',
                 entry: 'src/main/main.ts'
             }
         },
