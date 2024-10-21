@@ -1,8 +1,8 @@
 import OccupancyGrid from "./OccupancyGrid.ts";
-import PathData from "./PathData.ts";
+import AutoStep from "./AutoSteps/AutoStep.ts";
 
 interface AutoData {
-    points: PathData;
+    steps: AutoStep[];
     occupancyGrid: OccupancyGrid;
 }
 

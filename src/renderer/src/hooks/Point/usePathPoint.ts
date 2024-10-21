@@ -1,9 +1,9 @@
-import { atomFamily } from "jotai/utils";
-import { rawAutoDataAtom } from "../Utils/useAutoData.ts";
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import {atomFamily} from "jotai/utils";
+import {rawAutoDataAtom} from "../AutoData/useAutoData.ts";
+import {atom, useAtom, useAtomValue, useSetAtom} from "jotai";
 import GUID from "../../types/GUID.ts";
-import PathPoint from "../../types/PathPoint.ts";
-import { pathAtom } from "../Path/usePath.ts";
+import AutoStep from "../../types/AutoSteps/AutoStep.ts";
+import {pathAtom} from "../Path/usePath.ts";
 
 export const pathPointAtomFamily = atomFamily((id: GUID) => {
     const pathPointAtom = atom(
@@ -11,7 +11,7 @@ export const pathPointAtomFamily = atomFamily((id: GUID) => {
             const pathPlan = get(pathAtom);
             return pathPlan.points.find((p) => p.id === id);
         },
-        (get, set, point: PathPoint) => {
+        (get, set, point: AutoStep) => {
             const pathPlan = get(rawAutoDataAtom);
             const index = pathPlan.points.findIndex((p) => p.id === id);
             const newPoints = [...pathPlan.points];

@@ -1,6 +1,6 @@
-import { atom, useAtom, useSetAtom } from "jotai";
+import {atom, useAtom, useSetAtom} from "jotai";
 import AutoData from "../../types/AutoData.ts";
-import { DEFAULT_DATA, rawAutoDataAtom } from "./useAutoData.ts";
+import {DEFAULT_DATA, rawAutoDataAtom} from "../AutoData/useAutoData.ts";
 
 const MAX_HISTORY = 30;
 

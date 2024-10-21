@@ -1,12 +1,13 @@
+import AutoStepsList from "../autoSteps/AutoStepsList.tsx";
 import TransparentCard from "../util/TransparentCard.tsx";
 
-export default function RightSideBar() {
+export default function LeftSideBar() {
     return (
         <div
             style={{
                 position: "absolute",
                 top: 0,
-                right: 0,
+                left: 0,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
@@ -16,7 +17,7 @@ export default function RightSideBar() {
             }}
         >
             <TransparentCard>
-                <p>Test</p>
+                <AutoStepsList/>
             </TransparentCard>
         </div>
     )

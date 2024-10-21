@@ -1,11 +1,11 @@
-import { Group, Line } from "react-konva";
-import useRawAutoDataValue from "../../hooks/Utils/useAutoData.ts";
+import {Group, Line} from "react-konva";
+import useRawAutoDataValue from "../../hooks/AutoData/useAutoData.ts";
 import React from "react";
 import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import PointRenderer from "./PointRenderer.tsx";
 import usePathSpline from "../../hooks/Path/usePathSpline.ts";
 import useAddPoint from "../../hooks/Point/useAddPoint.ts";
-import { KonvaEventObject } from "konva/lib/Node";
+import {KonvaEventObject} from "konva/lib/Node";
 import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
 import useScopeIndices from "../../hooks/Scope/useScopeIndices.ts";
 import useSaveUndoHistory from "../../hooks/Utils/useUndoHistory.ts";
@@ -18,7 +18,7 @@ const SPLINE_INTERVAL = 0.05; // %
 export default function PathRenderer() {
     const scopeIndices = useScopeIndices();
     const pathPlan = useRawAutoDataValue();
-    const { pixelsPerInch, showOccupancyGrid } = useSettingsValue();
+    const {pixelsPerInch, showOccupancyGrid} = useSettingsValue();
     const pathSpline = usePathSpline();
     const addPoint = useAddPoint();
     const savePathHistory = useSaveUndoHistory();
@@ -86,14 +86,14 @@ export default function PathRenderer() {
         return null;
     return (
         <>
-            {Array.from({ length: pathSpline.length }).map((_, index) => {
+            {Array.from({length: pathSpline.length}).map((_, index) => {
 
                 if (index < scopeIndices.start || index >= scopeIndices.end)
                     return null;
 
 
                 // Spline Points
-                const points = Array.from({ length: 1 / SPLINE_INTERVAL + 1 }).map((_, i) => {
+                const points = Array.from({length: 1 / SPLINE_INTERVAL + 1}).map((_, i) => {
                     const point = pathSpline.at(index + i * SPLINE_INTERVAL);
                     return [
                         point.x * pixelsPerInch,

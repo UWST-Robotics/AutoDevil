@@ -1,19 +1,16 @@
-import { Layer, Stage } from "react-konva";
+import {Layer, Stage} from "react-konva";
 import GridRenderer from "./GridRenderer.tsx";
 import useWindowSize from "../../hooks/Canvas/useWindowSize.ts";
 import FieldImageRenderer from "./FieldImageRenderer.tsx";
-import PathRenderer from "./PathRenderer.tsx";
-import AnimationRenderer from "./AnimationRenderer.tsx";
 import React from "react";
-import { useSetSelectedPoint } from "../../hooks/Point/useSelectPoint.ts";
+import {useSetSelectedPoint} from "../../hooks/Point/useSelectPoint.ts";
 import useCameraControl from "../../hooks/Canvas/useCameraControl.ts";
-import OccupancyRenderer from "./OccupancyRenderer.tsx";
 import WatermarkRenderer from "./WatermarkRenderer.tsx";
 
 export default function MainCanvas() {
     const [windowWidth, windowHeight] = useWindowSize();
     const setSelectedPoint = useSetSelectedPoint();
-    const { stageRef, layerRef } = useCameraControl();
+    const {stageRef, layerRef} = useCameraControl();
 
     // Handle On Click
     const onClick = React.useCallback(() => {
@@ -32,11 +29,11 @@ export default function MainCanvas() {
                 y={windowHeight / 2}
                 ref={layerRef}
             >
-                <WatermarkRenderer />
-                <FieldImageRenderer />
-                <PathRenderer />
-                <OccupancyRenderer />
-                <AnimationRenderer />
+                <WatermarkRenderer/>
+                <FieldImageRenderer/>
+                {/*<PathRenderer />*/}
+                {/*<OccupancyRenderer />*/}
+                {/*<AnimationRenderer />*/}
                 <GridRenderer
                     cellSize={12}
                     color={"#333"}

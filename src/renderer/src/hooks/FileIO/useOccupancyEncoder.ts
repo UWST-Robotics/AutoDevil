@@ -1,8 +1,8 @@
-import { atom, useAtomValue } from "jotai";
-import { rawAutoDataAtom } from "../Utils/useAutoData.ts";
+import {atom, useAtomValue} from "jotai";
+import {rawAutoDataAtom} from "../AutoData/useAutoData.ts";
 
 export const occupancyEncoderAtom = atom((get) => {
-    const { occupancyGrid } = get(rawAutoDataAtom);
+    const {occupancyGrid} = get(rawAutoDataAtom);
 
     // Add Grid Values
     let fileContent = "OCCUPANCY 1\n";

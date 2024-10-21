@@ -1,6 +1,6 @@
-import { atom, useSetAtom } from "jotai";
-import { rawAutoDataAtom } from "../Utils/useAutoData.ts";
-import { settingsAtom } from "../Utils/useSettings.ts";
+import {atom, useSetAtom} from "jotai";
+import {rawAutoDataAtom} from "../AutoData/useAutoData.ts";
+import {settingsAtom} from "../Utils/useSettings.ts";
 
 export const occupancyDecoderAtom = atom(null, (get, set, fileContent: string) => {
 
@@ -41,7 +41,7 @@ export const occupancyDecoderAtom = atom(null, (get, set, fileContent: string) =
         console.warn("Occupancy dimensions do not match field dimensions");
 
     // Set File
-    set(rawAutoDataAtom, { ...autoData });
+    set(rawAutoDataAtom, {...autoData});
 
     // Update Settings
     set(settingsAtom, {

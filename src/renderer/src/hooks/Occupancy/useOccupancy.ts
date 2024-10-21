@@ -1,13 +1,13 @@
-import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
-import { rawAutoDataAtom } from "../Utils/useAutoData.ts";
-import { settingsAtom } from "../Utils/useSettings.ts";
+import {atom, useAtom, useAtomValue, useSetAtom} from "jotai";
+import {rawAutoDataAtom} from "../AutoData/useAutoData.ts";
+import {settingsAtom} from "../Utils/useSettings.ts";
 import OccupancyGrid from "../../types/OccupancyGrid.ts";
 
 const MIN_CELL_SIZE = 3;
 
 export const occupancyAtom = atom((get) => {
-        const { occupancyGrid } = get(rawAutoDataAtom);
-        const { occupancyInchesPerCell, fieldWidth, fieldHeight } = get(settingsAtom);
+        const {occupancyGrid} = get(rawAutoDataAtom);
+        const {occupancyInchesPerCell, fieldWidth, fieldHeight} = get(settingsAtom);
 
         // Get Correct Cell Size
         const cellSize = Math.max(MIN_CELL_SIZE, occupancyInchesPerCell || 6);
@@ -36,7 +36,7 @@ export const occupancyAtom = atom((get) => {
     },
     (_, set, update: OccupancyGrid) => {
         const newUpdate = update.map(r => r.map(c => c));
-        set(rawAutoDataAtom, (prev) => ({ ...prev, occupancyGrid: newUpdate }));
+        set(rawAutoDataAtom, (prev) => ({...prev, occupancyGrid: newUpdate}));
     }
 );
 

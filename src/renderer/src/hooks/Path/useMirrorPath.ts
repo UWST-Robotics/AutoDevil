@@ -1,11 +1,11 @@
 import useSettingsValue from "../Utils/useSettings.ts";
-import { useAutoData } from "../Utils/useAutoData.ts";
+import {useAutoData} from "../AutoData/useAutoData.ts";
 import useSaveUndoHistory from "../Utils/useUndoHistory.ts";
 import React from "react";
-import { normalizeRadians } from "../../utils/toDegrees.ts";
+import {normalizeRadians} from "../../utils/toDegrees.ts";
 
 export default function useMirrorPath() {
-    const { normalizeRotation } = useSettingsValue();
+    const {normalizeRotation} = useSettingsValue();
     const [path, setPath] = useAutoData();
     const savePathHistory = useSaveUndoHistory();
 

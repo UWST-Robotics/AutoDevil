@@ -1,10 +1,10 @@
-import { atom, useAtomValue } from "jotai";
-import { rawAutoDataAtom } from "../Utils/useAutoData.ts";
+import {atom, useAtomValue} from "jotai";
+import {rawAutoDataAtom} from "../AutoData/useAutoData.ts";
 import AutoData from "../../types/AutoData.ts";
 
 export const pathAtom = atom<AutoData>((get) => {
     const rawData = get(rawAutoDataAtom);
-    const path = { ...rawData };
+    const path = {...rawData};
 
     let isReversed = false;
     const reverseArr: boolean[] = [];

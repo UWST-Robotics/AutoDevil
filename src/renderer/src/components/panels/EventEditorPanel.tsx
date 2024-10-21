@@ -1,11 +1,11 @@
 import GUID from "../../types/GUID";
-import { useSelectedPointValue } from "../../hooks/Point/useSelectPoint.ts";
-import { usePathPoint } from "../../hooks/Point/usePathPoint.ts";
-import { DEFAULT_GUID } from "../../utils/generateGUID.ts";
+import {useSelectedPointValue} from "../../hooks/Point/useSelectPoint.ts";
+import {usePathPoint} from "../../hooks/Point/usePathPoint.ts";
+import {DEFAULT_GUID} from "../../utils/generateGUID.ts";
 import React from "react";
 import makeAlphanumeric from "../../utils/makeAlphanumeric.ts";
-import { Autocomplete, IconButton, ListItem, TextField } from "@mui/material";
-import useRawAutoDataValue from "../../hooks/Utils/useAutoData.ts";
+import {Autocomplete, IconButton, ListItem, TextField} from "@mui/material";
+import useRawAutoDataValue from "../../hooks/AutoData/useAutoData.ts";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 
 interface EventEditorPanelProps {
@@ -130,14 +130,14 @@ export default function EventEditorPanel(props: EventEditorPanelProps) {
                 onChange={onParamsChange}
                 size={"small"}
                 label={"Parameters"}
-                style={{ margin: 4 }}
+                style={{margin: 4}}
                 variant={"standard"}
             />
             <IconButton
                 onClick={onDelete}
                 size={"small"}
             >
-                <PlaylistRemoveIcon />
+                <PlaylistRemoveIcon/>
             </IconButton>
         </ListItem>
     )

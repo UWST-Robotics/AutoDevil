@@ -12,7 +12,7 @@ import useSelectedPoint from "../../hooks/Point/useSelectPoint.ts";
 import useCursorListener from "../../hooks/Canvas/useCursorListener.ts";
 import useNextPathPointValue from "../../hooks/Point/useNextPathPoint.ts";
 import { usePrevPathPoint } from "../../hooks/Point/usePrevPathPoint.ts";
-import PathPoint from "../../types/PathPoint.ts";
+import AutoStep from "../../types/AutoSteps/AutoStep.ts";
 import useSaveUndoHistory from "../../hooks/Utils/useUndoHistory.ts";
 
 interface PointRendererProps {
@@ -56,7 +56,7 @@ export default function PointRenderer(props: PointRendererProps) {
     }, [setSelectedPointID, props.id]);
 
     // Angle Calculation
-    const calcAngle = React.useCallback((a: PathPoint, b: PathPoint) => {
+    const calcAngle = React.useCallback((a: AutoStep, b: AutoStep) => {
         let angle = Math.atan2(
             a.x - b.x,
             a.y - b.y

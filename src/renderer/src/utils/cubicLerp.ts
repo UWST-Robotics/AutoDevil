@@ -1,4 +1,4 @@
-import PathPoint from "../types/PathPoint.ts";
+import AutoStep from "../types/AutoSteps/AutoStep.ts";
 import { normalizeRadians } from "./toDegrees.ts";
 
 // Math
@@ -25,7 +25,7 @@ export function rotationLerp(a: number, b: number, t: number, normalize = true) 
 }
 
 // Points
-export function lerpPoints(a: PathPoint, b: PathPoint, t: number, normalize = true): PathPoint {
+export function lerpPoints(a: AutoStep, b: AutoStep, t: number, normalize = true): AutoStep {
     return {
         ...a,
         x: cubicLerp(a.x, b.x, t),
@@ -38,13 +38,13 @@ export function lerpPoints(a: PathPoint, b: PathPoint, t: number, normalize = tr
     };
 }
 
-export function quadraticLerpPoints(a: PathPoint, b: PathPoint, c: PathPoint, t: number, normalize = true): PathPoint {
+export function quadraticLerpPoints(a: AutoStep, b: AutoStep, c: AutoStep, t: number, normalize = true): AutoStep {
     const ab = lerpPoints(a, b, t, normalize);
     const bc = lerpPoints(b, c, t, normalize);
     return lerpPoints(ab, bc, t, normalize);
 }
 
-export default function cubicLerpPoints(a: PathPoint, b: PathPoint, c: PathPoint, d: PathPoint, t: number, normalize = true): PathPoint {
+export default function cubicLerpPoints(a: AutoStep, b: AutoStep, c: AutoStep, d: AutoStep, t: number, normalize = true): AutoStep {
     const abc = quadraticLerpPoints(a, b, c, t, normalize);
     const bcd = quadraticLerpPoints(b, c, d, t, normalize);
     return lerpPoints(abc, bcd, t);

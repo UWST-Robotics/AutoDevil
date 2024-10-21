@@ -1,13 +1,7 @@
 import SettingsButton from "../buttons/SettingsButton.tsx";
 import DownloadButton from "../buttons/DownloadButton.tsx";
 import UploadButton from "../buttons/UploadButton.tsx";
-import MirrorPathButton from "../buttons/MirrorPathButton.tsx";
-import UndoRedoButton from "../buttons/UndoRedoButton.tsx";
-import { Divider } from "@mui/material";
-import SwitchModeButton from "../buttons/SwitchModeButton.tsx";
-import MirrorOccupancyButton from "../buttons/MirrorOccupancyButton.tsx";
-import RotatePathButton from "../buttons/RotatePathButton.tsx";
-import RotateOccupancyButton from "../buttons/RotateOccupancyButton.tsx";
+import {Divider} from "@mui/material";
 
 export default function TopBar() {
 
@@ -39,24 +33,24 @@ export default function TopBar() {
                     borderBottomRightRadius: 16,
                 }}
             >
-                <DownloadButton />
-                <UploadButton />
-                <Divider orientation="vertical" variant="middle" flexItem />
-                <MirrorPathButton />
-                <MirrorPathButton vertical />
-                <MirrorOccupancyButton />
-                <MirrorOccupancyButton vertical />
-                <Divider orientation="vertical" variant="middle" flexItem />
-                <RotatePathButton />
-                <RotatePathButton clockwise />
-                <RotateOccupancyButton />
-                <RotateOccupancyButton clockwise />
-                <Divider orientation="vertical" variant="middle" flexItem />
-                <UndoRedoButton />
-                <UndoRedoButton redo />
-                <Divider orientation="vertical" variant="middle" flexItem />
-                <SwitchModeButton />
-                <SettingsButton />
+                <DownloadButton/>
+                <UploadButton/>
+                <Divider orientation="vertical" variant="middle" flexItem/>
+                {/*<MirrorPathButton />*/}
+                {/*<MirrorPathButton vertical />*/}
+                {/*<MirrorOccupancyButton />*/}
+                {/*<MirrorOccupancyButton vertical />*/}
+                {/*<Divider orientation="vertical" variant="middle" flexItem />*/}
+                {/*<RotatePathButton />*/}
+                {/*<RotatePathButton clockwise />*/}
+                {/*<RotateOccupancyButton />*/}
+                {/*<RotateOccupancyButton clockwise />*/}
+                {/*<Divider orientation="vertical" variant="middle" flexItem/>*/}
+                {/*<UndoRedoButton/>*/}
+                {/*<UndoRedoButton redo/>*/}
+                <Divider orientation="vertical" variant="middle" flexItem/>
+                {/*<SwitchModeButton/>*/}
+                <SettingsButton/>
             </div>
         </div>
     )

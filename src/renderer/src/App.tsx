@@ -1,11 +1,11 @@
 import MainCanvas from "./components/canvas/MainCanvas.tsx";
-import TopBar from "./components/navigation/TopBar.tsx";
-import BottomBar from "./components/navigation/BottomBar.tsx";
 import GlobalHooks from "./components/GlobalHooks.tsx";
-import RightSideBar from "./components/navigation/RightSideBar.tsx";
-import { createTheme, ThemeProvider } from "@mui/material";
+import {createTheme, ThemeProvider} from "@mui/material";
 import useElectronListener from "./hooks/Electron/useElectronListener.ts";
 import AboutModal from "./components/modals/AboutModal.tsx";
+import TopBar from "./components/navigation/TopBar.tsx";
+import LeftSideBar from "./components/navigation/LeftSideBar.tsx";
+import RightSideBar from "./components/navigation/RightSideBar.tsx";
 
 const darkTheme = createTheme({
     palette: {
@@ -18,9 +18,9 @@ function App() {
 
     return (
         <ThemeProvider theme={darkTheme}>
-            <GlobalHooks />
-            <MainCanvas />
-            <AboutModal />
+            <GlobalHooks/>
+            <MainCanvas/>
+            <AboutModal/>
             <div
                 style={{
                     position: "absolute",
@@ -31,9 +31,10 @@ function App() {
                     pointerEvents: "none",
                 }}
             >
-                <TopBar />
-                <BottomBar />
-                <RightSideBar />
+                <TopBar/>
+                {/*<BottomBar />*/}
+                <LeftSideBar/>
+                <RightSideBar/>
             </div>
         </ThemeProvider>
     )
