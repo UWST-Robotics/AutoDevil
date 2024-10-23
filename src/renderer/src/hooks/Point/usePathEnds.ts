@@ -1,12 +1,12 @@
 import {atomFamily} from "jotai/utils";
 import GUID from "../../types/GUID.ts";
 import {atom, useAtomValue} from "jotai";
-import {rawAutoDataAtom} from "../AutoData/useAutoData.ts";
+import {autoDataAtom} from "../AutoData/useAutoData.ts";
 
 export const pathStartAtomFamily = atomFamily((id: GUID) => {
     const pathStartArom = atom<boolean>(
         (get) => {
-            const path = get(rawAutoDataAtom);
+            const path = get(autoDataAtom);
             const index = path.points.findIndex((p) => p.id === id);
             return index === 0;
         }
@@ -17,7 +17,7 @@ export const pathStartAtomFamily = atomFamily((id: GUID) => {
 export const pathEndAtomFamily = atomFamily((id: GUID) => {
     const pathEndAtom = atom<boolean>(
         (get) => {
-            const path = get(rawAutoDataAtom);
+            const path = get(autoDataAtom);
             const index = path.points.findIndex((p) => p.id === id);
             return index === path.points.length - 1;
         }

@@ -3,7 +3,7 @@ import AutoStepsListItemContainer from "./AutoStepsListItemContainer.tsx";
 import useSelectedAutoStepID from "../../hooks/AutoSteps/useSelectedAutoStepID.ts";
 import GUID from "../../types/GUID.ts";
 import useAutoStep from "../../hooks/AutoSteps/useAutoStep.ts";
-import useAutoStepInfo from "../../hooks/AutoSteps/useAutoStepInfo.ts";
+import useAutoStepInfo from "../../hooks/AutoSteps/AutoStepInfo/useAutoStepInfo.ts";
 import AutoStepType from "../../types/AutoSteps/AutoStepType.ts";
 
 export interface AutoStepsListItemProps {

@@ -1,12 +1,12 @@
 import usePathSpline from "../../hooks/Path/usePathSpline.ts";
 import React from "react";
-import RobotRenderer from "./RobotRenderer.tsx";
+import RobotRenderer from "../autoSteps/canvas/RobotRenderer.tsx";
 import useSettingsValue from "../../hooks/Utils/useSettings.ts";
 import useIsAnimating from "../../hooks/Canvas/useIsAnimating.ts";
 import toDegrees from "../../utils/toDegrees.ts";
-import { Group } from "react-konva";
+import {Group} from "react-konva";
 import Konva from "konva";
-import { IFrame } from "konva/lib/types";
+import {IFrame} from "konva/lib/types";
 import useScopeIndices from "../../hooks/Scope/useScopeIndices.ts";
 
 const ANIMATION_STEP = 0.001; // %
@@ -19,7 +19,7 @@ export default function AnimationRenderer() {
     const [isAnimating] = useIsAnimating();
     const spline = usePathSpline();
     const scopeIndices = useScopeIndices();
-    const { showOccupancyGrid, pixelsPerInch, isHolonomic } = useSettingsValue();
+    const {showOccupancyGrid, pixelsPerInch, isHolonomic} = useSettingsValue();
     const minDelta = React.useMemo(() => Math.pow(MIN_DELTA_PX / pixelsPerInch, 2), [pixelsPerInch]);
     const t = React.useRef(0);
 
@@ -70,7 +70,7 @@ export default function AnimationRenderer() {
             while (deltaDistance < minDelta);
 
             // Update Position
-            const { x, y, rotation } = point;
+            const {x, y, rotation} = point;
             groupRef.current.x(x);
             groupRef.current.y(y);
             groupRef.current.rotation(rotation);
@@ -90,7 +90,7 @@ export default function AnimationRenderer() {
             ref={groupRef}
             opacity={isAnimating ? 1 : 0}
         >
-            <RobotRenderer />
+            <RobotRenderer/>
         </Group>
     );
 }

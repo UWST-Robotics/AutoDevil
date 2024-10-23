@@ -1,14 +1,16 @@
 import React from "react";
-import cubicLerpPoints, { lerpPoints } from "../../utils/cubicLerp.ts";
-import usePathValue from "./usePath.ts";
+import cubicLerpPoints, {lerpPoints} from "../../utils/cubicLerp.ts";
 import useSettingsValue from "../Utils/useSettings.ts";
+import {useAutoData} from "../AutoData/useAutoData.ts";
 
 const DEFAULT_DELTA_T = 0.001; // Time segment to sample
 
 export default function usePathSpline(deltaT?: number) {
-    const { isSpline, normalizeRotation } = useSettingsValue();
-    const path = usePathValue();
+    const {isSpline, normalizeRotation} = useSettingsValue();
+    const [autoData] = useAutoData();
     const actualDT = deltaT ?? DEFAULT_DELTA_T;
+
+    const {steps} = autoData;
 
     // Point
     const pointAt = React.useCallback((t: number) => {
@@ -18,10 +20,10 @@ export default function usePathSpline(deltaT?: number) {
             return path.points[path.points.length - 1];
         if (index < 0)
             return path.points[0];
-        
+
         // Points
-        const p1 = { ...path.points[index] };
-        const p2 = { ...path.points[index + 1] };
+        const p1 = {...path.points[index]};
+        const p2 = {...path.points[index + 1]};
         // Linear Lerp
         if (!isSpline)
             return lerpPoints(p1, p2, t - index, normalizeRotation);
@@ -75,7 +77,6 @@ export default function usePathSpline(deltaT?: number) {
     }, [angleAt, actualDT]);
 
     return {
-        path,
         length: path.points.length - 1,
         at: pointAt,
         angleAt,

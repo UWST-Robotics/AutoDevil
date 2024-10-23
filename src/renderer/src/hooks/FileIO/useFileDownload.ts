@@ -1,7 +1,6 @@
-import { atom, useSetAtom } from "jotai";
-import { pathEncoderAtom } from "./usePathEncoder.ts";
-import { settingsAtom } from "../Utils/useSettings.ts";
-import { occupancyEncoderAtom } from "./useOccupancyEncoder.ts";
+import {atom, useSetAtom} from "jotai";
+import {fileSerializerAtom} from "./useFileSerializer.ts";
+import {settingsAtom} from "../Utils/useSettings.ts";
 
 export interface PathDownloadPayload {
     saveAs?: boolean;
@@ -10,7 +9,7 @@ export interface PathDownloadPayload {
 export const fileDownloadAtom = atom(null, (get, _, payload?: PathDownloadPayload) => {
 
     const settings = get(settingsAtom);
-    const fileContent = settings.showOccupancyGrid ? get(occupancyEncoderAtom) : get(pathEncoderAtom);
+    const fileContent = get(fileSerializerAtom);
 
     if (electronAPI) {
         // Download file using electron API
@@ -22,7 +21,7 @@ export const fileDownloadAtom = atom(null, (get, _, payload?: PathDownloadPayloa
     } else {
         // Download file using browser API
         console.log("Downloading using browser API");
-        const blob = new Blob([fileContent], { type: "text/plain" });
+        const blob = new Blob([fileContent], {type: "text/plain"});
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;

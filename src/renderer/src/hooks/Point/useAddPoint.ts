@@ -1,5 +1,5 @@
 import {atom, useSetAtom} from "jotai";
-import {rawAutoDataAtom} from "../AutoData/useAutoData.ts";
+import {autoDataAtom} from "../AutoData/useAutoData.ts";
 import generateGUID from "../../utils/generateGUID.ts";
 import AutoStep from "../../types/AutoSteps/AutoStep.ts";
 import {selectedPointAtom} from "./useSelectPoint.ts";
@@ -12,7 +12,7 @@ export interface AddPointPayload {
 }
 
 export const addPointAtom = atom(null, (get, set, payload: AddPointPayload) => {
-    const path = get(rawAutoDataAtom);
+    const path = get(autoDataAtom);
     const point: AutoStep = {
         id: generateGUID(),
         x: payload.x,
@@ -24,7 +24,7 @@ export const addPointAtom = atom(null, (get, set, payload: AddPointPayload) => {
     // Update path
     const newPoints = [...path.points];
     newPoints.splice(payload.index, 0, point);
-    set(rawAutoDataAtom, {...path, points: newPoints});
+    set(autoDataAtom, {...path, points: newPoints});
 
     // Select point
     set(selectedPointAtom, point.id);

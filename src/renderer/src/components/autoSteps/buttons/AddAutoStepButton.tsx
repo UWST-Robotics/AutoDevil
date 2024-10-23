@@ -4,7 +4,7 @@ import React from "react";
 import AutoStepTypes from "../../../db/AutoStepTypes.tsx";
 import useAddAutoStep from "../../../hooks/AutoSteps/useAddAutoStep.ts";
 import AutoStepInfo from "../../../types/AutoSteps/AutoStepInfo.ts";
-
+import generateGUID from "../../../utils/generateGUID.ts";
 
 export default function AddAutoStepButton() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -16,7 +16,10 @@ export default function AddAutoStepButton() {
 
     // Actions
     const selectType = (type: AutoStepInfo) => {
-        addAutoStep(type.create());
+        addAutoStep({
+            id: generateGUID(),
+            type: type.type
+        });
         closeMenu();
     };
 

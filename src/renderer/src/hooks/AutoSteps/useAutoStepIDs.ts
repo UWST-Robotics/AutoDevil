@@ -1,8 +1,8 @@
 import {atom, useAtomValue} from "jotai";
-import {rawAutoDataAtom} from "../AutoData/useAutoData.ts";
+import {autoDataAtom} from "../AutoData/useAutoData.ts";
 
 export const autoStepIDsAtom = atom((get) => {
-    const autoData = get(rawAutoDataAtom);
+    const autoData = get(autoDataAtom);
     return autoData.steps.map((s) => s.id);
 });
 

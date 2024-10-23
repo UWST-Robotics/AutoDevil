@@ -1,7 +1,6 @@
-import { atom, useSetAtom } from "jotai";
-import { pathDecoderAtom } from "./usePathDecoder.ts";
-import { saveHistoryAtom } from "../Utils/useUndoHistory.ts";
-import { occupancyDecoderAtom } from "./useOccupancyDecoder.ts";
+import {atom, useSetAtom} from "jotai";
+import {fileDeserializerAtom} from "./useFileDeserializer.ts";
+import {saveHistoryAtom} from "../Utils/useUndoHistory.ts";
 
 export interface UploadPayload {
     // TODO: Add payload
@@ -9,12 +8,7 @@ export interface UploadPayload {
 
 export const fileUploadAtom = atom(null, (_, set, _payload?: UploadPayload) => {
     const readFileContent = (fileContent: string) => {
-        if (fileContent.startsWith("PATH"))
-            set(pathDecoderAtom, fileContent);
-        else if (fileContent.startsWith("OCCUPANCY"))
-            set(occupancyDecoderAtom, fileContent);
-        else
-            console.warn(`Unknown file type: ${fileContent}`);
+        set(fileDeserializerAtom, fileContent);
         set(saveHistoryAtom);
     }
 

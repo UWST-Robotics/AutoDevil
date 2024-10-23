@@ -1,6 +1,6 @@
 import {atom, useAtom, useSetAtom} from "jotai";
 import AutoData from "../../types/AutoData.ts";
-import {DEFAULT_DATA, rawAutoDataAtom} from "../AutoData/useAutoData.ts";
+import {autoDataAtom, DEFAULT_DATA} from "../AutoData/useAutoData.ts";
 
 const MAX_HISTORY = 30;
 
@@ -16,7 +16,7 @@ export const undoAtom = atom((get) => {
         const history = get(fileHistoryAtom);
         if (index > 0) {
             set(fileHistoryIndexAtom, index - 1);
-            set(rawAutoDataAtom, history[index - 1]);
+            set(autoDataAtom, history[index - 1]);
         }
     }
 );
@@ -31,7 +31,7 @@ export const redoAtom = atom((get) => {
         const history = get(fileHistoryAtom);
         if (index < history.length - 1) {
             set(fileHistoryIndexAtom, index + 1);
-            set(rawAutoDataAtom, history[index + 1]);
+            set(autoDataAtom, history[index + 1]);
         }
     }
 );
@@ -39,7 +39,7 @@ export const redoAtom = atom((get) => {
 export const saveHistoryAtom = atom(null, (get, set) => {
     const history = get(fileHistoryAtom);
     const index = get(fileHistoryIndexAtom);
-    const path = get(rawAutoDataAtom);
+    const path = get(autoDataAtom);
 
 
     // Slice off the redo history

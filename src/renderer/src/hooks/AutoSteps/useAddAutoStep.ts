@@ -1,11 +1,11 @@
 import {atom, useSetAtom} from "jotai";
 import AutoStep from "../../types/AutoSteps/AutoStep.ts";
-import {rawAutoDataAtom} from "../AutoData/useAutoData.ts";
+import {autoDataAtom} from "../AutoData/useAutoData.ts";
 
 // Atoms
 export const addAutoStepAtom = atom(null, (get, set, autoStep: AutoStep) => {
-    const autoData = get(rawAutoDataAtom);
-    set(rawAutoDataAtom, {
+    const autoData = get(autoDataAtom);
+    set(autoDataAtom, {
         ...autoData,
         steps: [...autoData.steps, autoStep]
     });

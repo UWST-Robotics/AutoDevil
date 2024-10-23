@@ -6,6 +6,7 @@ import React from "react";
 import {useSetSelectedPoint} from "../../hooks/Point/useSelectPoint.ts";
 import useCameraControl from "../../hooks/Canvas/useCameraControl.ts";
 import WatermarkRenderer from "./WatermarkRenderer.tsx";
+import AutoStepsRenderer from "../autoSteps/canvas/AutoStepsRenderer.tsx";
 
 export default function MainCanvas() {
     const [windowWidth, windowHeight] = useWindowSize();
@@ -31,6 +32,7 @@ export default function MainCanvas() {
             >
                 <WatermarkRenderer/>
                 <FieldImageRenderer/>
+                <AutoStepsRenderer/>
                 {/*<PathRenderer />*/}
                 {/*<OccupancyRenderer />*/}
                 {/*<AnimationRenderer />*/}
