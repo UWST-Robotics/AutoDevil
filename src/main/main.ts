@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron'
+import {app, BrowserWindow, ipcMain, Menu} from 'electron'
 import * as Path from "path";
 import assignEvents from "./eventHandler.ts";
 import icon from '../../build/icon.png'
@@ -39,7 +39,7 @@ function createWindow() {
                     accelerator: "CmdOrCtrl+O",
                     click: () => mainWindow?.webContents.send('onOpen')
                 },
-                { type: "separator" },
+                {type: "separator"},
                 isMac ? {
                     role: "close",
                     accelerator: "CmdOrCtrl+W"
@@ -53,6 +53,12 @@ function createWindow() {
             label: "Edit",
             submenu: [
                 {
+                    label: "Delete",
+                    accelerator: "Delete",
+                    click: () => mainWindow?.webContents.send('onDelete')
+                },
+                {type: "separator"},
+                {
                     label: "Rotate CW",
                     accelerator: "CmdOrCtrl+R",
                     click: () => mainWindow?.webContents.send('onRotateCW')
@@ -62,7 +68,7 @@ function createWindow() {
                     accelerator: "CmdOrCtrl+Shift+R",
                     click: () => mainWindow?.webContents.send('onRotateCCW')
                 },
-                { type: "separator" },
+                {type: "separator"},
                 {
                     label: "Mirror Horizontal",
                     accelerator: "CmdOrCtrl+H",
@@ -73,7 +79,7 @@ function createWindow() {
                     accelerator: "CmdOrCtrl+Shift+H",
                     click: () => mainWindow?.webContents.send('onMirrorVertical')
                 },
-                { type: "separator" },
+                {type: "separator"},
                 {
                     label: "Undo",
                     accelerator: "CmdOrCtrl+Z",
@@ -104,7 +110,7 @@ function createWindow() {
                     accelerator: "CmdOrCtrl+Alt+G",
                     click: () => mainWindow?.webContents.send('onToggleSnapRotation')
                 },
-                { type: "separator" },
+                {type: "separator"},
                 {
                     label: "Fullscreen",
                     accelerator: "F11",

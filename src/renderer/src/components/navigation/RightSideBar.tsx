@@ -1,4 +1,4 @@
-import TransparentCard from "../util/TransparentCard.tsx";
+import TransparentCard from "../common/TransparentCard.tsx";
 
 export default function RightSideBar() {
     return (

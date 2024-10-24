@@ -1,11 +1,4 @@
-import ScopeSlider from "../input/ScopeSlider.tsx";
-import AnimateButton from "../buttons/AnimateButton.tsx";
-import useSettingsValue from "../../hooks/Utils/useSettings.ts";
-import OccupancyToolButton from "../buttons/OccupancyToolButton.tsx";
-
 export default function BottomBar() {
-    const { showOccupancyGrid } = useSettingsValue();
-
     return (
         <div
             style={{
@@ -33,12 +26,6 @@ export default function BottomBar() {
                     borderTopRightRadius: 16,
                 }}
             >
-                {!showOccupancyGrid && (<AnimateButton />)}
-                {!showOccupancyGrid && (<ScopeSlider />)}
-
-                {showOccupancyGrid && (<OccupancyToolButton tool={"Pan"} />)}
-                {showOccupancyGrid && (<OccupancyToolButton tool={"Draw"} />)}
-                {showOccupancyGrid && (<OccupancyToolButton tool={"Fill"} />)}
             </div>
         </div>
     );

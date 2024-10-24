@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import {contextBridge, ipcRenderer} from 'electron';
 
 const electronAPI = {
 
@@ -21,6 +21,7 @@ const electronAPI = {
     onToggleGrid: (callback: () => void) => ipcRenderer.on('onToggleGrid', callback),
     onToggleSnap: (callback: () => void) => ipcRenderer.on('onToggleSnap', callback),
     onToggleSnapRotation: (callback: () => void) => ipcRenderer.on('onToggleSnapRotation', callback),
+    onDelete: (callback: () => void) => ipcRenderer.on('onDelete', callback),
 
     // Remove Listeners (For React Unmounting)
     removeAllListeners: () => {
@@ -37,6 +38,7 @@ const electronAPI = {
         ipcRenderer.removeAllListeners('onToggleGrid');
         ipcRenderer.removeAllListeners('onToggleSnap');
         ipcRenderer.removeAllListeners('onToggleSnapRotation');
+        ipcRenderer.removeAllListeners('onDelete');
     }
 };
 contextBridge.exposeInMainWorld('electronAPI', electronAPI);

@@ -3,20 +3,21 @@ import GridRenderer from "./GridRenderer.tsx";
 import useWindowSize from "../../hooks/Canvas/useWindowSize.ts";
 import FieldImageRenderer from "./FieldImageRenderer.tsx";
 import React from "react";
-import {useSetSelectedPoint} from "../../hooks/Point/useSelectPoint.ts";
 import useCameraControl from "../../hooks/Canvas/useCameraControl.ts";
 import WatermarkRenderer from "./WatermarkRenderer.tsx";
-import AutoStepsRenderer from "../autoSteps/canvas/AutoStepsRenderer.tsx";
+import AutoStepsRenderer from "./autoSteps/AutoStepsRenderer.tsx";
+import PathRenderer from "./path/PathRenderer.tsx";
+import {useSetSelectedAutoStepID} from "../../hooks/AutoSteps/selected/useSelectedAutoStepID.ts";
 
 export default function MainCanvas() {
     const [windowWidth, windowHeight] = useWindowSize();
-    const setSelectedPoint = useSetSelectedPoint();
+    const setSelectedAutoStepID = useSetSelectedAutoStepID();
     const {stageRef, layerRef} = useCameraControl();
 
     // Handle On Click
     const onClick = React.useCallback(() => {
-        setSelectedPoint(undefined);
-    }, [setSelectedPoint]);
+        setSelectedAutoStepID(undefined);
+    }, [setSelectedAutoStepID]);
 
     return (
         <Stage
@@ -33,9 +34,7 @@ export default function MainCanvas() {
                 <WatermarkRenderer/>
                 <FieldImageRenderer/>
                 <AutoStepsRenderer/>
-                {/*<PathRenderer />*/}
-                {/*<OccupancyRenderer />*/}
-                {/*<AnimationRenderer />*/}
+                <PathRenderer/>
                 <GridRenderer
                     cellSize={12}
                     color={"#333"}

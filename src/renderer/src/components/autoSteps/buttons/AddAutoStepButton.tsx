@@ -2,7 +2,7 @@ import {PlaylistAdd} from "@mui/icons-material";
 import {IconButton, Menu, MenuItem} from "@mui/material";
 import React from "react";
 import AutoStepTypes from "../../../db/AutoStepTypes.tsx";
-import useAddAutoStep from "../../../hooks/AutoSteps/useAddAutoStep.ts";
+import useAddAutoStep from "../../../hooks/AutoSteps/actions/useAddAutoStep.ts";
 import AutoStepInfo from "../../../types/AutoSteps/AutoStepInfo.ts";
 import generateGUID from "../../../utils/generateGUID.ts";
 

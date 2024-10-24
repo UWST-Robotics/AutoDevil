@@ -1,4 +1,4 @@
-import SettingsButton from "../buttons/SettingsButton.tsx";
+import SettingsButton from "../settings/SettingsButton.tsx";
 import DownloadButton from "../buttons/DownloadButton.tsx";
 import UploadButton from "../buttons/UploadButton.tsx";
 import {Divider} from "@mui/material";

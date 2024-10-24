@@ -1,6 +1,6 @@
 import {ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import AutoStepsListItemContainer from "./AutoStepsListItemContainer.tsx";
-import useSelectedAutoStepID from "../../hooks/AutoSteps/useSelectedAutoStepID.ts";
+import useSelectedAutoStepID from "../../hooks/AutoSteps/selected/useSelectedAutoStepID.ts";
 import GUID from "../../types/GUID.ts";
 import useAutoStep from "../../hooks/AutoSteps/useAutoStep.ts";
 import useAutoStepInfo from "../../hooks/AutoSteps/AutoStepInfo/useAutoStepInfo.ts";

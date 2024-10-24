@@ -1,5 +1,5 @@
 import AutoStepsList from "../autoSteps/AutoStepsList.tsx";
-import TransparentCard from "../util/TransparentCard.tsx";
+import TransparentCard from "../common/TransparentCard.tsx";
 
 export default function LeftSideBar() {
     return (

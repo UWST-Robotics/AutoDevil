@@ -1,28 +1,26 @@
-import useDeletePoint from "../Point/useDeletePoint.ts";
-import { useSelectedPointValue } from "../Point/useSelectPoint.ts";
-import { useRedoChanges, useUndoChanges } from "./useUndoHistory.ts";
+import {useRedoChanges, useUndoChanges} from "./useUndoHistory.ts";
 import React from "react";
+import useDeleteSelectedAutoStep from "../AutoSteps/actions/useDeleteSelectedAutoStep.ts";
 
 export default function useKeybinds() {
-    const deletePoint = useDeletePoint();
-    const selectedPointID = useSelectedPointValue();
     const [, undo] = useUndoChanges();
     const [, redo] = useRedoChanges();
+    const deleteSelectedAutoStep = useDeleteSelectedAutoStep();
 
     // Handle keydown events
     const onKeyDown = React.useCallback((e: KeyboardEvent) => {
         if (e.key === "Delete")
-            deletePoint(selectedPointID);
+            deleteSelectedAutoStep();
 
         if (e.key === "z" && e.ctrlKey)
             undo();
         if (e.key === "y" && e.ctrlKey)
             redo();
-    }, [deletePoint, selectedPointID, undo, redo]);
+    }, [undo, redo]);
 
     // Add event listeners
     React.useEffect(() => {
-        
+
         // Electron implements its own keybinds
         if (electronAPI)
             return;

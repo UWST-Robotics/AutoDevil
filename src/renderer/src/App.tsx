@@ -1,8 +1,7 @@
 import MainCanvas from "./components/canvas/MainCanvas.tsx";
 import GlobalHooks from "./components/GlobalHooks.tsx";
 import {createTheme, ThemeProvider} from "@mui/material";
-import useElectronListener from "./hooks/Electron/useElectronListener.ts";
-import AboutModal from "./components/modals/AboutModal.tsx";
+import AboutModal from "./components/navigation/modals/AboutModal.tsx";
 import TopBar from "./components/navigation/TopBar.tsx";
 import LeftSideBar from "./components/navigation/LeftSideBar.tsx";
 import RightSideBar from "./components/navigation/RightSideBar.tsx";
@@ -14,8 +13,6 @@ const darkTheme = createTheme({
 });
 
 function App() {
-    useElectronListener();
-
     return (
         <ThemeProvider theme={darkTheme}>
             <GlobalHooks/>
