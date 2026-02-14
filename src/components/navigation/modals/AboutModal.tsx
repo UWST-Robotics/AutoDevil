@@ -35,7 +35,7 @@ export default function AboutModal() {
                         variant={"body2"}
                         color={"text.secondary"}
                     >
-                        Version {APP_VERSION} {electronAPI ? "(Electron)" : "(Web)"}
+                        Version {APP_VERSION}
                     </Typography>
                     <IconButton
                         aria-label={"Close About"}

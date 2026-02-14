@@ -49,7 +49,7 @@ export default function SettingsFieldPresetDropdown() {
             >
                 {FIELD_PRESETS.map((fieldPreset) => (
                     <MenuItem
-                        key={fieldPreset.name}
+                        key={`${fieldPreset.name}_${fieldPreset.type}`}
                         dense
                         onClick={() => {
                             onPresetSelect(fieldPreset);

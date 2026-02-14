@@ -20,11 +20,6 @@ export default function useKeybinds() {
 
     // Add event listeners
     React.useEffect(() => {
-
-        // Electron implements its own keybinds
-        if (electronAPI)
-            return;
-
         window.addEventListener("keydown", onKeyDown);
         return () => window.removeEventListener("keydown", onKeyDown);
     }, [onKeyDown]);
