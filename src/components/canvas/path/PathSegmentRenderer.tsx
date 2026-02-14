@@ -4,6 +4,7 @@ import GUID, {EMPTY_GUID} from "../../../types/GUID.ts";
 import useAutoStepPose from "../../../hooks/Pose/useAutoStepPose.ts";
 import {Line} from "react-konva";
 import useSettingsValue from "../../../hooks/Utils/useSettings.ts";
+import JumpToStepType from "../../../types/AutoSteps/AutoStepTypes/JumpToStep.ts";
 
 export interface PathSegmentRendererProps {
     autoStepID: GUID;
@@ -15,6 +16,8 @@ export default function PathSegmentRenderer(props: PathSegmentRendererProps) {
     const pose = useAutoStepPose(autoStep?.id ?? EMPTY_GUID);
     const prevPose = useAutoStepPose(prevAutoStep?.id ?? EMPTY_GUID);
     const {pixelsPerInch} = useSettingsValue();
+
+    const isJumpToStep = autoStep?.typeID === JumpToStepType.id;
 
     if (!autoStep || !prevAutoStep || !pose || !prevPose)
         return null;
@@ -31,7 +34,7 @@ export default function PathSegmentRenderer(props: PathSegmentRendererProps) {
             strokeWidth={0.4 * pixelsPerInch}
             perfectDrawEnabled={false}
 
-            dashEnabled={autoStep.type === "JUMPTO"}
+            dashEnabled={isJumpToStep}
             dash={[5, 5]}
         />
     )

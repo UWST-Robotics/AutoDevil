@@ -4,6 +4,7 @@ import useSelectedAutoStepID from "../../hooks/AutoSteps/selected/useSelectedAut
 import GUID from "../../types/GUID.ts";
 import useAutoStep from "../../hooks/AutoSteps/useAutoStep.ts";
 import AutoStepEditorPanel from "../autoStepEditor/AutoStepEditorPanel.tsx";
+import getAutoStepType from "../../utils/getAutoStepType.ts";
 
 export interface AutoStepsListItemProps {
     autoStepID: GUID;
@@ -13,6 +14,7 @@ export default function AutoStepsListItem(props: AutoStepsListItemProps) {
     // Hooks
     const [selectedAutoStepID, setSelectedAutoStepID] = useSelectedAutoStepID();
     const [autoStep] = useAutoStep(props.autoStepID);
+    const autoStepType = getAutoStepType(autoStep);
 
     // Functions
     const selectThisStep = () => setSelectedAutoStepID(props.autoStepID);
@@ -21,12 +23,21 @@ export default function AutoStepsListItem(props: AutoStepsListItemProps) {
     const isSelected = selectedAutoStepID === props.autoStepID;
 
     if (!autoStep)
-        return null;
+        throw new Error(`AutoStep with ID ${props.autoStepID} not found`);
+    if (!autoStepType)
+        throw new Error(`AutoStepType with ID ${autoStep.typeID} not found`);
+
     return (
-        <Box>
+        <Box
+            onDragStart={e => {
+                // Disable default drag image
+                e.dataTransfer.setDragImage(new Image(), 0, 0);
+            }}
+        >
             <AutoStepsListItemContainer
                 disablePadding
-                color={autoStep.type.color}
+                color={autoStepType.color}
+                backgroundColor={autoStepType.backgroundColor ?? autoStepType.color}
             >
                 <ListItemButton
                     sx={{
@@ -37,10 +48,10 @@ export default function AutoStepsListItem(props: AutoStepsListItemProps) {
                     onClick={selectThisStep}
                 >
                     <ListItemIcon>
-                        <autoStep.type.icon/>
+                        <autoStepType.icon/>
                     </ListItemIcon>
                     <ListItemText
-                        primary={autoStep.type.name}
+                        primary={autoStepType.name}
                     />
                 </ListItemButton>
             </AutoStepsListItemContainer>

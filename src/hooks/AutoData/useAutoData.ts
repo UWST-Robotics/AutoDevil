@@ -1,10 +1,10 @@
 import AutoData from "../../types/AutoData.ts";
 import {atom, useAtom, useAtomValue} from "jotai";
-import {InitialStepType} from "../../types/AutoSteps/InitialStep.ts";
+import JumpToStepType from "../../types/AutoSteps/AutoStepTypes/JumpToStep.ts";
 
 export const DEFAULT_DATA: AutoData = {
     steps: [
-        InitialStepType.createNew()
+        JumpToStepType.createNew()
     ],
     occupancyGrid: [],
 }

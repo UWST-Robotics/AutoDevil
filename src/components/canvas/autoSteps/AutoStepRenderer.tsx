@@ -7,12 +7,16 @@ import useCursorListener from "../../../hooks/Canvas/useCursorListener.ts";
 import useAutoStepPose from "../../../hooks/Pose/useAutoStepPose.ts";
 import useAutoStepDragListener from "../../../hooks/Canvas/useAutoStepDragListener.ts";
 import useSettingsValue from "../../../hooks/Utils/useSettings.ts";
+import DriveToStepType from "../../../types/AutoSteps/AutoStepTypes/DriveToStepType.ts";
+import JumpToStepType from "../../../types/AutoSteps/AutoStepTypes/JumpToStep.ts";
+import useAutoStep from "../../../hooks/AutoSteps/useAutoStep.ts";
 
 export interface AutoStepRendererProps {
     id: GUID;
 }
 
 export default function AutoStepRenderer(props: AutoStepRendererProps) {
+    const [autoStep] = useAutoStep(props.id);
     const pose = useAutoStepPose(props.id);
     const [selectedAutoStepID, setSelectedAutoStepID] = useSelectedAutoStepID();
     const [onMouseOver, onMouseOut, isHovered] = useCursorListener("pointer");
@@ -31,7 +35,7 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
     // Actions
     const selectAutoStep = () => setSelectedAutoStepID(props.id);
 
-    if (!pose)
+    if (!pose || !autoStep)
         return null;
     return (
         <Group
@@ -46,7 +50,10 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
             onDragMove={onDragMove}
             onDragEnd={onDragEnd}
             onClick={e => e.cancelBubble = true}
-            draggable={false}
+            draggable={
+                autoStep.typeID === DriveToStepType.id ||
+                autoStep.typeID === JumpToStepType.id
+            }
         >
             <RobotRenderer
                 color={color}

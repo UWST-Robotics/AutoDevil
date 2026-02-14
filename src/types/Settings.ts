@@ -13,7 +13,6 @@ interface Settings {
     normalizeRotation: boolean;
     snapRotation: boolean;
     snapPosition: boolean;
-    showOccupancyGrid: boolean;
     occupancyInchesPerCell: number;
     showGrid: boolean;
 }
@@ -31,7 +30,6 @@ export const DEFAULT_SETTINGS: Settings = {
     normalizeRotation: true,
     snapRotation: true,
     snapPosition: false,
-    showOccupancyGrid: false,
     occupancyInchesPerCell: 6,
     showGrid: true,
 };

@@ -20,7 +20,7 @@ export default function AutoStepNumericInput(props: AutoStepNumericInputProps) {
     return (
         <FlexNumericInput
             value={value ? Number(value) : props.defaultValue ?? 0}
-            onChange={(value) => setValue(value)}
+            onChange={(value) => setValue(value as any)}
             inputProps={{label, sx: {marginTop: 1}, fullWidth: true}}
         />
     )

@@ -1,22 +1,12 @@
 import {ListItem, ListItemProps} from "@mui/material";
 
 export interface AutoStepsListItemProps extends ListItemProps {
-    intent?: "primary" | "success" | "danger";
+    backgroundColor: string;
 }
 
-const SUCCESS_BG = "#193d1d";
-const SUCCESS_FG = "success.light";
-const PRIMARY_BG = "#19333d";
-const PRIMARY_FG = "primary.main";
-const DANGER_BG = "#3d1919";
-const DANGER_FG = "error.light";
-
 export default function AutoStepsListItemContainer(props: AutoStepsListItemProps) {
-    const listItemProps = {...props};
-    delete listItemProps.intent;
-
-    const background = props.intent === "primary" ? PRIMARY_BG : props.intent === "success" ? SUCCESS_BG : DANGER_BG;
-    const foreground = props.intent === "primary" ? PRIMARY_FG : props.intent === "success" ? SUCCESS_FG : DANGER_FG;
+    const listItemProps: Partial<AutoStepsListItemProps> = {...props};
+    delete listItemProps.backgroundColor;
 
     return (
         <ListItem
@@ -24,21 +14,21 @@ export default function AutoStepsListItemContainer(props: AutoStepsListItemProps
             sx={{
                 // Selected
                 "&& .Mui-selected, && .Mui-selected:hover": {
-                    bgcolor: background
+                    bgcolor: props.backgroundColor
                 },
                 // Hover
                 "& .MuiListItemButton-root:hover": {
-                    bgcolor: background
+                    bgcolor: props.backgroundColor
                 },
                 // Text
-                color: foreground,
+                color: props.color,
                 // Left Icon
                 "& .MuiListItemIcon-root": {
-                    color: foreground
+                    color: props.color
                 },
                 // Second Icon
                 "& .MuiIconButton-root": {
-                    color: foreground
+                    color: props.color
                 }
             }}
         >

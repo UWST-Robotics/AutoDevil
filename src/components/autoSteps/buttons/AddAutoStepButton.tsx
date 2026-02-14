@@ -3,7 +3,7 @@ import {IconButton, Menu, MenuItem} from "@mui/material";
 import React from "react";
 import AutoStepTypes from "../../../db/AutoStepTypes.tsx";
 import useAddAutoStep from "../../../hooks/AutoSteps/actions/useAddAutoStep.ts";
-import AutoStepInfo from "../../../types/AutoSteps/AutoStepType.ts";
+import AutoStepType from "../../../types/AutoSteps/AutoStepType.ts";
 
 export default function AddAutoStepButton() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -14,7 +14,7 @@ export default function AddAutoStepButton() {
     const closeMenu = () => setAnchorEl(null);
 
     // Actions
-    const selectType = (type: AutoStepInfo) => {
+    const selectType = (type: AutoStepType<any>) => {
         addAutoStep(type.createNew());
         closeMenu();
     };
