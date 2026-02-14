@@ -1,10 +1,8 @@
 import GUID from "../../../types/GUID.ts";
-import useAutoStep from "../../../hooks/AutoSteps/useAutoStep.ts";
 import {Group} from "react-konva";
 import RobotRenderer from "./RobotRenderer.tsx";
 import useSelectedAutoStepID from "../../../hooks/AutoSteps/selected/useSelectedAutoStepID.ts";
 import React from "react";
-import AutoStepType from "../../../types/AutoSteps/AutoStepType.ts";
 import useCursorListener from "../../../hooks/Canvas/useCursorListener.ts";
 import useAutoStepPose from "../../../hooks/Pose/useAutoStepPose.ts";
 import useAutoStepDragListener from "../../../hooks/Canvas/useAutoStepDragListener.ts";
@@ -15,7 +13,6 @@ export interface AutoStepRendererProps {
 }
 
 export default function AutoStepRenderer(props: AutoStepRendererProps) {
-    const [autoStep] = useAutoStep(props.id);
     const pose = useAutoStepPose(props.id);
     const [selectedAutoStepID, setSelectedAutoStepID] = useSelectedAutoStepID();
     const [onMouseOver, onMouseOut, isHovered] = useCursorListener("pointer");
@@ -24,21 +21,16 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
 
     // State
     const isSelected = selectedAutoStepID === props.id;
-    const isStart = autoStep?.type === AutoStepType.JUMPTO;
 
     const color = React.useMemo(() => {
         if (isSelected)
             return "#4181d0";
-        if (isStart)
-            return "#2f2";
         return "#fff";
     }, [isSelected]);
 
     // Actions
     const selectAutoStep = () => setSelectedAutoStepID(props.id);
 
-    if (autoStep?.type === "STOP" || autoStep?.type === "UNKNOWN")
-        return null;
     if (!pose)
         return null;
     return (
@@ -54,7 +46,7 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
             onDragMove={onDragMove}
             onDragEnd={onDragEnd}
             onClick={e => e.cancelBubble = true}
-            draggable={autoStep?.type !== AutoStepType.ROTATE}
+            draggable={false}
         >
             <RobotRenderer
                 color={color}

@@ -1,19 +1,25 @@
-import AutoStepType from "./AutoStepType.ts";
-import GUID from "../GUID.ts";
+import generateGUID from "../../utils/generateGUID.ts";
 import Pose from "../Pose.ts";
+import AutoStepType from "./AutoStepType.ts";
 
-export default interface AutoStep {
-    id: GUID;
-    type: AutoStepType;
+abstract class AutoStep {
+    id = generateGUID();
 
-    // Offsets
-    distance?: number;
-    rotation?: number;
+    abstract type: AutoStepType;
 
-    // Location
-    pose?: Pose;
+    /**
+     * Gets the pose associated with this step, if any.
+     * This is used for rendering the step on the field.
+     * @param prevPose The pose of the previous step, which can be used as a reference for calculating the new pose.
+     * @return The pose associated with this step, or undefined if this step does not have a pose.
+     */
+    abstract getPose(prevPose: Pose): Pose | undefined;
 
-    // Spline
-    enterOffset?: number;
-    exitOffset?: number;
+    /**
+     * Generates the code for this step.
+     * Each string in the returned array represents a line of code.
+     * @return An array of strings representing the code for this step.
+     */
+    abstract generateCode(): string[];
 }
+export default AutoStep;

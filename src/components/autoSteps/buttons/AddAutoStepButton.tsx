@@ -3,8 +3,7 @@ import {IconButton, Menu, MenuItem} from "@mui/material";
 import React from "react";
 import AutoStepTypes from "../../../db/AutoStepTypes.tsx";
 import useAddAutoStep from "../../../hooks/AutoSteps/actions/useAddAutoStep.ts";
-import AutoStepInfo from "../../../types/AutoSteps/AutoStepInfo.ts";
-import generateGUID from "../../../utils/generateGUID.ts";
+import AutoStepInfo from "../../../types/AutoSteps/AutoStepType.ts";
 
 export default function AddAutoStepButton() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -16,10 +15,7 @@ export default function AddAutoStepButton() {
 
     // Actions
     const selectType = (type: AutoStepInfo) => {
-        addAutoStep({
-            id: generateGUID(),
-            type: type.type
-        });
+        addAutoStep(type.createNew());
         closeMenu();
     };
 
@@ -38,17 +34,14 @@ export default function AddAutoStepButton() {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                {AutoStepTypes
-                    .filter(type => !type.isHidden)
-                    .map(type => (
-                        <MenuItem
-                            key={type.type}
-                            onClick={() => selectType(type)}
-                        >
-                            {type.name}
-                        </MenuItem>
-                    ))
-                }
+                {AutoStepTypes.map((type, index) => (
+                    <MenuItem
+                        key={index}
+                        onClick={() => selectType(type)}
+                    >
+                        {type.name}
+                    </MenuItem>
+                ))}
             </Menu>
         </>
     )
