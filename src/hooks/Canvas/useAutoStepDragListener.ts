@@ -6,7 +6,6 @@ import GUID, {EMPTY_GUID} from "../../types/GUID.ts";
 import useAutoStep from "../AutoSteps/useAutoStep.ts";
 import usePrevAutoStep from "../AutoSteps/usePrevAutoStep.ts";
 import useAutoStepPose from "../Pose/useAutoStepPose.ts";
-import AutoPoseStep from "../../types/AutoSteps/AutoPoseStep.ts";
 
 const SNAP_DISTANCE = 2; // in
 
@@ -39,10 +38,8 @@ export default function useAutoStepDragListener(id: GUID) {
         if (!autoStep)
             return;
 
-        const newAutoStep = autoStep as AutoPoseStep;
-        newAutoStep.x = x;
-        newAutoStep.y = y;
-        setAutoStep({...newAutoStep});
+        const pose = {x, y, r: autoStep.pose?.r ?? 0};
+        setAutoStep({...autoStep, pose});
     }, [pixelsPerInch, isSpline, snapPosition, autoStep, setAutoStep]);
     const onDragEnd = React.useCallback((_e: KonvaEventObject<DragEvent>) => {
 

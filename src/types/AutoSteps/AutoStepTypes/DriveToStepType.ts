@@ -1,29 +1,20 @@
 import {Route} from "@mui/icons-material";
 import AutoStepType from "../AutoStepType.ts";
-import generateGUID from "../../../utils/generateGUID.ts";
-import AutoPoseStep from "../AutoPoseStep.ts";
+import {DEFAULT_POSE} from "../../Pose.ts";
 
-export const DriveToStepType: AutoStepType<AutoPoseStep> = {
+export const DriveToStepType: AutoStepType = {
     id: "driveTo",
     name: "Drive To",
-    
+
     color: "primary.main",
     backgroundColor: "#19333d",
     icon: Route,
 
-    createNew: () => {
-        return {
-            id: generateGUID(),
-            typeID: DriveToStepType.id,
-            x: 0,
-            y: 0,
-            r: 0
-        };
-    },
-    getPose: (step) => step,
+    getPose: (step) => step.pose ?? DEFAULT_POSE,
     generateCode: (step) => {
+        const pose = step.pose ?? DEFAULT_POSE;
         return [
-            `autoBuilder.driveTo({${step.x}, ${step.y}, ${step.r}});`
+            `autoBuilder.driveTo({${pose.x}, ${pose.y}, ${pose.r}});`
         ];
     }
 }

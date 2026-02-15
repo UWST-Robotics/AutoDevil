@@ -5,6 +5,8 @@ import useAutoStepPose from "../../../hooks/Pose/useAutoStepPose.ts";
 import {Line} from "react-konva";
 import useSettingsValue from "../../../hooks/Utils/useSettings.ts";
 import JumpToStepType from "../../../types/AutoSteps/AutoStepTypes/JumpToStep.ts";
+import usePathSplineSegment from "../../../hooks/Path/usePathSplineSegment.ts";
+import React from "react";
 
 export interface PathSegmentRendererProps {
     autoStepID: GUID;
@@ -16,6 +18,17 @@ export default function PathSegmentRenderer(props: PathSegmentRendererProps) {
     const pose = useAutoStepPose(autoStep?.id ?? EMPTY_GUID);
     const prevPose = useAutoStepPose(prevAutoStep?.id ?? EMPTY_GUID);
     const {pixelsPerInch} = useSettingsValue();
+    const pathSegment = usePathSplineSegment(prevAutoStep?.id, autoStep?.id);
+
+    const pathPoints = React.useMemo(() => {
+        if (!pathSegment)
+            return [];
+        const points: number[] = [];
+        for (const point of pathSegment)
+            points.push(point.x * pixelsPerInch, point.y * pixelsPerInch);
+
+        return points;
+    }, [pathSegment, pixelsPerInch]);
 
     const isJumpToStep = autoStep?.typeID === JumpToStepType.id;
 
@@ -24,12 +37,7 @@ export default function PathSegmentRenderer(props: PathSegmentRendererProps) {
 
     return (
         <Line
-            points={[
-                prevPose.x * pixelsPerInch,
-                prevPose.y * pixelsPerInch,
-                pose.x * pixelsPerInch,
-                pose.y * pixelsPerInch
-            ]}
+            points={pathPoints}
             stroke={"#ddd"}
             strokeWidth={0.4 * pixelsPerInch}
             perfectDrawEnabled={false}

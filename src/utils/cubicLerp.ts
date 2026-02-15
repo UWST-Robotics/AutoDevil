@@ -1,51 +1,38 @@
-import AutoStep from "../types/AutoSteps/AutoStep.ts";
-import { normalizeRadians } from "./toDegrees.ts";
-
-// Math
-export function cubicLerp(a: number, b: number, t: number) {
+/**
+ * Performs linear interpolation between two values a and b based on a parameter t.
+ * @param a - The starting value.
+ * @param b - The ending value.
+ * @param t - The interpolation parameter, typically between 0 and 1.
+ * @returns The interpolated value between a and b based on t.
+ */
+export function lerp(a: number, b: number, t: number) {
     return a + (b - a) * t;
 }
 
-export function rotationLerp(a: number, b: number, t: number, normalize = true) {
-    if (!normalize)
-        return cubicLerp(a, b, t);
-
-    // Check if we're going clockwise or counterclockwise
-    const aMod = a % (2 * Math.PI);
-    const bMod = b % (2 * Math.PI);
-    const diff = Math.abs(aMod - bMod);
-    if (diff > Math.PI) {
-        if (aMod > bMod) {
-            return normalizeRadians(cubicLerp(aMod, bMod + 2 * Math.PI, t));
-        } else {
-            return normalizeRadians(cubicLerp(aMod + 2 * Math.PI, bMod, t));
-        }
-    }
-    return normalizeRadians(cubicLerp(aMod, bMod, t)); // Normal
+/**
+ * Performs quadratic interpolation between three values a, b, and c based on a parameter t.
+ * @param a - The first value.
+ * @param b - The second value.
+ * @param c - The third value.
+ * @param t - The interpolation parameter, typically between 0 and 1.
+ */
+export function quadraticLerp(a: number, b: number, c: number, t: number) {
+    const ab = lerp(a, b, t);
+    const bc = lerp(b, c, t);
+    return lerp(ab, bc, t);
 }
 
-// Points
-export function lerpPoints(a: AutoStep, b: AutoStep, t: number, normalize = true): AutoStep {
-    return {
-        ...a,
-        x: cubicLerp(a.x, b.x, t),
-        y: cubicLerp(a.y, b.y, t),
-        r: rotationLerp(a.r, b.r, t),
-        state: {
-            isReversed: a.state?.isReversed ?? false,
-            gyro: rotationLerp(a.state?.gyro ?? 0, b.state?.gyro ?? 0, t, normalize)
-        }
-    };
-}
-
-export function quadraticLerpPoints(a: AutoStep, b: AutoStep, c: AutoStep, t: number, normalize = true): AutoStep {
-    const ab = lerpPoints(a, b, t, normalize);
-    const bc = lerpPoints(b, c, t, normalize);
-    return lerpPoints(ab, bc, t, normalize);
-}
-
-export default function cubicLerpPoints(a: AutoStep, b: AutoStep, c: AutoStep, d: AutoStep, t: number, normalize = true): AutoStep {
-    const abc = quadraticLerpPoints(a, b, c, t, normalize);
-    const bcd = quadraticLerpPoints(b, c, d, t, normalize);
-    return lerpPoints(abc, bcd, t);
+/**
+ * Performs cubic interpolation between four values a, b, c, and d based on a parameter t.
+ * @param a - The first value.
+ * @param b - The second value.
+ * @param c - The third value.
+ * @param d - The fourth value.
+ * @param t - The interpolation parameter, typically between 0 and 1.
+ * @returns The interpolated value between a, b, c, and d based on t.
+ */
+export function cubicLerp(a: number, b: number, c: number, d: number, t: number) {
+    const abc = quadraticLerp(a, b, c, t);
+    const bcd = quadraticLerp(b, c, d, t);
+    return lerp(abc, bcd, t);
 }

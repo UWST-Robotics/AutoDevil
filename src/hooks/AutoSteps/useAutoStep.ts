@@ -4,7 +4,7 @@ import {atom, useAtom} from "jotai";
 import {autoDataAtom} from "../AutoData/useAutoData.ts";
 import AutoStep from "../../types/AutoSteps/AutoStep.ts";
 
-export const autoStepAtomFamily = atomFamily((id: GUID) => atom((get) => {
+export const autoStepAtomFamily = atomFamily((id: GUID | undefined) => atom((get) => {
     const autoData = get(autoDataAtom);
     return autoData.steps.find((s) => s.id === id);
 }, (get, set, step: AutoStep) => {
@@ -15,6 +15,6 @@ export const autoStepAtomFamily = atomFamily((id: GUID) => atom((get) => {
     });
 }));
 
-export default function useAutoStep(id: GUID) {
+export default function useAutoStep(id: GUID | undefined) {
     return useAtom(autoStepAtomFamily(id));
 }

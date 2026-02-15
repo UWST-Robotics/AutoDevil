@@ -1,4 +1,4 @@
-export default function toDegrees(radians: number): number {
+export default function unitConversions(radians: number): number {
     return radians * (180 / Math.PI);
 }
 

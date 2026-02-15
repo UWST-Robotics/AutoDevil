@@ -2,7 +2,7 @@ import {SvgIconComponent} from "@mui/icons-material";
 import AutoStep from "./AutoStep.ts";
 import Pose from "../Pose.ts";
 
-interface AutoStepType<T extends AutoStep> {
+interface AutoStepType {
     id: string;
     name: string;
 
@@ -10,9 +10,8 @@ interface AutoStepType<T extends AutoStep> {
     backgroundColor?: string;
     icon: SvgIconComponent;
 
-    createNew: () => T;
-    getPose?: (autoStep: T, prevPose: Pose) => Pose;
-    generateCode: (autoStep: T) => string[];
+    getPose?: (autoStep: AutoStep, prevPose: Pose) => Pose;
+    generateCode: (autoStep: AutoStep) => string[];
 }
 
 export default AutoStepType;

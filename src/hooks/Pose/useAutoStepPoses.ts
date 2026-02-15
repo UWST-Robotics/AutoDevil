@@ -1,12 +1,12 @@
 import {atom, useAtomValue} from "jotai";
 import {autoStepsAtom} from "../AutoData/useAutoSteps.ts";
-import {BLANK_POSE} from "../../types/Pose.ts";
+import Pose, {DEFAULT_POSE} from "../../types/Pose.ts";
 import getAutoStepType from "../../utils/getAutoStepType.ts";
 
 export const autoStepPosesAtom = atom(get => {
     const autoSteps = get(autoStepsAtom);
 
-    let prevPose = BLANK_POSE;
+    let prevPose = DEFAULT_POSE;
     return autoSteps.map((step) => {
 
         // Get the step type for the current step
@@ -19,7 +19,7 @@ export const autoStepPosesAtom = atom(get => {
             return prevPose;
 
         // Get the pose for the current step using the step type's getPose function
-        const pose = stepType.getPose(step, prevPose);
+        const pose: Pose = stepType.getPose(step, prevPose);
         prevPose = pose;
         return pose;
     });

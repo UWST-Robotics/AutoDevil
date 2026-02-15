@@ -1,9 +1,10 @@
 import {PlaylistAdd} from "@mui/icons-material";
-import {IconButton, Menu, MenuItem} from "@mui/material";
+import {IconButton, ListItemText, Menu, MenuItem} from "@mui/material";
 import React from "react";
 import AutoStepTypes from "../../../db/AutoStepTypes.tsx";
 import useAddAutoStep from "../../../hooks/AutoSteps/actions/useAddAutoStep.ts";
 import AutoStepType from "../../../types/AutoSteps/AutoStepType.ts";
+import createAutoStep from "../../../utils/createAutoStep.ts";
 
 export default function AddAutoStepButton() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -14,8 +15,8 @@ export default function AddAutoStepButton() {
     const closeMenu = () => setAnchorEl(null);
 
     // Actions
-    const selectType = (type: AutoStepType<any>) => {
-        addAutoStep(type.createNew());
+    const selectType = (type: AutoStepType) => {
+        addAutoStep(createAutoStep(type));
         closeMenu();
     };
 
@@ -39,7 +40,7 @@ export default function AddAutoStepButton() {
                         key={index}
                         onClick={() => selectType(type)}
                     >
-                        {type.name}
+                        <ListItemText primary={type.name}/>
                     </MenuItem>
                 ))}
             </Menu>
