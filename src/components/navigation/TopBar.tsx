@@ -1,10 +1,11 @@
-import SettingsButton from "../settings/SettingsButton.tsx";
+import SettingsButton from "../buttons/SettingsButton.tsx";
 import DownloadButton from "../buttons/DownloadButton.tsx";
 import UploadButton from "../buttons/UploadButton.tsx";
 import {Divider, Paper} from "@mui/material";
 import MirrorAutoStepsButton from "../buttons/MirrorAutoStepsButton.tsx";
 import UndoRedoButton from "../buttons/UndoRedoButton.tsx";
 import RotateAutoStepsButton from "../buttons/RotateAutoStepsButton.tsx";
+import CodeButton from "../buttons/CodeButton.tsx";
 
 export default function TopBar() {
 
@@ -28,6 +29,7 @@ export default function TopBar() {
         >
             <DownloadButton/>
             <UploadButton/>
+            <CodeButton/>
             <Divider orientation="vertical" variant="middle" flexItem/>
             <MirrorAutoStepsButton/>
             <MirrorAutoStepsButton vertical/>

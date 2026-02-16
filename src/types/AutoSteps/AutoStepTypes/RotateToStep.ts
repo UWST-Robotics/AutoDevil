@@ -14,7 +14,7 @@ const RotateToStepType: AutoStepType = {
     },
     generateCode: (step) => {
         return [
-            `autoBuilder.rotateTo(${step.pose?.r ?? 0});`
+            `autoBuilder.rotateTo(${step.pose?.r ?? 0})->startSync();`
         ];
     }
 }

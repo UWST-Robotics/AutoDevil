@@ -1,5 +1,6 @@
 import {Paper} from "@mui/material";
 import Resizable from "../common/Resizable.tsx";
+import AutoStepEditorPanel from "../autoStepEditor/AutoStepEditorPanel.tsx";
 
 export default function RightSideBar() {
     return (
@@ -26,6 +27,7 @@ export default function RightSideBar() {
                 }}
                 // onMouseDown={() => setFocus(Scope.Inspector)}
             >
+                <AutoStepEditorPanel/>
             </Paper>
         </Resizable>
     )

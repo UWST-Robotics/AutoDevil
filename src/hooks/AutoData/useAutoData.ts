@@ -4,6 +4,7 @@ import JumpToStepType from "../../types/AutoSteps/AutoStepTypes/JumpToStep.ts";
 import createAutoStep from "../../utils/createAutoStep.ts";
 
 export const DEFAULT_DATA: AutoData = {
+    name: "New Autonomous",
     steps: [
         createAutoStep(JumpToStepType)
     ],

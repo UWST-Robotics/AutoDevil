@@ -14,7 +14,7 @@ export const DriveToStepType: AutoStepType = {
     generateCode: (step) => {
         const pose = step.pose ?? DEFAULT_POSE;
         return [
-            `autoBuilder.driveTo({${pose.x}, ${pose.y}, ${pose.r}});`
+            `autoBuilder.driveTo({${pose.x}, ${pose.y}, ${pose.r}})->startSync();`
         ];
     }
 }

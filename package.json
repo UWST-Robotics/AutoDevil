@@ -22,6 +22,7 @@
     "@types/node": "^25.2.3",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.2.1",
@@ -42,6 +43,7 @@
     "@fontsource/roboto": "^5.1.0",
     "optics-ts": "^2.4.1",
     "react-sortablejs": "^6.1.4",
+    "react-syntax-highlighter": "^16.1.0",
     "sortablejs": "^1.15.3"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
