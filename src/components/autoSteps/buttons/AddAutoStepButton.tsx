@@ -1,5 +1,5 @@
 import {PlaylistAdd} from "@mui/icons-material";
-import {IconButton, ListItemText, Menu, MenuItem} from "@mui/material";
+import {Button, ListItemText, Menu, MenuItem} from "@mui/material";
 import React from "react";
 import AutoStepTypes from "../../../db/AutoStepTypes.tsx";
 import useAddAutoStep from "../../../hooks/AutoSteps/actions/useAddAutoStep.ts";
@@ -22,11 +22,12 @@ export default function AddAutoStepButton() {
 
     return (
         <>
-            <IconButton
+            <Button
                 onClick={e => setAnchorEl(e.currentTarget)}
+                startIcon={<PlaylistAdd/>}
             >
-                <PlaylistAdd/>
-            </IconButton>
+                Add Auto Step
+            </Button>
             <Menu
                 anchorEl={anchorEl}
                 open={isMenuOpen}

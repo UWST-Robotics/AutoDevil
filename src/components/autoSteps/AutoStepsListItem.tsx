@@ -1,9 +1,8 @@
-import {Box, Collapse, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
+import {Box, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import AutoStepsListItemContainer from "./AutoStepsListItemContainer.tsx";
 import useSelectedAutoStepID from "../../hooks/AutoSteps/selected/useSelectedAutoStepID.ts";
 import GUID from "../../types/GUID.ts";
 import useAutoStep from "../../hooks/AutoSteps/useAutoStep.ts";
-import AutoStepEditorPanel from "../autoStepEditor/AutoStepEditorPanel.tsx";
 import getAutoStepType from "../../utils/getAutoStepType.ts";
 
 export interface AutoStepsListItemProps {
@@ -55,12 +54,6 @@ export default function AutoStepsListItem(props: AutoStepsListItemProps) {
                     />
                 </ListItemButton>
             </AutoStepsListItemContainer>
-
-            <Collapse in={isSelected}>
-                <AutoStepEditorPanel
-                    id={props.autoStepID}
-                />
-            </Collapse>
         </Box>
     )
 }

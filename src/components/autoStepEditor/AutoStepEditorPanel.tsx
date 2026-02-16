@@ -3,7 +3,7 @@ import GUID from "../../types/GUID.ts";
 import useAutoStep from "../../hooks/AutoSteps/useAutoStep.ts";
 import JumpToStepType from "../../types/AutoSteps/AutoStepTypes/JumpToStep.ts";
 import DriveToStepType from "../../types/AutoSteps/AutoStepTypes/DriveToStepType.ts";
-import PoseInput from "./PoseInput.tsx";
+import PoseInput from "../common/PoseInput.tsx";
 import AutoStepNumericInput from "./AutoStepNumericInput.tsx";
 import RotateToStepType from "../../types/AutoSteps/AutoStepTypes/RotateToStep.ts";
 import {DEFAULT_POSE} from "../../types/Pose.ts";

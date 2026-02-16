@@ -1,6 +1,6 @@
 import Pose from "../../types/Pose.ts";
-import InputGroup from "../common/input/InputGroup.tsx";
-import FlexNumericInput from "../common/input/FlexNumericInput.tsx";
+import InputGroup from "./input/InputGroup.tsx";
+import FlexNumericInput from "./input/FlexNumericInput.tsx";
 
 export interface PoseInputProps {
     pose: Pose;

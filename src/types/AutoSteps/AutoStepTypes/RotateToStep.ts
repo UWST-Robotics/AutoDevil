@@ -10,11 +10,11 @@ const RotateToStepType: AutoStepType = {
     icon: Rotate90DegreesCw,
 
     getPose: (step, prevPose) => {
-        return {...prevPose, r: step.heading ?? 0};
+        return {...prevPose, r: step.pose?.r ?? 0};
     },
     generateCode: (step) => {
         return [
-            `autoBuilder.rotateTo(${step.heading ?? 0});`
+            `autoBuilder.rotateTo(${step.pose?.r ?? 0});`
         ];
     }
 }
