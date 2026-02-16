@@ -1,4 +1,4 @@
-import { DEFAULT_FIELD_PRESET } from "./FieldPreset.ts";
+import {DEFAULT_FIELD_PRESET} from "./FieldPreset.ts";
 
 interface Settings {
     fieldImage: string;
@@ -15,6 +15,7 @@ interface Settings {
     snapPosition: boolean;
     occupancyInchesPerCell: number;
     showGrid: boolean;
+    numberOfDecimalPlaces: number;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -32,6 +33,7 @@ export const DEFAULT_SETTINGS: Settings = {
     snapPosition: false,
     occupancyInchesPerCell: 6,
     showGrid: true,
+    numberOfDecimalPlaces: 3
 };
 
 export default Settings;

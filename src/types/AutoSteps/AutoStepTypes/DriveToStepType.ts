@@ -1,6 +1,7 @@
 import {Route} from "@mui/icons-material";
 import AutoStepType from "../AutoStepType.ts";
 import {DEFAULT_POSE} from "../../Pose.ts";
+import {poseToString} from "../../../utils/toString.ts";
 
 export const DriveToStepType: AutoStepType = {
     id: "driveTo",
@@ -14,7 +15,7 @@ export const DriveToStepType: AutoStepType = {
     generateCode: (step) => {
         const pose = step.pose ?? DEFAULT_POSE;
         return [
-            `autoBuilder.driveTo({${pose.x}, ${pose.y}, ${pose.r}})->startSync();`
+            `autoBuilder.driveTo(${poseToString(pose)})->startSync();`
         ];
     }
 }

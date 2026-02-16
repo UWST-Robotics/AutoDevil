@@ -1,6 +1,8 @@
 import {Paper} from "@mui/material";
 import Resizable from "../common/Resizable.tsx";
-import AutoStepEditorPanel from "../autoStepEditor/AutoStepEditorPanel.tsx";
+import TransformPanel from "../panels/TransformPanel.tsx";
+import PausePanel from "../panels/PausePanel.tsx";
+import RotatePanel from "../panels/RotatePanel.tsx";
 
 export default function RightSideBar() {
     return (
@@ -27,7 +29,9 @@ export default function RightSideBar() {
                 }}
                 // onMouseDown={() => setFocus(Scope.Inspector)}
             >
-                <AutoStepEditorPanel/>
+                <TransformPanel/>
+                <PausePanel/>
+                <RotatePanel/>
             </Paper>
         </Resizable>
     )

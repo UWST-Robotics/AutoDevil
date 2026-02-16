@@ -10,8 +10,8 @@ const DELTA_T = 0.01;
 const DEFAULT_DELTA_SCALE = 0.5;
 
 export default function usePathSplineSegment(
-    fromAutoStepID: GUID | undefined,
-    toAutoStepID: GUID | undefined
+    fromAutoStepID: GUID,
+    toAutoStepID: GUID
 ) {
     const fromPose = useAutoStepPose(fromAutoStepID);
     const toPose = useAutoStepPose(toAutoStepID);
@@ -53,6 +53,9 @@ export default function usePathSplineSegment(
             else
                 poses.push(lerpPose(fromPose, toPose, t));
         }
+
+        // Always add the last pose
+        poses.push(toPose);
 
         return poses;
     }, [fromPose, toPose, autoStep]);

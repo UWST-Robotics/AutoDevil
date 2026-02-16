@@ -5,7 +5,7 @@ import {DEFAULT_POSE} from "../../types/Pose.ts";
 import {autoStepsAtom} from "../AutoData/useAutoSteps.ts";
 import {autoStepPosesAtom} from "./useAutoStepPoses.ts";
 
-export const autoStepPoseAtomFamily = atomFamily((stepID: GUID | undefined) => atom((get) => {
+export const autoStepPoseAtomFamily = atomFamily((stepID: GUID) => atom((get) => {
 
     // Get the index of the step with the given ID
     const autoSteps = get(autoStepsAtom);
@@ -18,6 +18,6 @@ export const autoStepPoseAtomFamily = atomFamily((stepID: GUID | undefined) => a
     return autoStepPoses[index];
 }));
 
-export default function useAutoStepPose(stepID: GUID | undefined) {
+export default function useAutoStepPose(stepID: GUID) {
     return useAtomValue(autoStepPoseAtomFamily(stepID));
 }

@@ -1,6 +1,7 @@
 import AutoStepType from "../AutoStepType.ts";
 import {LocationOn} from "@mui/icons-material";
 import {DEFAULT_POSE} from "../../Pose.ts";
+import {poseToString} from "../../../utils/toString.ts";
 
 const JumpToStepType: AutoStepType = {
     id: "jumpTo",
@@ -14,7 +15,7 @@ const JumpToStepType: AutoStepType = {
     generateCode: (step) => {
         const pose = step.pose ?? DEFAULT_POSE;
         return [
-            `autoBuilder.jumpTo({${pose.x}, ${pose.y}, ${pose.r}});`
+            `autoBuilder.jumpTo(${poseToString(pose)});`
         ];
     }
 }

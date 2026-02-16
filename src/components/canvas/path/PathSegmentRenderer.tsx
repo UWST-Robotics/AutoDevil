@@ -18,7 +18,7 @@ export default function PathSegmentRenderer(props: PathSegmentRendererProps) {
     const pose = useAutoStepPose(autoStep?.id ?? EMPTY_GUID);
     const prevPose = useAutoStepPose(prevAutoStep?.id ?? EMPTY_GUID);
     const {pixelsPerInch} = useSettingsValue();
-    const pathSegment = usePathSplineSegment(prevAutoStep?.id, autoStep?.id);
+    const pathSegment = usePathSplineSegment(prevAutoStep?.id ?? EMPTY_GUID, autoStep?.id ?? EMPTY_GUID);
 
     const pathPoints = React.useMemo(() => {
         if (!pathSegment)
@@ -32,7 +32,9 @@ export default function PathSegmentRenderer(props: PathSegmentRendererProps) {
 
     const isJumpToStep = autoStep?.typeID === JumpToStepType.id;
 
-    if (!autoStep || !prevAutoStep || !pose || !prevPose)
+    if (!prevAutoStep)
+        return;     // <-- Don't show first path segment
+    if (!autoStep || !pose || !prevPose)
         return null;
 
     return (

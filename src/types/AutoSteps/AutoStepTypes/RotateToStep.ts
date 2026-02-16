@@ -1,5 +1,7 @@
 import {Rotate90DegreesCw} from "@mui/icons-material";
 import AutoStepType from "../AutoStepType.ts";
+import numberToString from "../../../utils/toString.ts";
+import {DEFAULT_POSE} from "../../Pose.ts";
 
 const RotateToStepType: AutoStepType = {
     id: "rotateTo",
@@ -10,11 +12,11 @@ const RotateToStepType: AutoStepType = {
     icon: Rotate90DegreesCw,
 
     getPose: (step, prevPose) => {
-        return {...prevPose, r: step.pose?.r ?? 0};
+        return {...prevPose, r: step.pose?.r ?? DEFAULT_POSE.r};
     },
     generateCode: (step) => {
         return [
-            `autoBuilder.rotateTo(${step.pose?.r ?? 0})->startSync();`
+            `autoBuilder.rotateTo(${numberToString(step.pose?.r ?? DEFAULT_POSE.r)})->startSync();`
         ];
     }
 }

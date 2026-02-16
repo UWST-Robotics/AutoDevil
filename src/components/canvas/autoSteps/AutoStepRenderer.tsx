@@ -35,6 +35,8 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
     // Actions
     const selectAutoStep = () => setSelectedAutoStepID(props.id);
 
+    const draggable = autoStep?.typeID === DriveToStepType.id || autoStep?.typeID === JumpToStepType.id;
+
     if (!pose || !autoStep)
         return null;
     return (
@@ -50,10 +52,8 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
             onDragMove={onDragMove}
             onDragEnd={onDragEnd}
             onClick={e => e.cancelBubble = true}
-            draggable={
-                autoStep.typeID === DriveToStepType.id ||
-                autoStep.typeID === JumpToStepType.id
-            }
+            listening={draggable}
+            draggable={draggable}
         >
             <RobotRenderer
                 color={color}

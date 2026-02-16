@@ -1,6 +1,7 @@
 import AutoStepsList from "../autoSteps/AutoStepsList.tsx";
 import {Paper} from "@mui/material";
 import Resizable from "../common/Resizable.tsx";
+import AddAutoStepButton from "../autoSteps/buttons/AddAutoStepButton.tsx";
 
 export default function LeftSideBar() {
     return (
@@ -26,6 +27,7 @@ export default function LeftSideBar() {
                 }}
             >
                 <AutoStepsList/>
+                <AddAutoStepButton/>
             </Paper>
         </Resizable>
     )

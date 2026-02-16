@@ -1,10 +1,5 @@
-import AutoStep from "../AutoStep.ts";
 import {Stop} from "@mui/icons-material";
 import AutoStepType from "../AutoStepType.ts";
-
-export interface PauseStep extends AutoStep {
-    pauseDuration: number;
-}
 
 const PauseStepType: AutoStepType = {
     id: "pause",
@@ -15,8 +10,9 @@ const PauseStepType: AutoStepType = {
     icon: Stop,
 
     generateCode: (step) => {
+        const delayMS = Math.round((step.pauseDuration ?? 1) * 1000);
         return [
-            `pros::delay(${step.pauseDuration ?? 1000});`
+            `pros::delay(${delayMS});`
         ];
     }
 }
