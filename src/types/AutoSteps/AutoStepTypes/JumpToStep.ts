@@ -5,7 +5,7 @@ import {poseToString} from "../../../utils/toString.ts";
 
 const JumpToStepType: AutoStepType = {
     id: "jumpTo",
-    name: "Jump To",
+    name: "Set Pose",
 
     color: "success.main",
     backgroundColor: "#193d1d",

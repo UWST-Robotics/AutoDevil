@@ -101,3 +101,23 @@ export function mirrorPoseHorizontal(pose: Pose) {
         r: (180 - pose.r + 360) % 360
     }
 }
+
+/**
+ * Checks if Pose b is behind Pose a based on the rotation of Pose a.
+ * @param a - The reference Pose object.
+ * @param b - The Pose object to check if it is behind Pose a.
+ * @returns A boolean value indicating whether Pose b is behind Pose a.
+ */
+export function isBehindPose(a: Pose, b: Pose): boolean {
+    const radians = toRadians(a.r);
+    const forwardVector = {
+        x: Math.cos(radians),
+        y: Math.sin(radians)
+    };
+    const toBVector = {
+        x: b.x - a.x,
+        y: b.y - a.y
+    };
+    const dotProduct = forwardVector.x * toBVector.x + forwardVector.y * toBVector.y;
+    return dotProduct < 0;
+}

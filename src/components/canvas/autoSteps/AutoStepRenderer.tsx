@@ -10,6 +10,7 @@ import useSettingsValue from "../../../hooks/Utils/useSettings.ts";
 import DriveToStepType from "../../../types/AutoSteps/AutoStepTypes/DriveToStepType.ts";
 import JumpToStepType from "../../../types/AutoSteps/AutoStepTypes/JumpToStep.ts";
 import useAutoStep from "../../../hooks/AutoSteps/useAutoStep.ts";
+import AnchorRenderer from "./AnchorRenderer.tsx";
 
 export interface AutoStepRendererProps {
     id: GUID;
@@ -40,24 +41,25 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
     if (!pose || !autoStep)
         return null;
     return (
-        <Group
-            x={pose.x * pixelsPerInch}
-            y={pose.y * pixelsPerInch}
-            rotation={pose.r}
-            opacity={isSelected ? 1 : isHovered ? 0.3 : 0.15}
-            onMouseEnter={onMouseOver}
-            onMouseLeave={onMouseOut}
-            onMouseDown={selectAutoStep}
-            onDragStart={onDragStart}
-            onDragMove={onDragMove}
-            onDragEnd={onDragEnd}
-            onClick={e => e.cancelBubble = true}
-            listening={draggable}
-            draggable={draggable}
-        >
-            <RobotRenderer
-                color={color}
-            />
-        </Group>
+        <>
+            <Group
+                x={pose.x * pixelsPerInch}
+                y={pose.y * pixelsPerInch}
+                rotation={pose.r}
+                opacity={isSelected ? 1 : isHovered ? 0.3 : 0.15}
+                onMouseEnter={onMouseOver}
+                onMouseLeave={onMouseOut}
+                onMouseDown={selectAutoStep}
+                onDragStart={onDragStart}
+                onDragMove={onDragMove}
+                onDragEnd={onDragEnd}
+                onClick={e => e.cancelBubble = true}
+                listening={draggable}
+                draggable={draggable}
+            >
+                <RobotRenderer color={color}/>
+                {draggable && <AnchorRenderer id={props.id} color={color}/>}
+            </Group>
+        </>
     )
 }

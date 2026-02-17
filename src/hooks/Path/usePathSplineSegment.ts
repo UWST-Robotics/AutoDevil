@@ -3,7 +3,7 @@ import useAutoStepPose from "../Pose/useAutoStepPose.ts";
 import useAutoStep from "../AutoSteps/useAutoStep.ts";
 import React from "react";
 import DriveToStepType from "../../types/AutoSteps/AutoStepTypes/DriveToStepType.ts";
-import {cubicLerpPose, distanceBetweenPoses, lerpPose} from "../../utils/poseUtils.ts";
+import {cubicLerpPose, distanceBetweenPoses, isBehindPose, lerpPose} from "../../utils/poseUtils.ts";
 import {toRadians} from "../../utils/UnitConversions.ts";
 
 const DELTA_T = 0.01;
@@ -24,6 +24,7 @@ export default function usePathSplineSegment(
 
         // Check if linear or spline
         const isSpline = autoStep.typeID === DriveToStepType.id;
+        const isReversed = isBehindPose(fromPose, toPose);
 
         // Calculate deltas
         const distance = distanceBetweenPoses(fromPose, toPose);
@@ -36,13 +37,13 @@ export default function usePathSplineSegment(
         // Calculate Anchor Points
         const a1 = {
             ...fromPose,
-            x: fromPose.x + delta * Math.cos(fromRads),// * (fromPose.isReversed ? -1 : 1),
-            y: fromPose.y + delta * Math.sin(fromRads)// * (fromPose.isReversed ? -1 : 1)
+            x: fromPose.x + delta * Math.cos(fromRads) * (isReversed ? -1 : 1),
+            y: fromPose.y + delta * Math.sin(fromRads) * (isReversed ? -1 : 1)
         };
         const a2 = {
             ...toPose,
-            x: toPose.x - delta * Math.cos(toRads),
-            y: toPose.y - delta * Math.sin(toRads)
+            x: toPose.x - delta * Math.cos(toRads) * (isReversed ? -1 : 1),
+            y: toPose.y - delta * Math.sin(toRads) * (isReversed ? -1 : 1)
         };
 
         // Sample points along the path
