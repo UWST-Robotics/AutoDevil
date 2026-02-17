@@ -1,20 +1,20 @@
 import {atom, useSetAtom} from "jotai";
-import {fileSerializerAtom} from "./useFileSerializer.ts";
-import {settingsAtom} from "../Utils/useSettings.ts";
+import {autoDataAtom} from "../AutoData/useAutoData.ts";
+import serializeAutoData from "../../utils/serialization/serializeAutoData.ts";
 
-export const fileDownloadAtom = atom(null, (get, _) => {
-
-    const settings = get(settingsAtom);
-    const fileContent = get(fileSerializerAtom);
-
-    // Download file using browser API
-    console.log("Downloading using browser API");
-    const blob = new Blob([fileContent], {type: "text/plain"});
+export const fileDownloadAtom = atom(null, (get) => {
+    // Get Serialized file content
+    const autoData = get(autoDataAtom);
+    const blob = serializeAutoData(autoData);
     const url = URL.createObjectURL(blob);
+
+    // Download it as a file
     const a = document.createElement("a");
     a.href = url;
-    a.download = settings.showOccupancyGrid ? "occupancy.txt" : "path.txt";
+    a.download = `${autoData.name || "auto"}.json`;
     a.click();
+
+    // Clean up the URL object
     URL.revokeObjectURL(url);
 });
 

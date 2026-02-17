@@ -1,29 +1,24 @@
-import GUID from "../../types/GUID.ts";
-import useAutoStepPose from "../Pose/useAutoStepPose.ts";
-import useAutoStep from "../AutoSteps/useAutoStep.ts";
 import React from "react";
-import DriveToStepType from "../../types/AutoSteps/AutoStepTypes/DriveToStepType.ts";
 import {cubicLerpPose, distanceBetweenPoses, isBehindPose, lerpPose} from "../../utils/poseUtils.ts";
-import {toRadians} from "../../utils/UnitConversions.ts";
+import {toDegrees, toRadians} from "../../utils/UnitConversions.ts";
+import Pose from "../../types/Pose.ts";
+import SplineType from "../../types/SplineType.ts";
 
 const DELTA_T = 0.01;
 const DEFAULT_DELTA_SCALE = 0.5;
 
 export default function usePathSplineSegment(
-    fromAutoStepID: GUID,
-    toAutoStepID: GUID
+    fromPose: Pose,
+    toPose: Pose,
+    type: SplineType = "spline",
 ) {
-    const fromPose = useAutoStepPose(fromAutoStepID);
-    const toPose = useAutoStepPose(toAutoStepID);
-    const [autoStep] = useAutoStep(toAutoStepID);
-
     return React.useMemo(() => {
         // Validation
-        if (!fromPose || !toPose || !autoStep)
+        if (!fromPose || !toPose)
             return null;
 
         // Check if linear or spline
-        const isSpline = autoStep.typeID === DriveToStepType.id;
+        const isSpline = type === "spline";
         const isReversed = isBehindPose(fromPose, toPose);
 
         // Calculate deltas
@@ -47,7 +42,7 @@ export default function usePathSplineSegment(
         };
 
         // Sample points along the path
-        const poses = [];
+        const poses: Pose[] = [];
         for (let t = 0; t <= 1; t += DELTA_T) {
             if (isSpline)
                 poses.push(cubicLerpPose(fromPose, a1, a2, toPose, t));
@@ -58,6 +53,18 @@ export default function usePathSplineSegment(
         // Always add the last pose
         poses.push(toPose);
 
+        // Fix lerped rotation to match the direction of movement
+        for (let i = 1; i < poses.length; i++) {
+            const prevPose = poses[i - 1];
+            const currPose = poses[i];
+
+            // Calculate the angle of movement
+            const movementAngle = Math.atan2(currPose.y - prevPose.y, currPose.x - prevPose.x);
+
+            // Set the current pose's rotation to match the movement angle
+            poses[i] = {...currPose, r: toDegrees(movementAngle)};
+        }
+
         return poses;
-    }, [fromPose, toPose, autoStep]);
+    }, [fromPose, toPose, type]);
 }

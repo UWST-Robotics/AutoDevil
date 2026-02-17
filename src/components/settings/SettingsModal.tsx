@@ -31,6 +31,7 @@ export default function SettingsModal() {
 
                 <SettingsHeader>Robot</SettingsHeader>
                 <SettingsBooleanInput label={"Holonomic"} setting={"isHolonomic"}/>
+                <SettingsNumericInput label={"Safety Radius"} info={"in"} setting={"robotSafeRadius"}/>
                 <InputGroup>
                     <SettingsNumericInput label={"Robot Width"} info={"in"} setting={"robotWidth"}/>
                     <SettingsNumericInput label={"Robot Height"} info={"in"} setting={"robotHeight"}/>
@@ -40,6 +41,7 @@ export default function SettingsModal() {
                 <SettingsBooleanInput label={"Show Grid"} setting={"showGrid"}/>
                 <SettingsBooleanInput label={"Snap Rotation"} setting={"snapRotation"}/>
                 <SettingsBooleanInput label={"Snap Position"} setting={"snapPosition"}/>
+                <SettingsBooleanInput label={"Show Edge Trail"} setting={"showEdgeTrail"}/>
 
                 <SettingsHeader>Code Generation</SettingsHeader>
                 <SettingsNumericInput label={"Decimal Places"} setting={"numberOfDecimalPlaces"}/>

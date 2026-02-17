@@ -7,6 +7,7 @@ export const DriveToStepType: AutoStepType = {
     id: "driveTo",
     name: "Drive To",
 
+    pathType: "spline",
     color: "primary.main",
     backgroundColor: "#19333d",
     icon: Route,

@@ -7,8 +7,7 @@ export const DEFAULT_DATA: AutoData = {
     name: "New Autonomous",
     steps: [
         createAutoStep(JumpToStepType)
-    ],
-    occupancyGrid: [],
+    ]
 }
 
 export const autoDataAtom = atom(DEFAULT_DATA);

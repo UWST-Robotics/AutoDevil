@@ -44,6 +44,8 @@ export default function MainCanvas() {
                 <Layer
                     x={windowWidth / 2}
                     y={windowHeight / 2}
+                    scaleX={5}
+                    scaleY={5}
                     ref={layerRef}
                 >
                     <WatermarkRenderer/>

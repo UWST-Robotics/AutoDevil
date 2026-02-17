@@ -1,6 +1,7 @@
 import Pose from "../types/Pose.ts";
 import {cubicLerp, lerp} from "./cubicLerp.ts";
 import {toRadians} from "./UnitConversions.ts";
+import Vector2 from "../types/Vector2.ts";
 
 /**
  * Performs linear interpolation between two Pose objects a and b based on a parameter t.
@@ -120,4 +121,19 @@ export function isBehindPose(a: Pose, b: Pose): boolean {
     };
     const dotProduct = forwardVector.x * toBVector.x + forwardVector.y * toBVector.y;
     return dotProduct < 0;
+}
+
+/**
+ * Offsets a Pose object by specified distances in the x and y directions, taking into account the rotation of the Pose.
+ * @param pose - The Pose object to be offset.
+ * @param offset - An object containing the distances to offset in the x and y directions.
+ * @returns A new Pose object that is the result of offsetting the input Pose by the specified distances in the x and y directions, taking into account the rotation of the Pose.
+ */
+export function offsetPose(pose: Pose, offset: Vector2): Pose {
+    const radians = toRadians(pose.r);
+    return {
+        x: pose.x + offset.x * Math.cos(radians) - offset.y * Math.sin(radians),
+        y: pose.y + offset.x * Math.sin(radians) + offset.y * Math.cos(radians),
+        r: pose.r
+    }
 }
