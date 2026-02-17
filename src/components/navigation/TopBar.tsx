@@ -1,63 +1,52 @@
 import SettingsButton from "../buttons/SettingsButton.tsx";
-import DownloadButton from "../buttons/DownloadButton.tsx";
 import UploadButton from "../buttons/UploadButton.tsx";
-import MirrorPathButton from "../buttons/MirrorPathButton.tsx";
+import {Paper, Typography} from "@mui/material";
+import MirrorAutoStepsButton from "../buttons/MirrorAutoStepsButton.tsx";
 import UndoRedoButton from "../buttons/UndoRedoButton.tsx";
-import { Divider } from "@mui/material";
-import SwitchModeButton from "../buttons/SwitchModeButton.tsx";
-import MirrorOccupancyButton from "../buttons/MirrorOccupancyButton.tsx";
-import RotatePathButton from "../buttons/RotatePathButton.tsx";
-import RotateOccupancyButton from "../buttons/RotateOccupancyButton.tsx";
+import RotateAutoStepsButton from "../buttons/RotateAutoStepsButton.tsx";
+import CodeButton from "../buttons/CodeButton.tsx";
+import AutoNameEditor from "./topbar/AutoNameEditor.tsx";
+import NavDivider from "./topbar/NavDivider.tsx";
+import DownloadButton from "../buttons/DownloadButton.tsx";
 
 export default function TopBar() {
 
     return (
-        <div
-            style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
+        <Paper
+            elevation={1}
+            square
+            sx={{
+                flexShrink: 0,
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                pointerEvents: "none"
+                flexDirection: "row",
+                flexWrap: "wrap",
+                padding: "5px 20px",
+                overflowX: "hidden",
+                overflowY: "auto",
+                pointerEvents: "auto",
+                boxShadow: "0 4px 4px rgba(0,0,0,0.2)",
+                zIndex: 2,
             }}
+            // onMouseDown={() => setFocus(Scope.Navigation)}
         >
-            <div
-                style={{
-                    display: "flex",
-                    pointerEvents: "auto",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: 10,
-                    maxWidth: "100vw",
-                    flexWrap: "wrap",
-                    backgroundColor: "#00000077",
-                    borderBottomLeftRadius: 16,
-                    borderBottomRightRadius: 16,
-                }}
-            >
-                <DownloadButton />
-                <UploadButton />
-                <Divider orientation="vertical" variant="middle" flexItem />
-                <MirrorPathButton />
-                <MirrorPathButton vertical />
-                <MirrorOccupancyButton />
-                <MirrorOccupancyButton vertical />
-                <Divider orientation="vertical" variant="middle" flexItem />
-                <RotatePathButton />
-                <RotatePathButton clockwise />
-                <RotateOccupancyButton />
-                <RotateOccupancyButton clockwise />
-                <Divider orientation="vertical" variant="middle" flexItem />
-                <UndoRedoButton />
-                <UndoRedoButton redo />
-                <Divider orientation="vertical" variant="middle" flexItem />
-                <SwitchModeButton />
-                <SettingsButton />
-            </div>
-        </div>
+            <AutoNameEditor/>
+            <NavDivider/>
+            <DownloadButton/>
+            <UploadButton/>
+            <CodeButton/>
+            <NavDivider/>
+            <MirrorAutoStepsButton/>
+            <MirrorAutoStepsButton vertical/>
+            <NavDivider/>
+            <RotateAutoStepsButton/>
+            <RotateAutoStepsButton clockwise/>
+            <NavDivider/>
+            <UndoRedoButton/>
+            <UndoRedoButton redo/>
+
+            <Typography sx={{flexGrow: 1}}/>
+
+            <SettingsButton/>
+        </Paper>
     )
 }

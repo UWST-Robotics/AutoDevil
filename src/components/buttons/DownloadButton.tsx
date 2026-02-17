@@ -8,7 +8,7 @@ export default function DownloadButton() {
     return (
         <IconButton
             aria-label={"Download Path"}
-            onClick={download}
+            onClick={() => download()}
         >
             <SaveIcon />
         </IconButton>

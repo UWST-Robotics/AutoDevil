@@ -1,51 +1,29 @@
-import PointEditorPanel from "../panels/PointEditorPanel.tsx";
-import useSettingsValue from "../../hooks/Utils/useSettings.ts";
-import useMobile from "../../hooks/Utils/useMobile.ts";
+import {Box} from "@mui/material";
+import TransformPanel from "../panels/TransformPanel.tsx";
+import PausePanel from "../panels/PausePanel.tsx";
+import RotatePanel from "../panels/RotatePanel.tsx";
+import CustomCodePanel from "../panels/CustomCodePanel.tsx";
 
 export default function RightSideBar() {
-    const { showOccupancyGrid } = useSettingsValue();
-    const isMobile = useMobile();
-
-    if (showOccupancyGrid)
-        return null;
-
-    // Mobile
-    if (isMobile)
-        return (
-            <div
-                style={{
-                    position: "absolute",
-                    top: 100,
-                    right: 40,
-                    left: 40,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    pointerEvents: "none"
-                }}
-            >
-                <PointEditorPanel />
-            </div>
-        );
-
-    // Desktop
     return (
-        <div
-            style={{
-                position: "absolute",
-                top: 60,
-                right: 40,
+        <Box
+            sx={{
+                width: 300,
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                pointerEvents: "none",
-                width: 300
+                padding: "0 10px",
+                overflowX: "hidden",
+                overflowY: "auto",
+                position: "relative",
+                zIndex: -10,
             }}
+            // onMouseDown={() => setFocus(Scope.Inspector)}
         >
-            <PointEditorPanel />
-        </div>
+            <TransformPanel/>
+            <PausePanel/>
+            <RotatePanel/>
+            <CustomCodePanel/>
+        </Box>
     )
 
 }

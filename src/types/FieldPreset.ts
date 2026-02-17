@@ -8,35 +8,36 @@ export default interface FieldPreset {
 }
 
 // Template
-const VEX_OVER_UNDER: FieldPreset = {
-    name: "VEX Over Under",
-    type: "2024",
+const VEX_PUSH_BACK: FieldPreset = {
+    name: "VEX Push Back",
+    type: "2025-26",
     fieldWidth: 144,
     fieldHeight: 144,
-    pixelsPerInch: 6.6,
-    fieldImage: "/fields/VEX-Over-Under_Empty.png",
+    pixelsPerInch: 13.05,
+    fieldImage: "/fields/VEX-Push-Back_Empty.png",
 };
 
 export const FIELD_PRESETS: FieldPreset[] = [
     {
-        ...VEX_OVER_UNDER,
-        name: "Empty",
+        ...VEX_PUSH_BACK,
+        name: "VEX Push Back (Match)",
+        fieldImage: "/fields/VEX-Push-Back_Match.png",
+    },
+    {
+        name: "VEX High Stakes",
+        type: "2024-25",
+        fieldWidth: 144,
+        fieldHeight: 144,
+        pixelsPerInch: 6.6,
+        fieldImage: "/fields/VEX-High-Stakes_Empty.png",
+    },
+    {
+        name: "VEX Over Under",
+        type: "2023-24",
+        fieldWidth: 144,
+        fieldHeight: 144,
+        pixelsPerInch: 6.6,
         fieldImage: "/fields/VEX-Over-Under_Empty.png",
-    },
-    {
-        ...VEX_OVER_UNDER,
-        name: "VRC Match",
-        fieldImage: "/fields/VEX-Over-Under_Match.png",
-    },
-    {
-        ...VEX_OVER_UNDER,
-        name: "VRC Skills",
-        fieldImage: "/fields/VEX-Over-Under_Skills.png",
-    },
-    {
-        ...VEX_OVER_UNDER,
-        name: "VEX-U Match",
-        fieldImage: "/fields/VEX-Over-Under_VexU.png",
     }
 ];
 
