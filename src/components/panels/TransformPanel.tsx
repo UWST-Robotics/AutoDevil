@@ -65,6 +65,7 @@ export default function TransformPanel() {
                         }
                     }}
                     value={pose.r}
+                    stepSize={22.5}
                     onChange={(r) => setPose({...pose, r})}
                 />
             </InputGroup>

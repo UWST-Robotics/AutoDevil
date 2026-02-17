@@ -2,6 +2,7 @@ import React from "react";
 import {Button, Card, CardContent, Collapse, Typography} from "@mui/material";
 import AnimatedCaretIcon from "../common/AnimatedCaretIcon.tsx";
 import ErrorBoundary from "../common/ErrorBoundary.tsx";
+import AutoStepNavPanel from "./AutoStepNavPanel.tsx";
 
 interface PanelContainerProps {
     children?: React.ReactNode;
@@ -33,7 +34,7 @@ export default function PanelContainer(props: PanelContainerProps) {
                 {props.title}
             </Button>
             <Collapse in={isOpen}>
-                <CardContent sx={{paddingTop: 1, paddingBottom: 1}}>
+                <CardContent sx={{paddingTop: 1, paddingBottom: 0}}>
                     <ErrorBoundary fallback={
                         <Typography
                             variant={"body2"}
@@ -48,6 +49,7 @@ export default function PanelContainer(props: PanelContainerProps) {
                         {props.children}
                     </ErrorBoundary>
                 </CardContent>
+                <AutoStepNavPanel/>
             </Collapse>
         </Card>
     );

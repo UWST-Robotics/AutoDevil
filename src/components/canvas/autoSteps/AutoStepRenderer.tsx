@@ -57,7 +57,10 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
                 listening={draggable}
                 draggable={draggable}
             >
-                <RobotRenderer color={color}/>
+                <RobotRenderer
+                    color={color}
+                    showSafeRadius={isSelected}
+                />
                 {draggable && <AnchorRenderer id={props.id} color={color}/>}
             </Group>
         </>

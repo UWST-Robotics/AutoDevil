@@ -6,8 +6,11 @@ interface Settings {
     fieldHeight: number;
     fieldOpacity: number;
     pixelsPerInch: number;
+
     robotWidth: number;
     robotHeight: number;
+    robotSafeRadius: number;
+
     isHolonomic: boolean;
     isSpline: boolean;
     normalizeRotation: boolean;
@@ -24,8 +27,9 @@ export const DEFAULT_SETTINGS: Settings = {
     fieldHeight: DEFAULT_FIELD_PRESET.fieldHeight,
     fieldOpacity: 0.5,
     pixelsPerInch: DEFAULT_FIELD_PRESET.pixelsPerInch,
-    robotWidth: 15,
-    robotHeight: 15,
+    robotWidth: 18,
+    robotHeight: 18,
+    robotSafeRadius: 6,
     isHolonomic: false,
     isSpline: true,
     normalizeRotation: true,

@@ -41,11 +41,13 @@ export default function PathSegmentRenderer(props: PathSegmentRendererProps) {
         <Line
             points={pathPoints}
             stroke={"#ddd"}
+            opacity={0.6}
             strokeWidth={0.4 * pixelsPerInch}
             perfectDrawEnabled={false}
 
             dashEnabled={isJumpToStep}
             dash={[5, 5]}
+
         />
     )
 }

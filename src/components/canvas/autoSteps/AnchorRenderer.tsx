@@ -10,6 +10,7 @@ import {toDegrees} from "../../../utils/UnitConversions.ts";
 
 const HANDLE_RADIUS = 1; // in
 const HANDLE_LINE_WIDTH = 0.5; // in
+const HANDLE_DISTANCE_FROM_ROBOT = 6; // in
 const SNAP_ANGLE = 22.5; // degs
 
 export interface AnchorRendererProps {
@@ -18,9 +19,11 @@ export interface AnchorRendererProps {
 }
 
 export default function AnchorRenderer(props: AnchorRendererProps) {
-    const {pixelsPerInch, snapRotation} = useSettingsValue();
+    const {pixelsPerInch, snapRotation, robotWidth} = useSettingsValue();
     const saveUndoHistory = useSaveUndoHistory();
     const [autoStep, setAutoStep] = useAutoStep(props.id);
+
+    const handleOffset = (robotWidth * 0.5 + HANDLE_DISTANCE_FROM_ROBOT) * pixelsPerInch;
 
     const onDragMove = React.useCallback((e: KonvaEventObject<DragEvent>) => {
 
@@ -53,7 +56,7 @@ export default function AnchorRenderer(props: AnchorRendererProps) {
 
         // Reset position to handle center
         e.target.position({
-            x: 10 * pixelsPerInch,
+            x: handleOffset,
             y: 0
         });
         e.cancelBubble = true;
@@ -67,7 +70,7 @@ export default function AnchorRenderer(props: AnchorRendererProps) {
     return (
         <Group>
             <Circle
-                x={10 * pixelsPerInch}
+                x={handleOffset}
                 y={0}
                 radius={HANDLE_RADIUS * pixelsPerInch}
                 stroke={props.color ?? "#fff"}
@@ -82,7 +85,7 @@ export default function AnchorRenderer(props: AnchorRendererProps) {
                 points={[
                     0,
                     0,
-                    10 * pixelsPerInch,
+                    handleOffset,
                     0
                 ]}
                 stroke={props.color ?? "#fff"}
