@@ -24,7 +24,7 @@ export default function RotatePanel() {
         return null;
     return (
         <PanelContainer
-            title={"Pause"}
+            title={"Rotate"}
         >
             <FlexNumericInput
                 inputProps={{

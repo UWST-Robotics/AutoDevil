@@ -44,7 +44,7 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
             x={pose.x * pixelsPerInch}
             y={pose.y * pixelsPerInch}
             rotation={pose.r}
-            opacity={isSelected ? 1 : isHovered ? 0.5 : 0.25}
+            opacity={isSelected ? 1 : isHovered ? 0.3 : 0.15}
             onMouseEnter={onMouseOver}
             onMouseLeave={onMouseOut}
             onMouseDown={selectAutoStep}

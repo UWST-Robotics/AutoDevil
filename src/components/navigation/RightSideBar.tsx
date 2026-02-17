@@ -1,39 +1,29 @@
-import {Paper} from "@mui/material";
-import Resizable from "../common/Resizable.tsx";
+import {Box} from "@mui/material";
 import TransformPanel from "../panels/TransformPanel.tsx";
 import PausePanel from "../panels/PausePanel.tsx";
 import RotatePanel from "../panels/RotatePanel.tsx";
+import CustomCodePanel from "../panels/CustomCodePanel.tsx";
 
 export default function RightSideBar() {
     return (
-        <Resizable
-            storageKey={"right-sidebar-width"}
-            defaultSize={300}
-            minSize={200}
-            barLocation={"left"}
+        <Box
+            sx={{
+                width: 300,
+                display: "flex",
+                flexDirection: "column",
+                padding: "0 10px",
+                overflowX: "hidden",
+                overflowY: "auto",
+                position: "relative",
+                zIndex: -10,
+            }}
+            // onMouseDown={() => setFocus(Scope.Inspector)}
         >
-            <Paper
-                elevation={1}
-                square
-                sx={{
-                    height: "100%",
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: "0 10px",
-                    overflowX: "hidden",
-                    overflowY: "auto",
-                    pointerEvents: "auto",
-                    position: "relative",
-                    zIndex: -10
-                }}
-                // onMouseDown={() => setFocus(Scope.Inspector)}
-            >
-                <TransformPanel/>
-                <PausePanel/>
-                <RotatePanel/>
-            </Paper>
-        </Resizable>
+            <TransformPanel/>
+            <PausePanel/>
+            <RotatePanel/>
+            <CustomCodePanel/>
+        </Box>
     )
 
 }

@@ -14,12 +14,13 @@ export default function PanelContainer(props: PanelContainerProps) {
 
     return (
         <Card
-            elevation={3}
+            elevation={1}
             sx={{
                 padding: 0,
                 marginTop: 1,
                 boxShadow: "none",
-                borderRadius: 0
+                borderRadius: 3,
+                pointerEvents: "auto",
             }}
         >
             <Button
@@ -32,7 +33,7 @@ export default function PanelContainer(props: PanelContainerProps) {
                 {props.title}
             </Button>
             <Collapse in={isOpen}>
-                <CardContent sx={{paddingTop: 0}} style={{paddingBottom: 10}}>
+                <CardContent sx={{paddingTop: 1, paddingBottom: 1}}>
                     <ErrorBoundary fallback={
                         <Typography
                             variant={"body2"}
