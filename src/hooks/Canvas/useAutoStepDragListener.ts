@@ -7,11 +7,11 @@ import useAutoStep from "../AutoSteps/useAutoStep.ts";
 import usePrevAutoStep from "../AutoSteps/usePrevAutoStep.ts";
 import useAutoStepPose from "../Pose/useAutoStepPose.ts";
 
-const SNAP_DISTANCE = 2; // in
+const SNAP_DISTANCE = 1; // in
 
 export default function useAutoStepDragListener(id: GUID) {
     const savePathHistory = useSaveUndoHistory();
-    const {pixelsPerInch, isSpline, snapPosition} = useSettingsValue();
+    const {isSpline, snapPosition} = useSettingsValue();
     const [autoStep, setAutoStep] = useAutoStep(id);
     const [prevAutoStep] = usePrevAutoStep(id);
     const prevPose = useAutoStepPose(prevAutoStep?.id ?? EMPTY_GUID);
@@ -22,16 +22,16 @@ export default function useAutoStepDragListener(id: GUID) {
     }, []);
     const onDrag = React.useCallback((e: KonvaEventObject<DragEvent>) => {
         // Calculate new position
-        let x = e.target.x() / pixelsPerInch;
-        let y = e.target.y() / pixelsPerInch;
+        let x = e.target.x();
+        let y = e.target.y();
 
         // Snap to grid
         if (snapPosition) {
             x = Math.round(x / SNAP_DISTANCE) * SNAP_DISTANCE;
             y = Math.round(y / SNAP_DISTANCE) * SNAP_DISTANCE;
 
-            e.target.x(x * pixelsPerInch);
-            e.target.y(y * pixelsPerInch);
+            e.target.x(x);
+            e.target.y(y);
         }
 
         // Set Pose
@@ -40,7 +40,7 @@ export default function useAutoStepDragListener(id: GUID) {
 
         const pose = {x, y, r: autoStep.pose?.r ?? 0};
         setAutoStep({...autoStep, pose});
-    }, [pixelsPerInch, isSpline, snapPosition, autoStep, setAutoStep]);
+    }, [isSpline, snapPosition, autoStep, setAutoStep]);
     const onDragEnd = React.useCallback((_e: KonvaEventObject<DragEvent>) => {
 
         // // Drive AutoStep

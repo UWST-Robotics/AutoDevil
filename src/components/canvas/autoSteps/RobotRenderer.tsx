@@ -11,7 +11,7 @@ interface RobotRendererProps {
 const ROBOT_LINE_WIDTH = 0.5; // in
 
 export default function RobotRenderer(props: RobotRendererProps) {
-    const {pixelsPerInch, robotWidth, robotHeight, robotSafeRadius} = useSettingsValue();
+    const {robotWidth, robotHeight, robotSafeRadius} = useSettingsValue();
 
     // Get Props
     const {color} = props;
@@ -21,13 +21,13 @@ export default function RobotRenderer(props: RobotRendererProps) {
             <Rect
                 x={0}
                 y={0}
-                width={robotWidth * pixelsPerInch}
-                height={robotHeight * pixelsPerInch}
-                offsetX={robotWidth / 2 * pixelsPerInch}
-                offsetY={robotHeight / 2 * pixelsPerInch}
+                width={robotWidth}
+                height={robotHeight}
+                offsetX={robotWidth / 2}
+                offsetY={robotHeight / 2}
                 fill={"#00000000"}
                 stroke={color ?? "#fff"}
-                strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch * (props.strokeWidth ?? 1)}
+                strokeWidth={ROBOT_LINE_WIDTH * (props.strokeWidth ?? 1)}
                 perfectDrawEnabled={false}
                 shadowColor={"#000"}
                 shadowBlur={10}
@@ -37,28 +37,28 @@ export default function RobotRenderer(props: RobotRendererProps) {
                 <Rect
                     x={0}
                     y={0}
-                    width={(robotWidth + robotSafeRadius * 2) * pixelsPerInch}
-                    height={(robotHeight + robotSafeRadius * 2) * pixelsPerInch}
-                    offsetX={(robotWidth / 2 + robotSafeRadius) * pixelsPerInch}
-                    offsetY={(robotHeight / 2 + robotSafeRadius) * pixelsPerInch}
+                    width={(robotWidth + robotSafeRadius * 2)}
+                    height={(robotHeight + robotSafeRadius * 2)}
+                    offsetX={(robotWidth / 2 + robotSafeRadius)}
+                    offsetY={(robotHeight / 2 + robotSafeRadius)}
                     fill={"#00000000"}
                     opacity={0.5}
                     stroke={color ? `${color}55` : "#fff55"}
-                    strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch}
+                    strokeWidth={ROBOT_LINE_WIDTH}
                     perfectDrawEnabled={false}
                     dashEnabled={true}
-                    dash={[10, 10]}
+                    dash={[1, 1]}
                 />
             )}
             <Line
                 points={[
                     0,
                     0,
-                    robotWidth * pixelsPerInch * (props.isFlipped ? -0.5 : 0.5),
+                    robotWidth * (props.isFlipped ? -0.5 : 0.5),
                     0,
                 ]}
                 stroke={color ?? "#fff"}
-                strokeWidth={ROBOT_LINE_WIDTH * pixelsPerInch * 3}
+                strokeWidth={ROBOT_LINE_WIDTH * 3}
                 perfectDrawEnabled={false}
             />
         </>

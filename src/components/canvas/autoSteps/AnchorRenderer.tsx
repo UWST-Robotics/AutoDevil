@@ -19,11 +19,11 @@ export interface AnchorRendererProps {
 }
 
 export default function AnchorRenderer(props: AnchorRendererProps) {
-    const {pixelsPerInch, snapRotation, robotWidth} = useSettingsValue();
+    const {snapRotation, robotWidth} = useSettingsValue();
     const saveUndoHistory = useSaveUndoHistory();
     const [autoStep, setAutoStep] = useAutoStep(props.id);
 
-    const handleOffset = (robotWidth * 0.5 + HANDLE_DISTANCE_FROM_ROBOT) * pixelsPerInch;
+    const handleOffset = (robotWidth * 0.5 + HANDLE_DISTANCE_FROM_ROBOT);
 
     const onDragMove = React.useCallback((e: KonvaEventObject<DragEvent>) => {
 
@@ -60,7 +60,7 @@ export default function AnchorRenderer(props: AnchorRendererProps) {
             y: 0
         });
         e.cancelBubble = true;
-    }, [autoStep, setAutoStep, pixelsPerInch, snapRotation]);
+    }, [autoStep, setAutoStep, snapRotation]);
 
     const onDragEnd = React.useCallback((e: KonvaEventObject<DragEvent>) => {
         onDragMove(e);
@@ -72,9 +72,9 @@ export default function AnchorRenderer(props: AnchorRendererProps) {
             <Circle
                 x={handleOffset}
                 y={0}
-                radius={HANDLE_RADIUS * pixelsPerInch}
+                radius={HANDLE_RADIUS}
                 stroke={props.color ?? "#fff"}
-                strokeWidth={HANDLE_LINE_WIDTH * pixelsPerInch}
+                strokeWidth={HANDLE_LINE_WIDTH}
                 fill={"transparent"}
                 draggable
                 onDragMove={onDragMove}
@@ -89,7 +89,7 @@ export default function AnchorRenderer(props: AnchorRendererProps) {
                     0
                 ]}
                 stroke={props.color ?? "#fff"}
-                strokeWidth={HANDLE_LINE_WIDTH * pixelsPerInch}
+                strokeWidth={HANDLE_LINE_WIDTH}
                 listening={false}
                 perfectDrawEnabled={false}
             />

@@ -6,7 +6,6 @@ import React from "react";
 import useCursorListener from "../../../hooks/Canvas/useCursorListener.ts";
 import useAutoStepPose from "../../../hooks/Pose/useAutoStepPose.ts";
 import useAutoStepDragListener from "../../../hooks/Canvas/useAutoStepDragListener.ts";
-import useSettingsValue from "../../../hooks/Utils/useSettings.ts";
 import DriveToStepType from "../../../types/AutoSteps/AutoStepTypes/DriveToStepType.ts";
 import JumpToStepType from "../../../types/AutoSteps/AutoStepTypes/JumpToStep.ts";
 import useAutoStep from "../../../hooks/AutoSteps/useAutoStep.ts";
@@ -22,7 +21,6 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
     const [selectedAutoStepID, setSelectedAutoStepID] = useSelectedAutoStepID();
     const [onMouseOver, onMouseOut, isHovered] = useCursorListener("pointer");
     const [onDragStart, onDragMove, onDragEnd] = useAutoStepDragListener(props.id);
-    const {pixelsPerInch} = useSettingsValue();
 
     // State
     const isSelected = selectedAutoStepID === props.id;
@@ -43,8 +41,8 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
     return (
         <>
             <Group
-                x={pose.x * pixelsPerInch}
-                y={pose.y * pixelsPerInch}
+                x={pose.x}
+                y={pose.y}
                 rotation={pose.r}
                 opacity={isSelected ? 1 : isHovered ? 0.3 : 0.15}
                 onMouseEnter={onMouseOver}
