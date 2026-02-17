@@ -30,7 +30,7 @@ export const DEFAULT_SETTINGS: Settings = {
     fieldImage: DEFAULT_FIELD_PRESET.fieldImage,
     fieldWidth: DEFAULT_FIELD_PRESET.fieldWidth,
     fieldHeight: DEFAULT_FIELD_PRESET.fieldHeight,
-    fieldOpacity: 0.5,
+    fieldOpacity: 50,
     pixelsPerInch: DEFAULT_FIELD_PRESET.pixelsPerInch,
 
     // Robot

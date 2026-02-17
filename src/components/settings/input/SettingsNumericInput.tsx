@@ -19,11 +19,15 @@ export default function SettingsNumericInput(props: SettingsNumericInputProps) {
     }, [props.setting, settings, setSettings]);
 
     return (
-        <ListItem disablePadding>
+        <ListItem
+            disablePadding
+            sx={{marginTop: 1.2}}
+        >
             <FlexNumericInput
                 value={value}
                 onChange={onChange}
                 inputProps={{
+                    label: props.label,
                     InputProps: {
                         endAdornment: (<InputAdornment position="end">{props.info}</InputAdornment>)
                     },

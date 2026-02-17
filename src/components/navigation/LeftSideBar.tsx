@@ -23,7 +23,8 @@ export default function LeftSideBar() {
                     paddingTop: 1,
                     pointerEvents: "auto",
                     position: "relative",
-                    zIndex: -10
+                    zIndex: -10,
+                    overflowY: "auto",
                 }}
             >
                 <AutoStepsList/>

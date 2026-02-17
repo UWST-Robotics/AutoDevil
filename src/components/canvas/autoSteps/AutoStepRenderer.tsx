@@ -10,6 +10,7 @@ import DriveToStepType from "../../../types/AutoSteps/AutoStepTypes/DriveToStepT
 import JumpToStepType from "../../../types/AutoSteps/AutoStepTypes/JumpToStep.ts";
 import useAutoStep from "../../../hooks/AutoSteps/useAutoStep.ts";
 import AnchorRenderer from "./AnchorRenderer.tsx";
+import RotateToStepType from "../../../types/AutoSteps/AutoStepTypes/RotateToStep.ts";
 
 export interface AutoStepRendererProps {
     id: GUID;
@@ -28,13 +29,14 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
     const color = React.useMemo(() => {
         if (isSelected)
             return "#4181d0";
-        return "#fff";
+        return "#ffffff";
     }, [isSelected]);
 
     // Actions
     const selectAutoStep = () => setSelectedAutoStepID(props.id);
 
     const draggable = autoStep?.typeID === DriveToStepType.id || autoStep?.typeID === JumpToStepType.id;
+    const rotatable = autoStep?.typeID === RotateToStepType.id;
 
     if (!pose || !autoStep)
         return null;
@@ -52,14 +54,14 @@ export default function AutoStepRenderer(props: AutoStepRendererProps) {
                 onDragMove={onDragMove}
                 onDragEnd={onDragEnd}
                 onClick={e => e.cancelBubble = true}
-                listening={draggable}
+                listening={draggable || rotatable}
                 draggable={draggable}
             >
                 <RobotRenderer
                     color={color}
                     showSafeRadius={isSelected}
                 />
-                {draggable && <AnchorRenderer id={props.id} color={color}/>}
+                {(draggable || rotatable) && <AnchorRenderer id={props.id} color={color}/>}
             </Group>
         </>
     )

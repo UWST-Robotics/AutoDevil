@@ -25,7 +25,7 @@ export default function RobotRenderer(props: RobotRendererProps) {
                 height={robotHeight}
                 offsetX={robotWidth / 2}
                 offsetY={robotHeight / 2}
-                fill={"#00000000"}
+                fill={color ? `${color}22` : "#fff22"}
                 stroke={color ?? "#fff"}
                 strokeWidth={ROBOT_LINE_WIDTH * (props.strokeWidth ?? 1)}
                 perfectDrawEnabled={false}
@@ -41,12 +41,14 @@ export default function RobotRenderer(props: RobotRendererProps) {
                     height={(robotHeight + robotSafeRadius * 2)}
                     offsetX={(robotWidth / 2 + robotSafeRadius)}
                     offsetY={(robotHeight / 2 + robotSafeRadius)}
-                    fill={"#00000000"}
+
                     opacity={0.5}
                     stroke={color ? `${color}55` : "#fff55"}
                     strokeWidth={ROBOT_LINE_WIDTH}
+                    listening={false}
+
                     perfectDrawEnabled={false}
-                    dashEnabled={true}
+                    dashEnabled
                     dash={[1, 1]}
                 />
             )}

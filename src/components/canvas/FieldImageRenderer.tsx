@@ -19,7 +19,7 @@ export default function FieldImageRenderer() {
             y={-fieldHeight / 2}
             width={fieldWidth}
             height={fieldHeight}
-            opacity={fieldOpacity}
+            opacity={fieldOpacity / 100}
             perfectDrawEnabled={false}
             isListening={false}
         />

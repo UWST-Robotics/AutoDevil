@@ -31,11 +31,11 @@ export default function SettingsModal() {
 
                 <SettingsHeader>Robot</SettingsHeader>
                 <SettingsBooleanInput label={"Holonomic"} setting={"isHolonomic"}/>
-                <SettingsNumericInput label={"Safety Radius"} info={"in"} setting={"robotSafeRadius"}/>
                 <InputGroup>
                     <SettingsNumericInput label={"Robot Width"} info={"in"} setting={"robotWidth"}/>
                     <SettingsNumericInput label={"Robot Height"} info={"in"} setting={"robotHeight"}/>
                 </InputGroup>
+                <SettingsNumericInput label={"Safety Radius"} info={"in"} setting={"robotSafeRadius"}/>
 
                 <SettingsHeader>Grid</SettingsHeader>
                 <SettingsBooleanInput label={"Show Grid"} setting={"showGrid"}/>
@@ -43,7 +43,7 @@ export default function SettingsModal() {
                 <SettingsBooleanInput label={"Snap Position"} setting={"snapPosition"}/>
                 <SettingsBooleanInput label={"Show Edge Trail"} setting={"showEdgeTrail"}/>
 
-                <SettingsHeader>Code Generation</SettingsHeader>
+                <SettingsHeader>Output Code</SettingsHeader>
                 <SettingsNumericInput label={"Decimal Places"} setting={"numberOfDecimalPlaces"}/>
             </List>
             <Divider orientation={"horizontal"} style={{marginBottom: 4}}/>

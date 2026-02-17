@@ -26,7 +26,9 @@ AutoBuilder autoBuilder;
 
     const CODE_SUFFIX = `
 
-// END OF CODE
+// =====================================
+//     End of ${autoData.name}
+// =====================================
     `;
 
     return CODE_PREFIX + codeLines.join("\n") + CODE_SUFFIX;
