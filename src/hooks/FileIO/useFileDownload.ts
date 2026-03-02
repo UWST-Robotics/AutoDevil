@@ -1,21 +1,20 @@
-import { atom, useSetAtom } from "jotai";
-import { pathEncoderAtom } from "./usePathEncoder.ts";
-import { settingsAtom } from "../Utils/useSettings.ts";
-import { occupancyEncoderAtom } from "./useOccupancyEncoder.ts";
+import {atom, useSetAtom} from "jotai";
+import {autoDataAtom} from "../AutoData/useAutoData.ts";
+import serializeAutoData from "../../utils/serialization/serializeAutoData.ts";
 
-export interface PathDownloadPayload {
-    // TODO: Add payload
-}
-
-export const fileDownloadAtom = atom(null, (get, _, _payload?: PathDownloadPayload) => {
-    const settings = get(settingsAtom);
-    const fileContent = settings.showOccupancyGrid ? get(occupancyEncoderAtom) : get(pathEncoderAtom);
-    const blob = new Blob([fileContent], { type: "text/plain" });
+export const fileDownloadAtom = atom(null, (get) => {
+    // Get Serialized file content
+    const autoData = get(autoDataAtom);
+    const blob = serializeAutoData(autoData);
     const url = URL.createObjectURL(blob);
+
+    // Download it as a file
     const a = document.createElement("a");
     a.href = url;
-    a.download = settings.showOccupancyGrid ? "occupancy.txt" : "path.txt";
+    a.download = `${autoData.name || "auto"}.json`;
     a.click();
+
+    // Clean up the URL object
     URL.revokeObjectURL(url);
 });
 

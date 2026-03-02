@@ -1,10 +1,10 @@
-import { Group, Image, Text } from 'react-konva';
-import useFieldImage from "../../hooks/Field/useFieldImage.ts";
 import React from "react";
+import {Group, Image, Text} from 'react-konva';
+import useFieldImage from "../../hooks/Field/useFieldImage.ts";
 
 const WATERMARK_WIDTH = 500;
-const WATERMARK_OFFSET = 200;
-const WATERMARK_SCALE = 1.3;
+const WATERMARK_OFFSET = 280;
+const WATERMARK_SCALE = 2.0;
 const LOGO_SCALE = 0.5;
 const LOGO_URL = "/AutoDevil-Cropped.png";
 

@@ -1,23 +1,16 @@
-import React from "react";
-import SettingsModal from "../modals/SettingsModal.tsx";
-import { IconButton } from "@mui/material";
+import {IconButton} from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
+import useDialogVisible from "../../hooks/Utils/useDialogVisible.ts";
 
 export default function SettingsButton() {
-    const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+    const [, setSettingsOpen] = useDialogVisible("settings");
 
     return (
-        <>
-            <IconButton
-                aria-label={"Settings"}
-                onClick={() => setIsModalOpen(true)}
-            >
-                <SettingsIcon />
-            </IconButton>
-            <SettingsModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-            />
-        </>
+        <IconButton
+            aria-label={"Settings"}
+            onClick={() => setSettingsOpen(true)}
+        >
+            <SettingsIcon/>
+        </IconButton>
     );
 }

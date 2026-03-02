@@ -1,0 +1,22 @@
+import AutoStepType from "../AutoStepType.ts";
+import {LocationOn} from "@mui/icons-material";
+import {DEFAULT_POSE} from "../../Pose.ts";
+import {poseToString} from "../../../utils/toString.ts";
+
+const JumpToStepType: AutoStepType = {
+    id: "jumpTo",
+    name: "Set Pose",
+
+    color: "success.main",
+    backgroundColor: "#193d1d",
+    icon: LocationOn,
+
+    getPose: (step) => step.pose ?? DEFAULT_POSE,
+    generateCode: (step) => {
+        const pose = step.pose ?? DEFAULT_POSE;
+        return [
+            `autoBuilder.jumpTo(${poseToString(pose)});`
+        ];
+    }
+}
+export default JumpToStepType;
