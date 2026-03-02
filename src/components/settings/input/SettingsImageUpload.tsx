@@ -1,7 +1,6 @@
-import PathSettings from "../../types/Settings.tsx";
 import {useSettings} from "../../../hooks/Utils/useSettings.ts";
 import React from "react";
-import {DEFAULT_SETTINGS} from "../../../types/Settings.ts";
+import Settings, {DEFAULT_SETTINGS} from "../../../types/Settings.ts";
 import openUploadDialog from "../../../utils/openUploadDialog.ts";
 import {Avatar, Button, ButtonGroup, ListItem, ListItemAvatar} from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
@@ -10,7 +9,7 @@ import SettingsFieldPresetDropdown from "./SettingsFieldPresetDropdown.tsx";
 
 export interface SettingsBooleanInputProps {
     label: string;
-    setting: keyof PathSettings;
+    setting: keyof Settings;
 }
 
 export default function SettingsImageUpload(props: SettingsBooleanInputProps) {

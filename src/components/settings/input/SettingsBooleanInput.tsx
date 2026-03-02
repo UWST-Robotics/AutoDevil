@@ -1,7 +1,7 @@
-import Settings from "../../types/Settings.tsx";
 import {useSettings} from "../../../hooks/Utils/useSettings.ts";
 import React from "react";
 import {Checkbox, ListItem, ListItemButton, ListItemText} from "@mui/material";
+import Settings from "../../../types/Settings.ts";
 
 export interface SettingsBooleanInputProps {
     label: string;
