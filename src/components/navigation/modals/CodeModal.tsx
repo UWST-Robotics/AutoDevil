@@ -38,7 +38,8 @@ export default function CodeModal() {
             </Paper>
             <CopyToClipboardButton text={outputCode}/>
             <Callout>
-                Generated code is intended to be used as a starting point for an autonomous routine in DevilLib.
+                Generated code is intended to be used as a starting point for an autonomous routine in{" "}
+                <a href={"https://docs.devilbots.org/"}>DevilLib</a>.
                 You will have to modify and tune the code to fit your specific robot and use case.
             </Callout>
         </GenericModal>
