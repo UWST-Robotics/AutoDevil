@@ -11,7 +11,7 @@ const SNAP_DISTANCE = 1; // in
 
 export default function useAutoStepDragListener(id: GUID) {
     const savePathHistory = useSaveUndoHistory();
-    const {isSpline, snapPosition} = useSettingsValue();
+    const {snapPosition} = useSettingsValue();
     const [autoStep, setAutoStep] = useAutoStep(id);
     const [prevAutoStep] = usePrevAutoStep(id);
     const prevPose = useAutoStepPose(prevAutoStep?.id ?? EMPTY_GUID);
@@ -40,7 +40,7 @@ export default function useAutoStepDragListener(id: GUID) {
 
         const pose = {x, y, r: autoStep.pose?.r ?? 0};
         setAutoStep({...autoStep, pose});
-    }, [isSpline, snapPosition, autoStep, setAutoStep]);
+    }, [snapPosition, autoStep, setAutoStep]);
     const onDragEnd = React.useCallback((_e: KonvaEventObject<DragEvent>) => {
 
         // // Drive AutoStep
