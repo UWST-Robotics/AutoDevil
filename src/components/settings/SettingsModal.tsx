@@ -42,6 +42,7 @@ export default function SettingsModal() {
                 <SettingsBooleanInput label={"Snap Rotation"} setting={"snapRotation"}/>
                 <SettingsBooleanInput label={"Snap Position"} setting={"snapPosition"}/>
                 <SettingsBooleanInput label={"Show Edge Trail"} setting={"showEdgeTrail"}/>
+                <SettingsBooleanInput label={"Show Step Number"} setting={"showStepNumber"}/>
 
                 <SettingsHeader>Output Code</SettingsHeader>
                 <SettingsNumericInput label={"Decimal Places"} setting={"numberOfDecimalPlaces"}/>

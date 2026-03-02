@@ -13,6 +13,7 @@ interface Settings {
     robotHeight: number;
     robotSafeRadius: number;
     isHolonomic: boolean;
+    showStepNumber: boolean;
 
     // Grid/Snap
     showEdgeTrail: boolean;
@@ -38,6 +39,7 @@ export const DEFAULT_SETTINGS: Settings = {
     robotHeight: 18,
     robotSafeRadius: 4,
     isHolonomic: false,
+    showStepNumber: true,
 
     // Grid/Snap
     showEdgeTrail: false,

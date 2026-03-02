@@ -21,7 +21,7 @@ export const outputCodeAtom = atom((get) => {
 //     https://auto.devilbots.org/
 // =====================================
 
-AutoBuilder autoBuilder;
+AutoBuilder autoBuilder = AutoBuilder(chassis, odometry);
 `;
 
     const CODE_SUFFIX = `

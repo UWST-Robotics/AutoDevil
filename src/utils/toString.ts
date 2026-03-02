@@ -19,5 +19,5 @@ export default function numberToString(number: number) {
  * @returns The Pose as a string with the number of decimal places specified in the settings, in the format `{x, y, r}`
  */
 export function poseToString(pose: Pose) {
-    return `{${numberToString(pose.x)}, ${numberToString(pose.y)}, ${numberToString(pose.r)}}`;
+    return `{${numberToString(pose.x)}, ${numberToString(pose.y)}, Units::degToRad(${numberToString(pose.r)})}`;
 }
