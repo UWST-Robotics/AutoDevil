@@ -38,6 +38,14 @@ export const FIELD_PRESETS: FieldPreset[] = [
         fieldHeight: 144,
         pixelsPerInch: 6.6,
         fieldImage: "/fields/VEX-Over-Under_Empty.png",
+    },
+    {
+        name: "VEX OVERRIDE",
+        type: "2026-27",
+        fieldWidth: 144,
+        fieldHeight: 144,
+        pixelsPerInch: 9,
+        fieldImage: "/fields/overrideField.png",
     }
 ];
 
