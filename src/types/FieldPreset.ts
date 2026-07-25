@@ -45,7 +45,7 @@ export const FIELD_PRESETS: FieldPreset[] = [
         fieldWidth: 144,
         fieldHeight: 144,
         pixelsPerInch: 9,
-        fieldImage: "/fields/overrideField.png",
+        fieldImage: "/fields/overrideField_Empty.png",
     }
 ];
 
