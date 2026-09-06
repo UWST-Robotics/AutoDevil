@@ -52,7 +52,8 @@ export default function SettingsModal() {
                 variant={"caption"}
                 color={"text.secondary"}
             >
-                AutoDevil &middot; Version {APP_VERSION}
+                AutoDevil &middot; Version {APP_VERSION} &middot; &nbsp;
+                <a href="https://github.com/UWST-Robotics/AutoDevil">View on Github</a>
             </Typography>
         </GenericModal>
     )

@@ -42,3 +42,8 @@ by [DevilBots](https://devilbots.org/) from UW-Stout.
 | Row         | `11000...10`    | 1=occupied, 0=unoccupied 
 | File Footer | `ENDOCCUPANCY`  |
 
+# Building
+Install NodeJS and Yarn, then run  
+```yarn install```  
+and  
+```yarn run dev```

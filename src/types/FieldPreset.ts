@@ -19,6 +19,14 @@ const VEX_PUSH_BACK: FieldPreset = {
 
 export const FIELD_PRESETS: FieldPreset[] = [
     {
+        name: "VEX Override",
+        type: "2026-27",
+        fieldWidth: 144,
+        fieldHeight: 144,
+        pixelsPerInch: 9,
+        fieldImage: "/fields/overrideField_Empty.png",
+    },
+    {
         ...VEX_PUSH_BACK,
         name: "VEX Push Back (Match)",
         fieldImage: "/fields/VEX-Push-Back_Match.png",
@@ -40,12 +48,12 @@ export const FIELD_PRESETS: FieldPreset[] = [
         fieldImage: "/fields/VEX-Over-Under_Empty.png",
     },
     {
-        name: "VEX OVERRIDE",
-        type: "2026-27",
+        name: "Blank",
+        type: "Timeless",
         fieldWidth: 144,
         fieldHeight: 144,
-        pixelsPerInch: 9,
-        fieldImage: "/fields/overrideField_Empty.png",
+        pixelsPerInch: 6.6,
+        fieldImage: "/fields/blank.png",
     }
 ];
 

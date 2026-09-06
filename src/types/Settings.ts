@@ -49,7 +49,7 @@ export const DEFAULT_SETTINGS: Settings = {
     normalizeRotation: true,
 
     // Output
-    numberOfDecimalPlaces: 3
+    numberOfDecimalPlaces: 1
 };
 
 export default Settings;
