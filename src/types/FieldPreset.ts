@@ -23,7 +23,7 @@ export const FIELD_PRESETS: FieldPreset[] = [
         type: "2026-27",
         fieldWidth: 144,
         fieldHeight: 144,
-        pixelsPerInch: 9,
+        pixelsPerInch: 17.75,
         fieldImage: "/fields/OverrideFieldUpdated.png",
     },
     {
