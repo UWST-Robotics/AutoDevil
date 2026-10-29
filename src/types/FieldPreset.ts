@@ -24,7 +24,7 @@ export const FIELD_PRESETS: FieldPreset[] = [
         fieldWidth: 144,
         fieldHeight: 144,
         pixelsPerInch: 9,
-        fieldImage: "/fields/overrideFieldUpdated.png",
+        fieldImage: "/fields/overrideField_Empty.png",
     },
     {
         ...VEX_PUSH_BACK,
